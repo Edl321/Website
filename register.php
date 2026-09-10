@@ -107,9 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Insert new user
             $sql = "INSERT INTO users
-                    (first_name, last_name, email, password)
+                    (first_name, last_name, email, password, role)
                     VALUES
-                    (:first_name, :last_name, :email, :password)";
+                    (:first_name, :last_name, :email, :password, 'user')";
 
             $stmt = $pdo->prepare($sql);
 

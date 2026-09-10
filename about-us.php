@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    $basePath ="";    
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -212,7 +216,7 @@
             creativity, and community meet.
         </p>
 
-        <a href="#" class="about-cta-button">
+        <a href="visit-us.php" class="about-cta-button">
             VISIT US
         </a>
 

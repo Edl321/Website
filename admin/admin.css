@@ -1,0 +1,147 @@
+
+
+/* =====================================================
+   ADMIN DASHBOARD - STAT CARDS
+===================================================== */
+
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.admin-stat-card {
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 30px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.admin-stat-card:hover {
+    border-color: #ff7a00;
+}
+
+.admin-stat-number {
+    color: #111;
+    font-family: 'Lora', serif;
+    font-size: 34px;
+}
+
+.admin-stat-label {
+    color: #777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   ADMIN DASHBOARD - QUICK ACTION CARDS
+===================================================== */
+
+.admin-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.admin-quick-action {
+    padding: 30px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.admin-quick-action:hover {
+    background-color: #111;
+}
+
+.admin-quick-action:hover h3,
+.admin-quick-action:hover p {
+    color: white;
+}
+
+.admin-quick-action h3 {
+    margin: 0 0 8px;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.admin-quick-action p {
+    margin: 0;
+    color: #777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    transition: 0.3s ease;
+}
+
+
+/* =====================================================
+   ADMIN - SIMPLE LIST ROWS (artists.php, users.php)
+===================================================== */
+
+.admin-list-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.admin-list-row:last-child {
+    border-bottom: none;
+}
+
+.admin-list-row-main h3 {
+    margin: 0 0 6px;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.admin-list-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+
+/* =====================================================
+   ADMIN - RESPONSIVE
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .admin-stats-grid,
+    .admin-quick-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .admin-stats-grid,
+    .admin-quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-list-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}

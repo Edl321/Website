@@ -1,6 +1,7 @@
 <?php
 
-require_once "database/config.php";
+    require_once "database/config.php";
+    $basePath = "";
 
 
 // Get all exhibitions from the database

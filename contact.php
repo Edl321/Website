@@ -1,13 +1,15 @@
 <?php
-
+session_start();
+$basePath = "";
 ?>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>EDL Gallery</title>
-        <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
-        <link rel = "stylesheet" type = "text/css" href = "style.css">
-    </head>
+    <html>
+        <head>
+            <title>EDL Gallery</title>
+            <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
+            <link rel = "stylesheet" type = "text/css" href = "style.css">
+        </head>
     <body>
 
         <?php require_once "includes/header.php"; ?>
@@ -234,7 +236,6 @@
 
         <div class="map-container">
 
-            <!-- Temporary map placeholder -->
             <img
                 src="Images/gallery-map.png"
                 alt="EDL Gallery Location">
@@ -255,15 +256,13 @@
             or renting our gallery space.
         </p>
 
-        <a href="rent.html" class="contact-cta-button">
+        <a href="rent-space.php" class="contact-cta-button">
             RENT OUR SPACE
         </a>
 
     </section>
-
-    <?php require_once "includes/footer.php"; ?>
-
-        </body>
-            </main>
-                </html>
+        </main>
+            <?php require_once "includes/footer.php"; ?>
+                </body>
+                    </html>
     

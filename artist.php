@@ -1,6 +1,7 @@
 <?php
-
+$basePath = "";
 require_once "database/config.php";
+require_once "security/authorize.php";
 
 
 // Get artists from database
@@ -33,14 +34,8 @@ $artists = $stmt->fetchAll();
 
 <?php require_once "includes/header.php"; ?>
 
-
-<!-- =========================================
-     ARTIST HERO
-========================================= -->
-
 <section class="art-page-layout">
     <div class="artpage-text">
-        <span class="art-label">OUR ARTISTS</span>
 
         <h1>
             Meet the <span>Artists</span>
@@ -52,12 +47,6 @@ $artists = $stmt->fetchAll();
         </p>
     </div>
 </section>
-
-
-
-<!-- =========================================
-     ARTIST LIST
-========================================= -->
 
 <section class="artist-section">
 

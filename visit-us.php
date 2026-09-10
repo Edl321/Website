@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    $basePath ="";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,12 +38,7 @@
                 culture, and artistic expression come together.
             </p>
 
-            <a href="#plan-visit"
-            class="visit-button">
-
-                PLAN YOUR VISIT
-
-            </a>
+            
 
         </div>
 
@@ -214,20 +214,6 @@
                 alt="EDL Gallery Map">
 
         </div>
-
-
-
-        <div class="directions-container">
-
-            <a href="#"
-            class="directions-button">
-
-                GET DIRECTIONS
-
-            </a>
-
-        </div>
-
 
     </section>
 

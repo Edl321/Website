@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+
 require_once "database/config.php";
 require_once "security/shield.php";
 
@@ -8,17 +9,29 @@ $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Check CSRF token
+    // ==========================================
+    // CHECK CSRF TOKEN
+    // ==========================================
+
     if (!verify_csrf_token()) {
+
         $errors[] = "Invalid security token. Please try again.";
+
     }
 
-    // Get form values
+
+    // ==========================================
+    // GET FORM VALUES
+    // ==========================================
+
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
 
-    // Validate email
+    // ==========================================
+    // VALIDATE EMAIL
+    // ==========================================
+
     if (empty($email)) {
 
         $errors[] = "Email is required.";
@@ -30,7 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    // Validate password
+    // ==========================================
+    // VALIDATE PASSWORD
+    // ==========================================
+
     if (empty($password)) {
 
         $errors[] = "Password is required.";
@@ -38,10 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    // Continue only if there are no errors
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
     if (empty($errors)) {
 
-        $sql = "SELECT id, first_name, last_name, email, password
+        $sql = "SELECT id, first_name, last_name, email, password, role
                 FROM users
                 WHERE email = :email";
 
@@ -54,14 +73,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $user = $stmt->fetch();
 
 
-        // Check account and password
+        // ==========================================
+        // CHECK EMAIL AND PASSWORD
+        // ==========================================
+
         if ($user && password_verify($password, $user["password"])) {
 
             // Prevent session fixation
             session_regenerate_id(true);
 
 
-            // Store user information in session
+            // ==========================================
+            // STORE USER INFORMATION
+            // ==========================================
+
             $_SESSION["user_id"] = $user["id"];
 
             $_SESSION["first_name"] = $user["first_name"];
@@ -70,11 +95,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $_SESSION["email"] = $user["email"];
 
+            $_SESSION["role"] = $user["role"];
 
-            // Send user to dashboard
-            header("Location:dashboard.php");
+
+            // ==========================================
+            // REDIRECT BASED ON ROLE
+            // ==========================================
+
+            if ($user["role"] === "admin") {
+
+                header("Location: admin/admin-dashboard.php");
+
+            } else {
+
+                header("Location: dashboard.php");
+
+            }
 
             exit;
+
 
         } else {
 
@@ -95,9 +134,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Login | EDL Gallery</title>
+
+
+    <!-- FAVICON -->
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="Images/logo.png"
+    >
+
+
+    <!-- MAIN CSS -->
+
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="style.css"
+    >
+
+
+    <!-- LOGIN CSS -->
+
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="login.css"
+    >
 
 </head>
 
@@ -105,93 +174,155 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
 
 
-    <h1>Login</h1>
+<section class="login-page">
 
 
-    <!-- ERROR MESSAGES -->
+    <div class="login-container">
 
-    <?php if (!empty($errors)): ?>
 
-        <div>
+        <!-- ==========================================
+             LOGIN HEADER
+        =========================================== -->
 
-            <?php foreach ($errors as $error): ?>
+        <div class="login-header">
 
-                <p>
-                    <?php echo htmlspecialchars($error); ?>
-                </p>
+            <img
+                src="Images/logo.png"
+                alt="EDL Gallery Logo"
+            >
 
-            <?php endforeach; ?>
+            <h1>
+                Welcome Back
+            </h1>
+
+            <p>
+                Sign in to your EDL Gallery account.
+            </p>
 
         </div>
 
-    <?php endif; ?>
+
+        <!-- ==========================================
+             ERROR MESSAGES
+        =========================================== -->
+
+        <?php if (!empty($errors)): ?>
+
+            <div class="login-errors">
+
+                <?php foreach ($errors as $error): ?>
+
+                    <p>
+                        <?php echo htmlspecialchars($error); ?>
+                    </p>
+
+                <?php endforeach; ?>
+
+            </div>
+
+        <?php endif; ?>
 
 
-    <!-- LOGIN FORM -->
+        <!-- ==========================================
+             LOGIN FORM
+        =========================================== -->
 
-    <form method="POST" action="login.php">
-
-
-        <!-- CSRF SECURITY TOKEN -->
-
-        <?php echo csrf_field(); ?>
-
-
-        <!-- EMAIL -->
-
-        <label for="email">
-            Email
-        </label>
-
-        <input
-            type="email"
-            id="email"
-            name="email"
-            required
+        <form
+            class="login-form"
+            method="POST"
+            action="login.php"
         >
 
 
-        <br><br>
+            <!-- CSRF SECURITY TOKEN -->
+
+            <?php echo csrf_field(); ?>
 
 
-        <!-- PASSWORD -->
+            <!-- ======================================
+                 EMAIL
+            ======================================= -->
 
-        <label for="password">
-            Password
-        </label>
+            <div class="login-form-group">
 
-        <input
-            type="password"
-            id="password"
-            name="password"
-            required
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ======================================
+                 PASSWORD
+            ======================================= -->
+
+            <div class="login-form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ======================================
+                 LOGIN BUTTON
+            ======================================= -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                LOGIN
+            </button>
+
+
+        </form>
+
+
+        <!-- ==========================================
+             REGISTER LINK
+        =========================================== -->
+
+        <p class="login-register">
+
+            Don't have an account?
+
+            <a href="register.php">
+                Create an account
+            </a>
+
+        </p>
+
+        <a
+            href="index.php"
+            class="back-home"
         >
-
-
-        <br><br>
-
-
-        <!-- LOGIN BUTTON -->
-
-        <button type="submit">
-            Login
-        </button>
-
-
-    </form>
-
-
-    <!-- REGISTER LINK -->
-
-    <p>
-
-        Don't have an account?
-
-        <a href="register.php">
-            Create an account
+            ← Back to EDL Gallery
         </a>
 
-    </p>
+
+    </div>
+
+
+</section>
 
 
 </body>

@@ -1,9 +1,12 @@
-
+<?php
+    session_start();
+    $basePath = "";
+?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>EDL Gallery</title>
-        <link rel = "icon" type="image/x-icon" href = "logo.png">
+        <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
     </head>
     <body>

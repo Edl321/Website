@@ -1,0 +1,280 @@
+/* =========================================
+   EDL GALLERY - LOGIN PAGE
+========================================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px;
+
+    background-color: #f5f5f5;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   LOGIN CONTAINER
+========================================= */
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+
+    padding: 50px;
+
+    background-color: white;
+
+    border-top: 5px solid #ff7a00;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   LOGIN HEADER
+========================================= */
+
+.login-header {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+
+.login-header img {
+    width: 130px;
+
+    height: auto;
+
+    margin-bottom: 20px;
+
+    object-fit: contain;
+}
+
+
+.login-header h1 {
+    margin: 0 0 10px;
+
+    color: #111111;
+
+    font-family: 'Lora', serif;
+
+    font-size: 40px;
+
+    font-weight: 500;
+}
+
+
+.login-header p {
+    margin: 0;
+
+    color: #666666;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+.login-errors {
+    margin-bottom: 25px;
+
+    padding: 12px 15px;
+
+    background-color: #fff2f2;
+
+    border-left: 4px solid #d9534f;
+
+    box-sizing: border-box;
+}
+
+
+.login-errors p {
+    margin: 5px 0;
+
+    color: #b52b27;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   LOGIN FORM
+========================================= */
+
+.login-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.login-form-group {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.login-form-group label {
+    margin-bottom: 8px;
+
+    color: #222222;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.login-form-group input {
+    width: 100%;
+
+    padding: 14px 15px;
+
+    border: 1px solid #cccccc;
+
+    background-color: white;
+
+    color: #222222;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition: 0.3s ease;
+}
+
+
+/* INPUT FOCUS */
+
+.login-form-group input:focus {
+    border-color: #ff7a00;
+
+    box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.12);
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-button {
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    background-color: #ff7a00;
+
+    color: white;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+.login-button:hover {
+    background-color: #111111;
+}
+
+
+/* =========================================
+   REGISTER
+========================================= */
+
+.login-register {
+    margin-top: 30px;
+
+    text-align: center;
+
+    color: #555555;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 14px;
+}
+
+
+.login-register a {
+    color: #ff7a00;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+
+.login-register a:hover {
+    color: #111111;
+
+    text-decoration: underline;
+}
+
+.back-home {
+    display: block;
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #777777;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+
+.back-home:hover {
+    color: #ff7a00;
+}
