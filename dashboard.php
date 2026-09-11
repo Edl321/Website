@@ -1,12 +1,107 @@
 <?php
 session_start();
 $basePath = "";
+
 require_once "database/config.php";
 require_once "security/authorize.php";
 
-if (!isLoggedIn()) {
+if (!isUser()) {
     header("Location: login.php");
     exit;
+}
+
+// Get the number of rental applications
+$applicationStmt = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM rental_applications
+    WHERE user_id = :user_id
+");
+
+$applicationStmt->bindValue(
+    ":user_id",
+    $_SESSION["user_id"],
+    PDO::PARAM_INT
+);
+
+$applicationStmt->execute();
+
+$applicationCount = $applicationStmt->fetchColumn();
+
+
+// Get the user's latest rental application
+$statusStmt = $pdo->prepare("
+    SELECT
+        id,
+        exhibition_title,
+        exhibition_description,
+        preferred_start_date,
+        preferred_end_date,
+        status,
+        admin_message,
+        created_at
+    FROM rental_applications
+    WHERE user_id = :user_id
+    ORDER BY created_at DESC
+    LIMIT 1
+");
+
+$statusStmt->bindValue(
+    ":user_id",
+    $_SESSION["user_id"],
+    PDO::PARAM_INT
+);
+
+$statusStmt->execute();
+
+$latestApplication = $statusStmt->fetch();
+
+// Get all rental applications for the logged-in user
+$applicationsStmt = $pdo->prepare("
+    SELECT 
+        id,
+        exhibition_title,
+        preferred_start_date,
+        preferred_end_date,
+        status,
+        admin_message,
+        created_at
+    FROM rental_applications
+    WHERE user_id = :user_id
+    ORDER BY created_at DESC
+    LIMIT 3
+");
+
+// Get notifications for the logged-in user
+$notificationStmt = $pdo->prepare("
+    SELECT
+        id,
+        title,
+        message,
+        is_read,
+        created_at
+    FROM notifications
+    WHERE user_id = :user_id
+    ORDER BY created_at DESC
+    LIMIT 3
+");
+
+$notificationStmt->execute([
+    ":user_id" => $_SESSION["user_id"]
+]);
+
+$notifications = $notificationStmt->fetchAll();
+
+$applicationsStmt->execute([
+    ":user_id" => $_SESSION["user_id"]
+]);
+
+$applications = $applicationsStmt->fetchAll();
+
+// Get the latest application status
+if ($latestApplication) {
+    $latestApplicationStatus = $latestApplication["status"];
+} else {
+    $latestApplicationStatus = "Not Applied";
 }
 
 // Public information used by the rental dashboard.
@@ -46,7 +141,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
     <section class="user-dashboard-hero">
         <div>
             <p class="user-dashboard-label">EDL GALLERY / USER AREA</p>
-            <h1>Welcome back, <span><?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>!</h1>
+            <h1>Welcome back, <span><?php echo htmlspecialchars($_SESSION["first_name"]); ?></span></h1>
             <p class="user-dashboard-welcome">
                 Manage your exhibition rental journey and keep track of your gallery plans.
             </p>
@@ -62,13 +157,17 @@ $upcomingExhibition = $upcomingStmt->fetch();
         <div class="user-stat-card">
             <div class="user-stat-icon">▣</div>
             <p>Your Applications</p>
-            <h2>0</h2>
+            <h2><?php echo (int)$applicationCount; ?></h2>
         </div>
 
         <div class="user-stat-card">
             <div class="user-stat-icon">✓</div>
             <p>Application Status</p>
-            <h2>Not Applied</h2>
+            <h2>
+        <?php echo htmlspecialchars(
+        ucwords(str_replace("_", " ", $latestApplicationStatus))); 
+        ?>
+            </h2>
         </div>
 
         <div class="user-stat-card">
@@ -95,12 +194,141 @@ $upcomingExhibition = $upcomingStmt->fetch();
             </section>
 
             <section class="user-panel">
-                <div class="user-panel-title">
-                    <div>
-                        <p>YOUR RENTAL JOURNEY</p>
-                        <h2>How It Works</h2>
+
+    <!-- NOTIFICATIONS -->
+
+    <div class="user-panel-title">
+        <div>
+            <p>UPDATES</p>
+            <h2>Notifications</h2>
+        </div>
+    </div>
+
+    <?php if (empty($notifications)): ?>
+
+        <p>No notifications yet.</p>
+
+    <?php else: ?>
+
+        <div class="notifications-list">
+
+            <?php foreach ($notifications as $notification): ?>
+
+                <div class="notification-item <?php echo ($notification["is_read"] == 0) ? "unread" : ""; ?>">
+
+                    <div class="notification-info">
+
+                        <h3>
+                            <?php echo htmlspecialchars($notification["title"]); ?>
+                        </h3>
+
+                        <p>
+                            <?php echo htmlspecialchars($notification["message"]); ?>
+                        </p>
+
+                        <small>
+                            <?php
+                            echo date(
+                                "F d, Y h:i A",
+                                strtotime($notification["created_at"])
+                            );
+                            ?>
+                        </small>
+                        <?php if ($notification["is_read"] == 0): ?>
+
+                    <form method="POST" action="mark-notification-read.php">
+                        <input type="hidden" name="notification_value="<?php echo (int)$notification["id"]; ?>">
+                <button type="submit" class="mark-read-button">Mark as Read</button>
+                    </form>
+
+<?php endif; ?>
+
                     </div>
+
                 </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+
+    <!-- MY APPLICATIONS -->
+
+    <div class="user-panel-title my-applications-title">
+        <div>
+            <p>RENTAL</p>
+            <h2>My Applications</h2>
+        </div>
+    </div>
+
+    <?php if (empty($applications)): ?>
+
+        <p>No rental applications found.</p>
+
+    <?php else: ?>
+
+        <div class="applications-list">
+
+            <?php foreach ($applications as $application): ?>
+
+                <div class="application-item">
+
+                    <div class="application-info">
+
+                        <h3>
+                            <?php echo htmlspecialchars($application["exhibition_title"]); ?>
+                        </h3>
+
+                        <p>
+                            <strong>Date:</strong>
+                            <?php echo htmlspecialchars($application["preferred_start_date"]); ?>
+
+                            <?php if (!empty($application["preferred_end_date"])): ?>
+                                -
+                                <?php echo htmlspecialchars($application["preferred_end_date"]); ?>
+                            <?php endif; ?>
+                        </p>
+
+                        <p>
+                            <strong>Submitted:</strong>
+                            <?php
+                            echo date(
+                                "F d, Y",
+                                strtotime($application["created_at"])
+                            );
+                            ?>
+                        </p>
+
+                        <?php if (!empty($application["admin_message"])): ?>
+
+                            <p>
+                                <strong>Admin Message:</strong>
+                                <?php echo htmlspecialchars($application["admin_message"]); ?>
+                            </p>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="application-status">
+
+                        <span class="status-badge">
+                            <?php echo htmlspecialchars($application["status"]); ?>
+                        </span>
+
+                    </div>
+
+                </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+</section>
 
                 <div class="rental-steps">
                     <div class="rental-step">

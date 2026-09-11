@@ -32,7 +32,7 @@ $exhibitionId = (int)$exhibitionId;
 // This keeps the lifecycle honest: an exhibition can only move
 // forward (or be cancelled), never skip around at random.
 $allowedTransitions = [
-    "draft"              => ["cancelled"],
+    "draft"              => ["artwork_submission", "cancelled"],
     "artwork_submission" => ["ready_to_publish", "cancelled"],
     "ready_to_publish"   => ["published", "cancelled"],
     "published"          => ["completed", "cancelled"],
@@ -79,14 +79,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if ($newStatus === "published") {
 
                     $updateSql = "UPDATE exhibitions
-                                  SET status = :status, published_at = NOW()
-                                  WHERE id = :id";
+                                SET status = :status, published_at = NOW()
+                                WHERE id = :id";
 
                 } else {
 
                     $updateSql = "UPDATE exhibitions
-                                  SET status = :status
-                                  WHERE id = :id";
+                                SET status = :status
+                                WHERE id = :id";
 
                 }
 
@@ -193,13 +193,13 @@ $nextSteps = $allowedTransitions[$exhibition["status"]] ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Exhibition Details | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../image/logo.png">
+    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
     <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
-<?php require_once "../include/header.php"; ?>
+<?php require_once "../includes/header.php"; ?>
 
 
 <section class="admin-page">
@@ -275,8 +275,8 @@ $nextSteps = $allowedTransitions[$exhibition["status"]] ?? [];
             <strong>
                 <?php echo count($artworks); ?> total
                 (<?php echo $artworkCounts['approved']; ?> approved,
-                 <?php echo $artworkCounts['pending']; ?> pending,
-                 <?php echo $artworkCounts['rejected']; ?> rejected)
+                <?php echo $artworkCounts['pending']; ?> pending,
+                <?php echo $artworkCounts['rejected']; ?> rejected)
             </strong>
         </div>
 
@@ -387,7 +387,7 @@ $nextSteps = $allowedTransitions[$exhibition["status"]] ?? [];
 </section>
 
 
-<?php require_once "../include/footer.php"; ?>
+<?php require_once "../includes/footer.php"; ?>
 
 </body>
 </html>

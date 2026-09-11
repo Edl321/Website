@@ -5239,3 +5239,218 @@ ABOUT US PAGE
     }
 
 }
+
+/*This is for the rental Application in the dashboard I think*/
+
+.rent-space-page {
+    width: 100%;
+    background: #fff;
+}
+
+.rent-space-header {
+    min-height: 450px;
+    padding: 100px;
+    box-sizing: border-box;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rent-space-header p:first-child {
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.rent-space-header h1 {
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 70px;
+    line-height: 1;
+    margin: 0 0 25px;
+}
+
+.rent-space-header h1 span {
+    color: #ff7a00;
+}
+
+.rent-space-header p:last-child {
+    max-width: 650px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+
+
+
+.rental-application-section {
+    width: 100%;
+    padding: 100px;
+    box-sizing: border-box;
+    background: #f5f5f5;
+}
+
+.rental-application-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 80px;
+    align-items: flex-start;
+}
+
+
+
+
+.rental-application-intro {
+    width: 35%;
+}
+
+.rental-application-intro > p:first-child {
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.rental-application-intro h2 {
+    color: #111;
+    font-family: 'Lora', serif;
+    font-size: 48px;
+    line-height: 1.1;
+    margin: 20px 0;
+}
+
+.rental-application-intro p:last-child {
+    color: #555;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+
+.rental-form-container {
+    width: 65%;
+    background: #fff;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+.rental-form {
+    width: 100%;
+}
+
+.rental-form-group {
+    margin-bottom: 25px;
+}
+
+.rental-form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.rental-form-group input,
+.rental-form-group textarea {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    outline: none;
+}
+
+.rental-form-group textarea {
+    resize: vertical;
+}
+
+.rental-form-group input:focus,
+.rental-form-group textarea:focus {
+    border-color: #ff7a00;
+}
+
+
+
+
+.rental-date-row {
+    display: flex;
+    gap: 20px;
+}
+
+.rental-date-row .rental-form-group {
+    flex: 1;
+}
+
+
+
+
+.rental-submit-button {
+    display: inline-block;
+    padding: 16px 35px;
+    border: none;
+    background: #ff7a00;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.rental-submit-button:hover {
+    background: #000;
+}
+
+
+
+.rental-errors {
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: #fff0f0;
+    border-left: 4px solid #d00000;
+}
+
+.rental-errors p {
+    margin: 5px 0;
+    color: #b00000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+
+
+.rental-success {
+    padding: 25px;
+    background: #f1f8f1;
+    border-left: 4px solid #4b8f29;
+}
+
+.rental-success p {
+    margin: 0 0 15px;
+    color: #285c18;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+.rental-success a {
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.rental-success a:hover {
+    color: #000;
+}

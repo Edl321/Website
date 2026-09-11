@@ -7,12 +7,9 @@ require_once "database/config.php";
 require_once "security/authorize.php";
 
 
-// Only logged-in users may view this page.
-if (!isLoggedIn()) {
-
+if (!isUser()) {
     header("Location: login.php");
     exit;
-
 }
 
 

@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background-color: #f5f5f5;
+    color: #222;
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.register-header img {
+    width: 150px;
+    height: 100px;
+    object-fit: contain;
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #111;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 42px;
+    font-weight: 600;
+    text-align: center;
+}
+
+form {
+    width: 500px;
+    max-width: 100%;
+    padding: 45px 50px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #222;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+
+form input {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    color: #222;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+
+/* Input focus */
+
+form input:focus {
+    border-color: #ff7a00;
+
+    box-shadow: 0 0 0 2px rgba(255, 122, 0, 0.15);
+}
+
+
+/* =========================================
+   REGISTER BUTTON
+   ========================================= */
+
+form button {
+    width: 100%;
+
+    padding: 15px 20px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    background-color: #ff7a00;
+
+    color: #fff;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+/* Button hover */
+
+form button:hover {
+    background-color: #111;
+
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   ERROR MESSAGES
+   ========================================= */
+
+body > div {
+    width: 500px;
+    max-width: 100%;
+
+    margin-bottom: 20px;
+
+    padding: 15px 20px;
+
+    background-color: #fff0f0;
+
+    border-left: 4px solid #b00020;
+}
+
+body > div p {
+    margin: 0 0 5px;
+
+    color: #b00020;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   SUCCESS MESSAGE
+   ========================================= */
+
+body > div p a {
+    color: #ff7a00;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+body > div p a:hover {
+    color: #111;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   LOGIN LINK
+   ========================================= */
+
+body > p {
+    width: 500px;
+    max-width: 100%;
+
+    margin-top: 25px;
+
+    color: #555;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+/* Login link */
+
+body > p a {
+    color: #ff7a00;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+body > p a:hover {
+    color: #111;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   REMOVE BR SPACING
+   ========================================= */
+
+form br {
+    display: none;
+}
+
+
+/* =========================================
+   FIELD SPACING
+   ========================================= */
+
+form label:not(:first-of-type) {
+    margin-top: 20px;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 30px 15px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    form {
+        width: 100%;
+
+        padding: 35px 25px;
+    }
+
+    .register-header img {
+        width: 130px;
+        height: auto;
+    }
+}

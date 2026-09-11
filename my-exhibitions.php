@@ -7,11 +7,9 @@ require_once "database/config.php";
 require_once "security/authorize.php";
 
 
-if (!isLoggedIn()) {
-
+if (!isUser()) {
     header("Location: login.php");
     exit;
-
 }
 
 

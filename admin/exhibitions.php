@@ -101,6 +101,7 @@ function formatStatusLabel($status) {
     <title>Exhibitions | EDL Gallery Admin</title>
     <link rel="icon" type="image/x-icon" href="../Images/logo.png">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="exhibition-create.css"
 </head>
 
 <body>
@@ -112,6 +113,8 @@ function formatStatusLabel($status) {
 
     <div class="admin-header">
 
+    <div>
+
         <p class="admin-label">ADMIN</p>
 
         <h1>Exhibitions</h1>
@@ -121,6 +124,15 @@ function formatStatusLabel($status) {
         </p>
 
     </div>
+
+    <a
+        href="exhibition-create.php"
+        class="admin-create-button"
+    >
+        + CREATE EXHIBITION
+    </a>
+
+</div>
 
 
     <div class="admin-tabs">

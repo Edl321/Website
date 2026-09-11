@@ -141,13 +141,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Register | EDL Gallery</title>
-
+    <Link rel="icon"type="image/x-icon"href="Images/logo.png">
+    <link rel="stylesheet" href="register.css">
 </head>
 
 
 <body>
 
-
+    <section class="register-header">
+        <img src="Images/logo.png" alt="EDL Gallery">
+    </section>
     <h1>Create an Account</h1>
 
 
@@ -189,7 +192,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
 
     <?php endif; ?>
-
 
     <!-- REGISTRATION FORM -->
 
