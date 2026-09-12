@@ -265,29 +265,16 @@ if ($statusFilter !== "") {
 
 $applications = $stmt->fetchAll();
 
+$pageTitle   = "Rental Applications";
+$activePage  = "rental-applications";
+$extraStyles = ["rental-application.css"];
+require_once "admin-head.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Rental Applications | EDL Gallery</title>
-
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-
+    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
     <link rel="stylesheet" href="rental-application.css">
-</head>
-
-<body>
-
 <section class="rental-admin-page">
 
     <!-- BACK TO ADMIN DASHBOARD -->
@@ -676,7 +663,4 @@ $applications = $stmt->fetchAll();
     </div>
 
 </section>
-
-</body>
-
 </html>

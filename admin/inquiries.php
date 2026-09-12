@@ -64,8 +64,8 @@ $inquiries = $stmt->fetchAll();
 
 $countStmt = $pdo->query(
     "SELECT status, COUNT(*) AS total
-     FROM exhibition_inquiries
-     GROUP BY status"
+    FROM exhibition_inquiries
+    GROUP BY status"
 );
 
 $counts = [
@@ -80,23 +80,14 @@ foreach ($countStmt->fetchAll() as $row) {
 
 $totalCount = array_sum($counts);
 
+$pageTitle  = "Exhibition Inquiries";
+$activePage = "inquiries";
+require_once "admin-head.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Exhibition Inquiries | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
+    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
 
 <section class="admin-page">
 
@@ -230,9 +221,4 @@ $totalCount = array_sum($counts);
     <?php endif; ?>
 
 </section>
-
-
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
-</html>
+</html> 

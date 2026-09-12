@@ -26,21 +26,87 @@ $name      = "";
 $biography = "";
 $image     = "";
 
+// Field length limits (kept in one place so the form + validation agree).
+const ARTIST_NAME_MAX_LENGTH      = 150;
+const ARTIST_BIOGRAPHY_MAX_LENGTH = 5000;
+
+// Where artist photos live. The PUBLIC artist.php page renders photos as
+// "Images/<image column>", so anything we save here has to resolve
+// correctly against that "Images/" prefix - hence the "artists/" subfolder
+// rather than a top-level "uploads/" folder.
+const ARTIST_UPLOAD_SUBDIR = "artists/"; // relative to /Images/
+const ARTIST_UPLOAD_DIR    = "../Images/" . ARTIST_UPLOAD_SUBDIR;
+
+// Only these MIME types are accepted, and the extension used on disk is
+// ALWAYS derived from this map - never from the client-supplied filename.
+// This closes off double-extension / polyglot-file upload tricks.
+const ARTIST_ALLOWED_IMAGE_TYPES = [
+    "image/jpeg" => "jpg",
+    "image/png"  => "png",
+    "image/webp" => "webp",
+];
+const ARTIST_MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
+
+
+/**
+ * Fetch a single artist row by id, or null if it doesn't exist.
+ */
+function getArtistById(PDO $pdo, int $id): ?array
+{
+    $stmt = $pdo->prepare("SELECT * FROM artists WHERE id = :id");
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $row = $stmt->fetch();
+
+    return $row ?: null;
+}
+
+
+/**
+ * Only ever delete files that this module created itself
+ * (Images/artists/artist_<random>.<ext>). This protects any shared/legacy
+ * seed images (e.g. Images/carlo.jpg) from being removed even if an
+ * artist record referencing them is edited or deleted.
+ */
+function deleteArtistImageFile(string $imagePath): void
+{
+    if ($imagePath === "") {
+        return;
+    }
+
+    $expectedPrefix = ARTIST_UPLOAD_SUBDIR . "artist_";
+
+    if (strpos($imagePath, $expectedPrefix) !== 0) {
+        return;
+    }
+
+    // Basic guard against any path traversal in a stored value.
+    if (strpos($imagePath, "..") !== false) {
+        return;
+    }
+
+    $fullPath = "../Images/" . $imagePath;
+
+    if (is_file($fullPath)) {
+        @unlink($fullPath);
+    }
+}
+
 
 // ---- IF WE'RE EDITING, LOAD THE ARTIST INTO THE FORM ----
 
 if (isset($_GET["edit"]) && ctype_digit((string)$_GET["edit"])) {
 
-    $editStmt = $pdo->prepare("SELECT * FROM artists WHERE id = :id");
-    $editStmt->bindValue(":id", (int)$_GET["edit"], PDO::PARAM_INT);
-    $editStmt->execute();
-    $artistToEdit = $editStmt->fetch();
+    $artistToEdit = getArtistById($pdo, (int)$_GET["edit"]);
 
     if ($artistToEdit) {
         $editingId = $artistToEdit["id"];
         $name      = $artistToEdit["name"];
         $biography = $artistToEdit["biography"];
         $image     = $artistToEdit["image"];
+    } else {
+        $errors[] = "That artist could not be found. It may have already been deleted.";
     }
 
 }
@@ -67,21 +133,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (ctype_digit((string)$deleteId)) {
 
-                try {
+                $deleteId    = (int)$deleteId;
+                $artistToDel = getArtistById($pdo, $deleteId);
 
-                    $deleteStmt = $pdo->prepare("DELETE FROM artists WHERE id = :id");
-                    $deleteStmt->bindValue(":id", (int)$deleteId, PDO::PARAM_INT);
-                    $deleteStmt->execute();
+                if (!$artistToDel) {
 
-                    $feedback = "Artist deleted.";
+                    $errors[] = "That artist no longer exists.";
 
-                } catch (Exception $e) {
+                } else {
 
-                    // Most likely a foreign key error because this artist
-                    // is still attached to an exhibition's artist list.
-                    $errors[] = "This artist could not be deleted because they are attached to an exhibition.";
+                    try {
+
+                        $deleteStmt = $pdo->prepare("DELETE FROM artists WHERE id = :id");
+                        $deleteStmt->bindValue(":id", $deleteId, PDO::PARAM_INT);
+                        $deleteStmt->execute();
+
+                        // Clean up the photo on disk now that the row is gone.
+                        deleteArtistImageFile((string)$artistToDel["image"]);
+
+                        $feedback = "Artist deleted.";
+
+                    } catch (PDOException $e) {
+
+                        // Most likely a foreign key error because this artist
+                        // is still attached to an exhibition or an artwork.
+                        $errors[] = "This artist could not be deleted because they are still attached to an exhibition or artwork.";
+
+                    }
 
                 }
+
+            } else {
+
+                $errors[] = "Invalid artist reference.";
 
             }
 
@@ -92,62 +176,137 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         elseif ($action === "create" || $action === "update") {
 
-            $editingId = $_POST["artist_id"] ?? "";
+            $rawId     = $_POST["artist_id"] ?? "";
             $name      = trim($_POST["name"] ?? "");
             $biography = trim($_POST["biography"] ?? "");
-            $image     = trim($_POST["existing_image"] ?? "");
 
-            if (empty($name)) {
-                $errors[] = "Artist name is required.";
+            // The artist's CURRENT image (source of truth), used unless a
+            // new file is uploaded below. We deliberately do NOT trust any
+            // client-submitted "existing image" value - it's re-fetched
+            // from the database instead, so a tampered hidden field can
+            // never redirect this record at an arbitrary path.
+            $image    = "";
+            $oldImage = "";
+
+            if ($action === "update") {
+
+                if (!ctype_digit((string)$rawId)) {
+
+                    $errors[] = "Invalid artist reference.";
+                    $editingId = "";
+
+                } else {
+
+                    $editingId  = (int)$rawId;
+                    $currentRow = getArtistById($pdo, $editingId);
+
+                    if (!$currentRow) {
+                        $errors[] = "That artist no longer exists.";
+                        $editingId = "";
+                    } else {
+                        $image    = (string)$currentRow["image"];
+                        $oldImage = $image;
+                    }
+
+                }
+
+            } else {
+                $editingId = "";
             }
 
-            if (empty($biography)) {
+
+            // ---- FIELD VALIDATION ----
+
+            if ($name === "") {
+                $errors[] = "Artist name is required.";
+            } elseif (mb_strlen($name) > ARTIST_NAME_MAX_LENGTH) {
+                $errors[] = "Artist name must be " . ARTIST_NAME_MAX_LENGTH . " characters or fewer.";
+            }
+
+            if ($biography === "") {
                 $errors[] = "Artist biography is required.";
+            } elseif (mb_strlen($biography) > ARTIST_BIOGRAPHY_MAX_LENGTH) {
+                $errors[] = "Artist biography must be " . ARTIST_BIOGRAPHY_MAX_LENGTH . " characters or fewer.";
+            }
+
+            // For "update", stop here if we couldn't resolve a real record.
+            if ($action === "update" && $editingId === "" && empty($errors)) {
+                $errors[] = "Unable to update this artist.";
             }
 
 
             // ---- OPTIONAL IMAGE UPLOAD ----
 
-            if (!empty($_FILES["image"]["name"])) {
+            $newImagePath = null; // set only if a new file is successfully saved
 
-                $allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-                $maxSizeBytes = 5 * 1024 * 1024; // 5 MB
+            if (!empty($_FILES["image"]["name"]) && empty($errors)) {
 
-                $fileTmpPath = $_FILES["image"]["tmp_name"];
-                $fileType    = mime_content_type($fileTmpPath);
-                $fileSize    = $_FILES["image"]["size"];
+                $upload = $_FILES["image"];
 
-                if (!in_array($fileType, $allowedTypes, true)) {
+                if ($upload["error"] !== UPLOAD_ERR_OK) {
 
-                    $errors[] = "Artist photo must be a JPG, PNG, or WEBP file.";
+                    $errors[] = "There was a problem uploading the photo. Please try again.";
 
-                } elseif ($fileSize > $maxSizeBytes) {
+                } elseif ($upload["size"] > ARTIST_MAX_IMAGE_BYTES) {
 
                     $errors[] = "Artist photo must be smaller than 5MB.";
 
+                } elseif (!is_uploaded_file($upload["tmp_name"])) {
+
+                    $errors[] = "There was a problem uploading the photo. Please try again.";
+
                 } else {
 
-                    $extension   = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-                    $newFileName = "artist_" . uniqid() . "." . $extension;
-
-                    $uploadDir = "../uploads/artists/";
-
-                    if (!is_dir($uploadDir)) {
-                        mkdir($uploadDir, 0755, true);
+                    // 1) Verify the real MIME type from the file's contents
+                    //    (never trust the browser-supplied name or type).
+                    $finfo    = finfo_open(FILEINFO_MIME_TYPE);
+                    $realType = $finfo ? finfo_file($finfo, $upload["tmp_name"]) : false;
+                    if ($finfo) {
+                        finfo_close($finfo);
                     }
 
-                    $destination = $uploadDir . $newFileName;
+                    // 2) Verify it's an actual, decodable image (blocks most
+                    //    polyglot / disguised-payload files that merely fake
+                    //    the right magic bytes).
+                    $imageInfo = @getimagesize($upload["tmp_name"]);
 
-                    if (move_uploaded_file($fileTmpPath, $destination)) {
-                        // Store the path the same way it's read on the public
-                        // artist.php page - relative to the project root.
-                        $image = "uploads/artists/" . $newFileName;
+                    if (
+                        $realType === false ||
+                        !isset(ARTIST_ALLOWED_IMAGE_TYPES[$realType]) ||
+                        $imageInfo === false
+                    ) {
+
+                        $errors[] = "Artist photo must be a valid JPG, PNG, or WEBP image.";
+
                     } else {
-                        $errors[] = "There was a problem uploading the photo. Please try again.";
+
+                        // 3) The extension is chosen by US, from the verified
+                        //    MIME type - never from the uploaded filename.
+                        $extension   = ARTIST_ALLOWED_IMAGE_TYPES[$realType];
+                        $newFileName = "artist_" . bin2hex(random_bytes(8)) . "." . $extension;
+
+                        if (!is_dir(ARTIST_UPLOAD_DIR)) {
+                            mkdir(ARTIST_UPLOAD_DIR, 0755, true);
+                        }
+
+                        $destination = ARTIST_UPLOAD_DIR . $newFileName;
+
+                        if (move_uploaded_file($upload["tmp_name"], $destination)) {
+                            // Stored relative to /Images/, matching how the
+                            // public artist.php page reads this column.
+                            $newImagePath = ARTIST_UPLOAD_SUBDIR . $newFileName;
+                        } else {
+                            $errors[] = "There was a problem uploading the photo. Please try again.";
+                        }
+
                     }
 
                 }
 
+            }
+
+            if ($newImagePath !== null) {
+                $image = $newImagePath;
             }
 
 
@@ -157,7 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     $insertStmt = $pdo->prepare(
                         "INSERT INTO artists (name, biography, image, created_at)
-                         VALUES (:name, :biography, :image, NOW())"
+                        VALUES (:name, :biography, :image, NOW())"
                     );
                     $insertStmt->bindValue(":name", $name);
                     $insertStmt->bindValue(":biography", $biography);
@@ -176,8 +335,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     $updateStmt = $pdo->prepare(
                         "UPDATE artists
-                         SET name = :name, biography = :biography, image = :image
-                         WHERE id = :id"
+                        SET name = :name, biography = :biography, image = :image
+                        WHERE id = :id"
                     );
                     $updateStmt->bindValue(":name", $name);
                     $updateStmt->bindValue(":biography", $biography);
@@ -185,9 +344,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $updateStmt->bindValue(":id", (int)$editingId, PDO::PARAM_INT);
                     $updateStmt->execute();
 
+                    // If a new photo replaced an old one, remove the old
+                    // file from disk now that the DB row points elsewhere.
+                    if ($oldImage !== "" && $oldImage !== $image) {
+                        deleteArtistImageFile($oldImage);
+                    }
+
                     $feedback = "Artist updated.";
 
                 }
+
+            } elseif ($newImagePath !== null) {
+
+                // Validation failed elsewhere after we already saved a new
+                // file to disk - don't leave it orphaned.
+                deleteArtistImageFile($newImagePath);
+                $image = $oldImage;
 
             }
 
@@ -204,24 +376,15 @@ $artists = $pdo->query(
     "SELECT * FROM artists ORDER BY name ASC"
 )->fetchAll();
 
+$pageTitle  = "Artists";
+$activePage = "artists";
+require_once "admin-head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en"></html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Artists | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
-
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
 <section class="admin-page">
 
     <div class="admin-header">
@@ -268,7 +431,6 @@ $artists = $pdo->query(
 
             <input type="hidden" name="action" value="<?php echo $editingId ? 'update' : 'create'; ?>">
             <input type="hidden" name="artist_id" value="<?php echo htmlspecialchars((string)$editingId); ?>">
-            <input type="hidden" name="existing_image" value="<?php echo htmlspecialchars($image); ?>">
 
             <div class="form-group">
                 <label for="name">ARTIST NAME</label>
@@ -277,6 +439,7 @@ $artists = $pdo->query(
                     id="name"
                     name="name"
                     value="<?php echo htmlspecialchars($name); ?>"
+                    maxlength="<?php echo ARTIST_NAME_MAX_LENGTH; ?>"
                     required
                 >
             </div>
@@ -287,6 +450,7 @@ $artists = $pdo->query(
                     id="biography"
                     name="biography"
                     rows="5"
+                    maxlength="<?php echo ARTIST_BIOGRAPHY_MAX_LENGTH; ?>"
                     required
                 ><?php echo htmlspecialchars($biography); ?></textarea>
             </div>
@@ -298,7 +462,7 @@ $artists = $pdo->query(
                 <?php if (!empty($image)): ?>
 
                     <img
-                        src="../<?php echo htmlspecialchars($image); ?>"
+                        src="../Images/<?php echo htmlspecialchars($image); ?>"
                         alt="Current photo"
                         style="max-width:150px; display:block; margin-bottom:12px;"
                     >
@@ -358,6 +522,10 @@ $artists = $pdo->query(
 
                 <div class="admin-list-row-actions">
 
+                    <a href="artist-view.php?id=<?php echo (int)$artist['id']; ?>" class="admin-view-button">
+                        VIEW
+                    </a>
+
                     <a href="artists.php?edit=<?php echo (int)$artist['id']; ?>" class="admin-view-button">
                         EDIT
                     </a>
@@ -383,9 +551,4 @@ $artists = $pdo->query(
     <?php endif; ?>
 
 </section>
-
-
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
 </html>

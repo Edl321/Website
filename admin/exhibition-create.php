@@ -265,31 +265,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+$pageTitle   = "Create Exhibition";
+$activePage  = "exhibitions";
+$extraStyles = ["exhibition-create.css"];
+require_once "admin-head.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Create Exhibition | EDL Gallery</title>
-
-    <link
-        rel="stylesheet"
-        href="exhibition-create.css"
-    >
-
-</head>
-
-<body>
-
+    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
+    <link rel="stylesheet" href="exhibition-create.css">
 <div class="admin-page">
 
     <!-- ----------------------------------------- -->
@@ -508,6 +493,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </div>
 
-</body>
-
-</html>
+<?php require_once "includes/admin-foot.php"; ?>

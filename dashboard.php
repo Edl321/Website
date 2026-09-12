@@ -1,7 +1,7 @@
 <?php
 session_start();
 $basePath = "";
-
+require_once "security/shield.php";
 require_once "database/config.php";
 require_once "security/authorize.php";
 
@@ -90,7 +90,19 @@ $notificationStmt->execute([
 ]);
 
 $notifications = $notificationStmt->fetchAll();
+// Count unread notifications
+$unreadStmt = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM notifications
+    WHERE user_id = :user_id
+    AND is_read = 0
+");
 
+$unreadStmt->execute([
+    ":user_id" => $_SESSION["user_id"]
+]);
+
+$unreadCount = $unreadStmt->fetchColumn();
 $applicationsStmt->execute([
     ":user_id" => $_SESSION["user_id"]
 ]);
@@ -198,11 +210,17 @@ $upcomingExhibition = $upcomingStmt->fetch();
     <!-- NOTIFICATIONS -->
 
     <div class="user-panel-title">
-        <div>
-            <p>UPDATES</p>
-            <h2>Notifications</h2>
-        </div>
+    <div>
+        <p>UPDATES</p>
+        <h2>Notifications</h2>
+
+        <?php if ($unreadCount > 0): ?>
+            <a href="notification.php" class="unread-count">
+                <?php echo (int)$unreadCount; ?> UNREAD
+            </a>
+        <?php endif; ?>
     </div>
+</div>
 
     <?php if (empty($notifications)): ?>
 
@@ -236,9 +254,10 @@ $upcomingExhibition = $upcomingStmt->fetch();
                         </small>
                         <?php if ($notification["is_read"] == 0): ?>
 
-                    <form method="POST" action="mark-notification-read.php">
-                        <input type="hidden" name="notification_value="<?php echo (int)$notification["id"]; ?>">
-                <button type="submit" class="mark-read-button">Mark as Read</button>
+                    <form method="POST" action="notification-read.php">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="notification_id" value="<?php echo (int)$notification["id"]; ?>">
+                        <button type="submit" class="mark-read-button">Mark as Read</button>
                     </form>
 
 <?php endif; ?>
@@ -389,45 +408,92 @@ $upcomingExhibition = $upcomingStmt->fetch();
                 </div>
 
                 <div class="user-actions">
-                    <a href="rent-space.php" class="user-action">
-                        <div class="user-action-icon">+</div>
-                        <div class="user-action-content">
-                            <h3>Rent Our Space</h3>
-                            <p>Submit a new exhibition rental request.</p>
-                        </div>
-                        <span class="user-action-arrow">→</span>
-                    </a>
 
-                    <a href="exhibition.php" class="user-action">
-                        <div class="user-action-icon">□</div>
-                        <div class="user-action-content">
-                            <h3>View Exhibitions</h3>
-                            <p>Check current and upcoming exhibitions.</p>
-                        </div>
-                        <span class="user-action-arrow">→</span>
-                    </a>
+    <!-- Rent Our Space -->
+    <a href="rent-space.php" class="user-action">
+        <div class="user-action-icon">+</div>
 
-                    <a href="artist.php" class="user-action">
-                        <div class="user-action-icon">○</div>
-                        <div class="user-action-content">
-                            <h3>Meet Our Artists</h3>
-                            <p>Explore artists featured by EDL Gallery.</p>
-                        </div>
-                        <span class="user-action-arrow">→</span>
-                    </a>
+        <div class="user-action-content">
+            <h3>Rent Our Space</h3>
+            <p>Submit a new exhibition rental request.</p>
+        </div>
 
-                    <a href="contact.php" class="user-action">
-                        <div class="user-action-icon">@</div>
-                        <div class="user-action-content">
-                            <h3>Contact Gallery</h3>
-                            <p>Have a question about renting the space?</p>
-                        </div>
-                        <span class="user-action-arrow">→</span>
-                    </a>
-                </div>
-            </section>
+        <span class="user-action-arrow">→</span>
+    </a>
 
-            <section class="user-panel">
+
+    <!-- Notifications -->
+    <a href="notification.php" class="user-action">
+        <div class="user-action-icon">🔔</div>
+
+        <div class="user-action-content">
+            <h3>Notifications</h3>
+            <p>View your latest updates and notifications.</p>
+        </div>
+
+        <?php if ($unreadCount > 0): ?>
+            <span class="user-action-badge">
+                <?php echo (int)$unreadCount; ?>
+            </span>
+        <?php endif; ?>
+
+        <span class="user-action-arrow">→</span>
+    </a>
+
+
+    <!-- My Exhibitions -->
+    <a href="my-exhibitions.php" class="user-action">
+        <div class="user-action-icon">▣</div>
+
+        <div class="user-action-content">
+            <h3>My Exhibitions</h3>
+            <p>Manage your exhibitions and exhibition details.</p>
+        </div>
+
+        <span class="user-action-arrow">→</span>
+    </a>
+
+
+    <!-- View Exhibitions -->
+    <a href="exhibition.php" class="user-action">
+        <div class="user-action-icon">□</div>
+
+        <div class="user-action-content">
+            <h3>View Exhibitions</h3>
+            <p>Check current and upcoming exhibitions.</p>
+        </div>
+
+        <span class="user-action-arrow">→</span>
+    </a>
+
+
+    <!-- Meet Our Artists -->
+    <a href="artist.php" class="user-action">
+        <div class="user-action-icon">○</div>
+
+        <div class="user-action-content">
+            <h3>Meet Our Artists</h3>
+            <p>Explore artists featured by EDL Gallery.</p>
+        </div>
+
+        <span class="user-action-arrow">→</span>
+    </a>
+
+
+    <!-- Contact Gallery -->
+    <a href="contact.php" class="user-action">
+        <div class="user-action-icon">@</div>
+
+        <div class="user-action-content">
+            <h3>Contact Gallery</h3>
+            <p>Have a question about renting the space?</p>
+        </div>
+
+        <span class="user-action-arrow">→</span>
+    </a>
+
+</div>
+            <section class="user-panel profile-panel">
                 <div class="user-panel-title">
                     <div>
                         <p>YOUR PROFILE</p>

@@ -1,0 +1,8 @@
+# Uploaded artist photos only - never execute scripts from this folder,
+# even if an unexpected file type ever ends up here.
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<FilesMatch "\.(php|phtml|php\d|phar|pl|py|cgi|asp|aspx|sh|exe)$">
+    Require all denied
+</FilesMatch>

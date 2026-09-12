@@ -63,23 +63,14 @@ foreach ($countStmt->fetchAll() as $row) {
 
 $totalCount = array_sum($counts);
 
+$pageTitle  = "Artworks";
+$activePage = "artworks";
+require_once "admin-head.php";
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Artworks | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
+<html lang="end">
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
 
 <section class="admin-page">
 
@@ -180,9 +171,4 @@ $totalCount = array_sum($counts);
     <?php endif; ?>
 
 </section>
-
-
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
 </html>

@@ -70,27 +70,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 $users = $pdo->query(
     "SELECT id, first_name, last_name, email, role, created_at
-     FROM users
-     ORDER BY created_at DESC"
+    FROM users
+    ORDER BY created_at DESC"
 )->fetchAll();
 
+$pageTitle  = "Users";
+$activePage = "users";
+require_once "admin-head.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Users | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
 
 <section class="admin-page">
 
@@ -184,9 +175,4 @@ $users = $pdo->query(
     <?php endforeach; ?>
 
 </section>
-
-
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
 </html>

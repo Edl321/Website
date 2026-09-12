@@ -44,24 +44,18 @@ $totalUsers = $pdo->query(
     "SELECT COUNT(*) FROM users WHERE role = 'user'"
 )->fetchColumn();
 
+$pageTitle  = "Dashboard";
+$activePage = "dashboard";
+require_once "admin-head.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Admin Dashboard | EDL Gallery</title>
-    <link rel="icon" type="image/x-icon" href="../image/logo.png">
+</html>
+    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
     <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
 
 <section class="admin-dashboard ">
 
@@ -167,9 +161,6 @@ $totalUsers = $pdo->query(
     </div>
 
 </section>
-
-
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
 </html>
+
+

@@ -7,7 +7,7 @@ require_once "security/authorize.php";
 require_once "security/shield.php";
 
 
-if (!isLoggedIn()) {
+if (!isUser()) {
 
     header("Location: login.php");
     exit;

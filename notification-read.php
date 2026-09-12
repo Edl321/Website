@@ -3,17 +3,34 @@
 session_start();
 
 require_once "database/config.php";
+require_once "security/shield.php";
 require_once "security/authorize.php";
+
+
+/* Only logged-in users can access this page */
 
 if (!isUser()) {
     header("Location: login.php");
     exit;
 }
 
+
+/* Only allow POST requests */
+
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: dashboard.php");
+    header("Location: notification.php");
     exit;
 }
+
+
+/* Check CSRF token */
+
+if (!verify_csrf_token()) {
+    die("Invalid CSRF token.");
+}
+
+
+/* Get notification ID */
 
 $notificationId = filter_input(
     INPUT_POST,
@@ -21,15 +38,16 @@ $notificationId = filter_input(
     FILTER_VALIDATE_INT
 );
 
+
+/* Validate notification ID */
+
 if (!$notificationId) {
-    header("Location: dashboard.php");
-    exit;
+    die("Invalid Notification ID.");
 }
 
-/*
- * Update ONLY the notification belonging
- * to the currently logged-in user.
- */
+
+/* Mark notification as read */
+
 $stmt = $pdo->prepare("
     UPDATE notifications
     SET is_read = 1
@@ -42,5 +60,10 @@ $stmt->execute([
     ":user_id" => $_SESSION["user_id"]
 ]);
 
-header("Location: dashboard.php");
+
+/* Return to notification page */
+
+header("Location: notification.php");
 exit;
+
+?>

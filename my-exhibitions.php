@@ -54,18 +54,17 @@ function formatStatusLabel($status) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My Exhibitions | EDL Gallery</title>
-    <link rel="icon" type="image/x-icon" href="image/logo.png">
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<?php require_once "include/header.php"; ?>
+<?php require_once "includes/header.php"; ?>
 
 
-<section class="dashboard-hero" style="background-image:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-    url('image/background-2.jpg');">
+<section class="dashboard-hero" style="background-image:linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url('Images/background-2.jpg');">
 
     <div class="dashboard-hero-content">
 
@@ -165,7 +164,7 @@ function formatStatusLabel($status) {
 </section>
 
 
-<?php require_once "include/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>
 
 </body>
 </html>

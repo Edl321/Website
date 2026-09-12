@@ -87,10 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 // 1. Update the inquiry itself
                 $updateSql = "UPDATE exhibition_inquiries
-                              SET status = :status,
-                                  admin_note = :admin_note,
-                                  reviewed_at = NOW()
-                              WHERE id = :id";
+                            SET status = :status,
+                                admin_note = :admin_note,
+                                reviewed_at = NOW()
+                            WHERE id = :id";
 
                 $updateStmt = $pdo->prepare($updateSql);
                 $updateStmt->bindValue(":status", $newStatus);
@@ -103,10 +103,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if ($action === "approve") {
 
                     $exhibitionSql = "INSERT INTO exhibitions
-                                       (inquiry_id, organizer_id, title, description,
+                                    (inquiry_id, organizer_id, title, description,
                                         start_date, end_date, status, created_at)
-                                       VALUES
-                                       (:inquiry_id, :organizer_id, :title, :description,
+                                    VALUES
+                                    (:inquiry_id, :organizer_id, :title, :description,
                                         :start_date, :end_date, 'draft', NOW())";
 
                     $exhibitionStmt = $pdo->prepare($exhibitionSql);
@@ -129,12 +129,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $notifMessage = ($action === "approve")
                     ? "Your inquiry \"" . $current["exhibition_title"] . "\" has been approved. You may now complete your exhibition details."
                     : "Your inquiry \"" . $current["exhibition_title"] . "\" was not approved."
-                      . ($adminNote !== "" ? " Reason: " . $adminNote : "");
+                    . ($adminNote !== "" ? " Reason: " . $adminNote : "");
 
                 $notifSql = "INSERT INTO notifications
-                             (user_id, title, message, is_read, created_at)
-                             VALUES
-                             (:user_id, :title, :message, 0, NOW())";
+                            (user_id, title, message, is_read, created_at)
+                            VALUES
+                            (:user_id, :title, :message, 0, NOW())";
 
                 $notifStmt = $pdo->prepare($notifSql);
                 $notifStmt->bindValue(":user_id", $current["user_id"], PDO::PARAM_INT);
@@ -188,23 +188,14 @@ if (!$inquiry) {
 
 $isOwnInquiry = ((int)$inquiry["user_id"] === (int)$adminId);
 
+$pageTitle  = "Inquiry Details";
+$activePage = "inquiries";
+require_once "admin-head.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Inquiry Details | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
 
 <section class="admin-page">
 
@@ -448,9 +439,4 @@ $isOwnInquiry = ((int)$inquiry["user_id"] === (int)$adminId);
     <?php endif; ?>
 
 </section>
-
-
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
 </html>

@@ -145,23 +145,14 @@ if (!$artwork) {
     exit;
 }
 
+$pageTitle  = "Artwork Details";
+$activePage = "artworks";
+require_once "admin-head.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Artwork Details | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../image/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../include/header.php"; ?>
-
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="admin-layout.css">
 
 <section class="admin-page">
 
@@ -328,9 +319,4 @@ if (!$artwork) {
     <?php endif; ?>
 
 </section>
-
-
-<?php require_once "../include/footer.php"; ?>
-
-</body>
 </html>

@@ -18,8 +18,6 @@ body {
 }
 
 
-
-
 .home {
     width: 100%;
     height: calc(100vh - 100px);
@@ -1853,171 +1851,98 @@ body {
         font-size: 40px;
     }
 
-    /* =========================================================
-ABOUT US PAGE
-========================================================= */
-
 .about-hero {
-
     width: 100%;
-
     min-height: 600px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     padding: 80px 100px;
-
     background-color: black;
-
     box-sizing: border-box;
-
 }
-
-
-/* LEFT SIDE */
 
 .about-hero-text {
-
     width: 48%;
-
 }
 
-
 .about-hero-text h1 {
-
     margin: 0 0 20px;
-
     color: white;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 18px;
-
     letter-spacing: 3px;
-
     font-weight: 600;
-
 }
 
 
 .about-hero-text h2 {
-
     margin: 0 0 25px;
-
     color: white;
-
     font-family: 'Lora', serif;
-
     font-size: 58px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
 
 
 .about-hero-text h2 span {
-
     color: #ff7a00;
-
 }
 
 
 .about-hero-text p {
-
     max-width: 500px;
-
     margin: 0;
-
     color: white;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 18px;
-
     line-height: 1.6;
-
 }
 
-
-/* RIGHT SIDE IMAGE */
-
 .about-hero-image {
-
     width: 45%;
-
     height: 450px;
-
     overflow: hidden;
-
 }
 
 
 .about-hero-image img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
 }
 
 
 .about-story {
-
     width: 100%;
-
     display: flex;
-
     align-items: center;
-
     gap: 80px;
-
     padding: 100px;
-
     background-color: white;
-
     box-sizing: border-box;
-
 }
 
 
 .story-image {
-
     width: 50%;
-
     height: 450px;
-
     overflow: hidden;
-
 }
 
 
 .story-image img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
 }
 
 
 .story-text {
-
     width: 50%;
-
 }
 
 
@@ -5303,9 +5228,6 @@ ABOUT US PAGE
     align-items: flex-start;
 }
 
-
-
-
 .rental-application-intro {
     width: 35%;
 }
@@ -5382,8 +5304,6 @@ ABOUT US PAGE
 }
 
 
-
-
 .rental-date-row {
     display: flex;
     gap: 20px;
@@ -5453,4 +5373,258 @@ ABOUT US PAGE
 
 .rental-success a:hover {
     color: #000;
+}
+
+/* =========================================
+   NOTIFICATION PAGE
+========================================= */
+
+.notification-page {
+    width: 100%;
+    min-height: 70vh;
+    background: #ffffff;
+}
+
+
+/* HEADER */
+
+.notification-hero {
+    padding: 80px 8% 60px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.notification-heading {
+    max-width: 1000px;
+}
+
+.notification-label {
+    margin: 0 0 10px 0;
+
+    color: #ff7a00;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.notification-heading h1 {
+    margin: 0;
+
+    color: #111111;
+
+    font-family: 'Lora', Georgia, serif;
+    font-size: 64px;
+    font-weight: 400;
+
+    line-height: 1.1;
+}
+
+
+/* COUNT */
+
+.notification-count {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 7px 12px;
+
+    background: #ff7a00;
+    color: #ffffff;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.notification-count.no-unread {
+    background: #111111;
+}
+
+
+/* LIST */
+
+.notification-list-section {
+    padding: 60px 8% 100px;
+}
+
+.notification-list {
+    width: 100%;
+    max-width: 1000px;
+}
+
+
+/* CARD */
+
+.notification-card {
+    margin-bottom: 20px;
+
+    padding: 30px;
+
+    border: 1px solid #dddddd;
+
+    background: #ffffff;
+
+    transition: 0.3s ease;
+}
+
+.notification-card.unread {
+    border-left: 5px solid #ff7a00;
+}
+
+.notification-card.read {
+    opacity: 0.65;
+}
+
+.notification-card:hover {
+    border-color: #111111;
+    transform: translateY(-2px);
+}
+
+
+/* CARD TITLE */
+
+.notification-card-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.notification-card-top h2 {
+    margin: 0;
+
+    color: #111111;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* NEW */
+
+.notification-status {
+    flex-shrink: 0;
+
+    padding: 5px 9px;
+
+    background: #ff7a00;
+    color: #ffffff;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+/* MESSAGE */
+
+.notification-message {
+    margin: 18px 0;
+
+    color: #555555;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* DATE */
+
+.notification-date {
+    margin: 0;
+
+    color: #888888;
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 11px;
+}
+
+
+/* MARK AS READ */
+
+.notification-read-form {
+    margin-top: 20px;
+}
+
+.notification-read-form button {
+    padding: 12px 16px;
+    border: none;
+    background: #111111;
+    color: #ffffff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.notification-read-form button:hover {
+    background: #ff7a00;
+}
+
+
+/* EMPTY STATE */
+
+.no-notifications {
+    max-width: 700px;
+
+    padding: 60px 40px;
+
+    border: 1px solid #dddddd;
+}
+
+.no-notifications h2 {
+    margin: 0 0 15px;
+
+    color: #111111;
+
+    font-family: 'Lora', Georgia, serif;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.no-notifications p:last-child {
+    margin: 0;
+    color: #666666;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 14px;
+}
+
+.back-dashboard {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 10px;
+    background: #111111;
+    color: #ffffff;
+    border: 2px solid #111111;
+    border-radius: 4px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.back-dashboard:hover {
+    background: #ff7a00;
+    border-color: #ff7a00;
+    color: #ffffff;
 }

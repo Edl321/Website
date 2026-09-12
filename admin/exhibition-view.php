@@ -184,23 +184,10 @@ function formatStatusLabel($status) {
 
 $nextSteps = $allowedTransitions[$exhibition["status"]] ?? [];
 
+$pageTitle  = "Exhibition Details";
+$activePage = "exhibitions";
+require_once "includes/admin-head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Exhibition Details | EDL Gallery Admin</title>
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-<?php require_once "../includes/header.php"; ?>
-
 
 <section class="admin-page">
 
@@ -387,7 +374,4 @@ $nextSteps = $allowedTransitions[$exhibition["status"]] ?? [];
 </section>
 
 
-<?php require_once "../includes/footer.php"; ?>
-
-</body>
-</html>
+<?php require_once "includes/admin-foot.php"; ?>
