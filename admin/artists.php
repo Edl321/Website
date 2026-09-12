@@ -2,10 +2,12 @@
 
 session_start();
 $basePath = "../";
+define ('EDL_ADMIN', true);
 
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 require_once "../security/shield.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {
@@ -35,7 +37,7 @@ const ARTIST_BIOGRAPHY_MAX_LENGTH = 5000;
 // correctly against that "Images/" prefix - hence the "artists/" subfolder
 // rather than a top-level "uploads/" folder.
 const ARTIST_UPLOAD_SUBDIR = "artists/"; // relative to /Images/
-const ARTIST_UPLOAD_DIR    = "../Images/" . ARTIST_UPLOAD_SUBDIR;
+
 
 // Only these MIME types are accepted, and the extension used on disk is
 // ALWAYS derived from this map - never from the client-supplied filename.
@@ -47,51 +49,6 @@ const ARTIST_ALLOWED_IMAGE_TYPES = [
 ];
 const ARTIST_MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
 
-
-/**
- * Fetch a single artist row by id, or null if it doesn't exist.
- */
-function getArtistById(PDO $pdo, int $id): ?array
-{
-    $stmt = $pdo->prepare("SELECT * FROM artists WHERE id = :id");
-    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $row = $stmt->fetch();
-
-    return $row ?: null;
-}
-
-
-/**
- * Only ever delete files that this module created itself
- * (Images/artists/artist_<random>.<ext>). This protects any shared/legacy
- * seed images (e.g. Images/carlo.jpg) from being removed even if an
- * artist record referencing them is edited or deleted.
- */
-function deleteArtistImageFile(string $imagePath): void
-{
-    if ($imagePath === "") {
-        return;
-    }
-
-    $expectedPrefix = ARTIST_UPLOAD_SUBDIR . "artist_";
-
-    if (strpos($imagePath, $expectedPrefix) !== 0) {
-        return;
-    }
-
-    // Basic guard against any path traversal in a stored value.
-    if (strpos($imagePath, "..") !== false) {
-        return;
-    }
-
-    $fullPath = "../Images/" . $imagePath;
-
-    if (is_file($fullPath)) {
-        @unlink($fullPath);
-    }
-}
 
 
 // ---- IF WE'RE EDITING, LOAD THE ARTIST INTO THE FORM ----
@@ -148,8 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $deleteStmt->bindValue(":id", $deleteId, PDO::PARAM_INT);
                         $deleteStmt->execute();
 
-                        // Clean up the photo on disk now that the row is gone.
-                        deleteArtistImageFile((string)$artistToDel["image"]);
+                        deleteManagedImage((string)$artistToDel["image"], "artists/artist_");   
 
                         $feedback = "Artist deleted.";
 
@@ -234,75 +190,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $errors[] = "Unable to update this artist.";
             }
 
+            $newImagePath = null;
 
-            // ---- OPTIONAL IMAGE UPLOAD ----
-
-            $newImagePath = null; // set only if a new file is successfully saved
-
-            if (!empty($_FILES["image"]["name"]) && empty($errors)) {
-
-                $upload = $_FILES["image"];
-
-                if ($upload["error"] !== UPLOAD_ERR_OK) {
-
-                    $errors[] = "There was a problem uploading the photo. Please try again.";
-
-                } elseif ($upload["size"] > ARTIST_MAX_IMAGE_BYTES) {
-
-                    $errors[] = "Artist photo must be smaller than 5MB.";
-
-                } elseif (!is_uploaded_file($upload["tmp_name"])) {
-
-                    $errors[] = "There was a problem uploading the photo. Please try again.";
-
-                } else {
-
-                    // 1) Verify the real MIME type from the file's contents
-                    //    (never trust the browser-supplied name or type).
-                    $finfo    = finfo_open(FILEINFO_MIME_TYPE);
-                    $realType = $finfo ? finfo_file($finfo, $upload["tmp_name"]) : false;
-                    if ($finfo) {
-                        finfo_close($finfo);
-                    }
-
-                    // 2) Verify it's an actual, decodable image (blocks most
-                    //    polyglot / disguised-payload files that merely fake
-                    //    the right magic bytes).
-                    $imageInfo = @getimagesize($upload["tmp_name"]);
-
-                    if (
-                        $realType === false ||
-                        !isset(ARTIST_ALLOWED_IMAGE_TYPES[$realType]) ||
-                        $imageInfo === false
-                    ) {
-
-                        $errors[] = "Artist photo must be a valid JPG, PNG, or WEBP image.";
-
-                    } else {
-
-                        // 3) The extension is chosen by US, from the verified
-                        //    MIME type - never from the uploaded filename.
-                        $extension   = ARTIST_ALLOWED_IMAGE_TYPES[$realType];
-                        $newFileName = "artist_" . bin2hex(random_bytes(8)) . "." . $extension;
-
-                        if (!is_dir(ARTIST_UPLOAD_DIR)) {
-                            mkdir(ARTIST_UPLOAD_DIR, 0755, true);
-                        }
-
-                        $destination = ARTIST_UPLOAD_DIR . $newFileName;
-
-                        if (move_uploaded_file($upload["tmp_name"], $destination)) {
-                            // Stored relative to /Images/, matching how the
-                            // public artist.php page reads this column.
-                            $newImagePath = ARTIST_UPLOAD_SUBDIR . $newFileName;
-                        } else {
-                            $errors[] = "There was a problem uploading the photo. Please try again.";
-                        }
-
-                    }
-
-                }
-
+            if (empty($errors)) {
+            $newImagePath = handleImageUpload(
+                $_FILES["image"] ?? [],
+                ARTIST_UPLOAD_SUBDIR,
+                "artist_",
+                ARTIST_ALLOWED_IMAGE_TYPES,
+                ARTIST_MAX_IMAGE_BYTES,
+            $errors
+                );
             }
 
             if ($newImagePath !== null) {
@@ -347,27 +245,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     // If a new photo replaced an old one, remove the old
                     // file from disk now that the DB row points elsewhere.
                     if ($oldImage !== "" && $oldImage !== $image) {
-                        deleteArtistImageFile($oldImage);
+                        deleteManagedImage($oldImage, "artists/artist_");
                     }
 
                     $feedback = "Artist updated.";
 
                 }
 
-            } elseif ($newImagePath !== null) {
+                } elseif ($newImagePath !== null) {
 
                 // Validation failed elsewhere after we already saved a new
                 // file to disk - don't leave it orphaned.
-                deleteArtistImageFile($newImagePath);
+                deleteManagedImage($newImagePath, "artists/artist_");
                 $image = $oldImage;
-
+                }
             }
-
         }
-
     }
-
-}
 
 
 // ---- FETCH ALL ARTISTS FOR THE LIST ----
@@ -508,8 +402,8 @@ require_once "admin-head.php";
                     <p class="inquiry-meta">
                         <?php
                         $bio = $artist["biography"];
-                        echo htmlspecialchars(
-                            strlen($bio) > 140 ? substr($bio, 0, 140) . "..." : $bio
+                            echo htmlspecialchars(
+                            mb_strlen($bio) > 140 ? mb_substr($bio, 0, 140) . "..." : $bio
                         );
                         ?>
                     </p>

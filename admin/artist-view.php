@@ -3,9 +3,12 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 require_once "../security/shield.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {
@@ -44,32 +47,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         try {
 
-            // Grab the image path first so we can clean it up after the
-            // row is gone.
-            $imgStmt = $pdo->prepare("SELECT image FROM artists WHERE id = :id");
-            $imgStmt->bindValue(":id", $artistId, PDO::PARAM_INT);
-            $imgStmt->execute();
-            $toDelete = $imgStmt->fetch();
+            // Fetch the artist first so we know the current image path.
+            $artistToDelete = getArtistById($pdo, $artistId);
 
             $deleteStmt = $pdo->prepare("DELETE FROM artists WHERE id = :id");
             $deleteStmt->bindValue(":id", $artistId, PDO::PARAM_INT);
             $deleteStmt->execute();
 
-            if ($toDelete && !empty($toDelete["image"])) {
-
-                $imagePath = (string)$toDelete["image"];
-
-                // Only remove files this module generated itself.
-                if (
-                    strpos($imagePath, "artists/artist_") === 0 &&
-                    strpos($imagePath, "..") === false
-                ) {
-                    $fullPath = "../Images/" . $imagePath;
-                    if (is_file($fullPath)) {
-                        @unlink($fullPath);
-                    }
-                }
-
+            // Clean up the photo on disk now that the row is gone.
+            if ($artistToDelete) {
+                deleteManagedImage((string)$artistToDelete["image"], "artists/artist_");
             }
 
             header("Location: artists.php");
@@ -88,11 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 // ---- FETCH THE ARTIST FOR DISPLAY ----
 
-$stmt = $pdo->prepare("SELECT * FROM artists WHERE id = :id");
-$stmt->bindValue(":id", $artistId, PDO::PARAM_INT);
-$stmt->execute();
-
-$artist = $stmt->fetch();
+$artist = getArtistById($pdo, $artistId);
 
 if (!$artist) {
     header("Location: artists.php");

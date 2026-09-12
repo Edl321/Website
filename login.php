@@ -123,6 +123,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+// ==========================================
+// PREVENT THE BROWSER FROM CACHING THE LOGIN PAGE
+// ==========================================
+
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
+
 ?>
 
 

@@ -32,8 +32,8 @@ if (!$exhibitionId) {
         SELECT *
         FROM exhibitions
         WHERE id = :exhibition_id
-          AND status = 'published'
-          AND end_date >= CURDATE()
+        AND status = 'published'
+        AND end_date >= CURDATE()
         LIMIT 1
     ";
 
@@ -283,12 +283,7 @@ if ($exhibition) {
 <?php else: ?>
 
 
-    <!-- =====================================================
-         EXHIBITION HERO
-         ===================================================== -->
-
     <section class="exhibition-details-hero">
-
 
         <?php if (!empty($exhibition["image"])): ?>
 
@@ -319,7 +314,6 @@ if ($exhibition) {
             <p class="exhibition-details-label">
                 EDL GALLERY
             </p>
-
 
             <h1>
 

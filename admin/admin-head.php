@@ -1,5 +1,9 @@
 <?php
 
+
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
 // Shared <head> + shell opener for every /admin/ page.
 //
 // Pages using this should set, before requiring this file:
