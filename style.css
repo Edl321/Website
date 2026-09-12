@@ -367,16 +367,24 @@ body {
 }
 
 .artist-layout {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 60px;
-    gap: 50px;
-    box-sizing: border-box;
-}
 
+    display: flex;
+
+    align-items: flex-start;
+
+    flex-direction: row;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    margin-top: 60px;
+
+    gap: 20px;
+
+    box-sizing: border-box;
+
+}
 .artist-info {
     flex: 1;
     text-align: center;
@@ -6523,11 +6531,6 @@ body {
     color: #ffffff;
 }
 
-
-/* =========================================================
-   NO ARTISTS / NO ARTWORKS MESSAGE
-   ========================================================= */
-
 .no-artworks-message {
     padding: 45px;
     border: 1px solid #111111;
@@ -6615,17 +6618,30 @@ body {
 
 
 .exhibition-artwork-image {
-    width: 220px;
-    height: 220px;
-    background: #111111;
+    width: 100%;
+    height: 440px;
     overflow: hidden;
+    background: #f5f5f5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .exhibition-artwork-image img {
-    display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    display: block;
+
+    object-fit: contain;
+    object-position: center;
+
+    transition: transform 0.3s ease;
+}
+
+.exhibition-artwork-card:hover
+.exhibition-artwork-image img {
+    transform: scale(1.05);
 }
 
 .artwork-no-image {
@@ -7297,11 +7313,6 @@ body {
     line-height: 1.8;
 }
 
-
-/* =========================================================
-   ARTWORKS SECTION
-   ========================================================= */
-
 .exhibition-artworks-section {
     padding: 100px 0;
 
@@ -7328,7 +7339,7 @@ body {
 
 
 .exhibition-artwork-image {
-    width: 100%;
+    width: 182%;
     height: 350px;
 
     overflow: hidden;
@@ -7552,4 +7563,496 @@ body {
     transform: translateY(-4px);
     box-shadow:
         0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+/* =========================================================
+   ARTWORK DETAILS PAGE
+   ========================================================= */
+
+.exhibition-artwork-details-page {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* =========================================================
+   ARTWORK HERO
+   ========================================================= */
+
+.artwork-details-hero {
+    position: relative;
+    min-height: 600px;
+    overflow: hidden;
+    background: #111111;
+}
+
+.artwork-details-hero-image {
+    position: absolute;
+    inset: 0;
+}
+
+.artwork-details-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.artwork-details-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+}
+
+.artwork-details-hero-content {
+    position: relative;
+    z-index: 2;
+
+    min-height: 600px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding: 80px 8%;
+    color: #ffffff;
+}
+
+.artwork-details-label,
+.artwork-details-section-label {
+    margin: 0 0 14px;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+    color: #ff7200;
+}
+
+.artwork-details-hero-content h1 {
+    max-width: 900px;
+
+    margin: 0;
+
+    font-family: 'Lora', serif;
+    font-size: clamp(42px, 6vw, 78px);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.artwork-details-artist {
+    margin: 22px 0 0;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.artwork-details-container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    padding: 70px 40px 100px;
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.artwork-details-container .exhibition-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 60px;
+
+    color: #111111;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    text-decoration: none;
+    text-transform: uppercase;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.artwork-details-container .exhibition-back-link:hover {
+    color: #ff7200;
+    transform: translateX(-4px);
+}
+
+
+/* =========================================================
+   ARTWORK INFORMATION
+   ========================================================= */
+
+.artwork-details-main {
+    padding-bottom: 80px;
+
+    border-bottom: 1px solid #dddddd;
+}
+
+.artwork-details-information {
+    max-width: 900px;
+}
+
+.artwork-details-information h2 {
+    margin: 0;
+
+    font-family: 'Lora', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.artwork-details-byline {
+    margin: 16px 0 45px;
+
+    color: #555555;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.artwork-details-byline strong {
+    color: #111111;
+}
+
+
+/* =========================================================
+   ARTWORK METADATA
+   ========================================================= */
+
+.artwork-details-meta {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    border-top: 1px solid #111111;
+    border-bottom: 1px solid #dddddd;
+}
+
+.artwork-meta-item {
+    padding: 24px 25px;
+
+    border-bottom: 1px solid #dddddd;
+}
+
+.artwork-meta-item:nth-child(odd) {
+    border-right: 1px solid #dddddd;
+}
+
+.artwork-meta-item:nth-last-child(-n + 2) {
+    border-bottom: none;
+}
+
+.artwork-meta-item span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #777777;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.artwork-meta-item strong {
+    display: block;
+
+    color: #111111;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.artwork-details-description {
+    margin-top: 55px;
+
+    max-width: 850px;
+}
+
+.artwork-details-description p:last-child {
+    margin: 0;
+
+    color: #444444;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.artwork-details-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 50px;
+    padding: 25px 0;
+
+    border-top: 1px solid #111111;
+    border-bottom: 1px solid #111111;
+}
+
+.artwork-details-price span {
+    color: #777777;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.artwork-details-price strong {
+    color: #ff7200;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ARTIST SECTION
+   ========================================================= */
+
+.artwork-details-artist-section {
+    padding-top: 80px;
+}
+
+.artwork-details-artist-card {
+    display: grid;
+
+    grid-template-columns: 260px 1fr;
+
+    gap: 45px;
+
+    margin-top: 25px;
+    padding: 35px;
+
+    background: #111111;
+    color: #ffffff;
+}
+
+.artwork-details-artist-image {
+    width: 260px;
+    height: 260px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+.artwork-details-artist-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.artwork-details-artist-information {
+    align-self: center;
+}
+
+.artwork-details-artist-information h2 {
+    margin: 0 0 20px;
+
+    color: #ffffff;
+
+    font-family: 'Lora', serif;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.artwork-details-artist-information p {
+    max-width: 700px;
+
+    margin: 0;
+
+    color: #cccccc;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   BOTTOM
+   ========================================================= */
+
+.artwork-details-bottom {
+    margin-top: 60px;
+}
+
+
+/* =========================================================
+   NOT FOUND
+   ========================================================= */
+
+.exhibition-not-found {
+    min-height: 70vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 80px 30px;
+
+    background: #ffffff;
+}
+
+.exhibition-not-found-content {
+    max-width: 650px;
+
+    text-align: center;
+}
+
+.exhibition-not-found h1 {
+    margin: 0 0 20px;
+
+    font-family: 'Lora', serif;
+    font-size: 48px;
+    font-weight: 400;
+}
+
+.exhibition-not-found p {
+    margin: 0 0 35px;
+
+    color: #555555;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .artwork-details-hero {
+        min-height: 500px;
+    }
+
+    .artwork-details-hero-content {
+        min-height: 500px;
+        padding: 60px 6%;
+    }
+
+    .artwork-details-container {
+        padding: 55px 30px 80px;
+    }
+
+    .artwork-details-artist-card {
+        grid-template-columns: 200px 1fr;
+        gap: 30px;
+    }
+
+    .artwork-details-artist-image {
+        width: 200px;
+        height: 200px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .artwork-details-hero {
+        min-height: 430px;
+    }
+
+    .artwork-details-hero-content {
+        min-height: 430px;
+        padding: 45px 25px;
+    }
+
+    .artwork-details-hero-content h1 {
+        font-size: 40px;
+    }
+
+    .artwork-details-container {
+        padding: 45px 20px 65px;
+    }
+
+    .artwork-details-container .exhibition-back-link {
+        margin-bottom: 40px;
+    }
+
+    .artwork-details-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .artwork-meta-item:nth-child(odd) {
+        border-right: none;
+    }
+
+    .artwork-meta-item:nth-last-child(-n + 2) {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .artwork-meta-item:last-child {
+        border-bottom: none;
+    }
+
+    .artwork-details-price {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .artwork-details-artist-card {
+        grid-template-columns: 1fr;
+        padding: 25px;
+    }
+
+    .artwork-details-artist-image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .artwork-details-artist-information h2 {
+        font-size: 30px;
+    }
+
 }

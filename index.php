@@ -1,7 +1,33 @@
 <?php
     session_start();
     $basePath = "";
+    require_once "database/config.php";
+
+  $stmt = $pdo->prepare("
+    SELECT id, name, specialization, biography, image
+    FROM artists
+    ORDER BY id ASC
+    LIMIT 4
+");
+
+$stmt->execute();
+
+$featuredArtists = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt = $pdo->prepare("
+    SELECT *
+    FROM exhibitions
+    WHERE status = 'published'
+    AND start_date >= CURDATE()
+    ORDER BY start_date ASC
+    LIMIT 1
+");
+
+$stmt->execute();
+
+$upcomingExhibition = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,18 +52,143 @@
 
 
         <section class="upcoming" id="exhibition-id">
-            <h2>UPCOMING EXHIBITION</h2>
+
+    <h2>UPCOMING EXHIBITION</h2>
+
+    <?php if ($upcomingExhibition): ?>
+
         <div class="exhibition-layout">
+
             <div class="exhibition-info">
-                <h1>Fragments of <br>Expression</h1>
-                <p>August 26, 2026</p>
-                <a href="exhibition.php" class="exhibition-details">View Exhibition Details</a>
+
+                <h1>
+                    <?php
+                    echo nl2br(
+                        htmlspecialchars(
+                            $upcomingExhibition["title"],
+                            ENT_QUOTES,
+                            "UTF-8"
+                        )
+                    );
+                    ?>
+                </h1>
+
+                <p>
+                    <?php
+                    echo date(
+                        "F j, Y",
+                        strtotime($upcomingExhibition["start_date"])
+                    );
+                    ?>
+
+                    <?php if (!empty($upcomingExhibition["end_date"])): ?>
+
+                        –
+                        
+                        <?php
+                        echo date(
+                            "F j, Y",
+                            strtotime($upcomingExhibition["end_date"])
+                        );
+                        ?>
+
+                    <?php endif; ?>
+                </p>
+
+                <a
+                    href="exhibition-details.php?id=<?php echo (int)$upcomingExhibition["id"]; ?>"
+                    class="exhibition-details"
+                >
+                    View Exhibition Details
+                </a>
+
             </div>
-                <div class="exhibition-image">
-                <img src="Images/background-2.jpg" alt="Fragments of Expression exhibition">
-                </div>
+
+            <div class="exhibition-image">
+
+    <?php
+    $exhibitionImage = $upcomingExhibition["image"] ?? "";
+
+    if (!empty($exhibitionImage)) {
+
+        // If database already contains Images/filename.jpg
+        if (
+            str_starts_with($exhibitionImage, "Images/") ||
+            str_starts_with($exhibitionImage, "images/")
+        ) {
+            $imagePath = $exhibitionImage;
+        }
+
+        // If database contains a full URL
+        elseif (
+            str_starts_with($exhibitionImage, "http://") ||
+            str_starts_with($exhibitionImage, "https://")
+        ) {
+            $imagePath = $exhibitionImage;
+        }
+
+        // If database contains only filename.jpg
+        else {
+            $imagePath = "Images/" . basename($exhibitionImage);
+        }
+
+    } else {
+
+        // Fallback image
+        $imagePath = "Images/background-2.jpg";
+    }
+    ?>
+
+    <img
+        src="<?php echo htmlspecialchars($imagePath, ENT_QUOTES, "UTF-8"); ?>"
+        alt="<?php echo htmlspecialchars(
+            $upcomingExhibition["title"],
+            ENT_QUOTES,
+            "UTF-8"
+        ); ?>"
+    >
+
+</div>
+
         </div>
-        </section>
+
+    <?php else: ?>
+
+        <div class="exhibition-layout">
+
+            <div class="exhibition-info">
+
+                <h1>
+                    No Upcoming<br>Exhibition
+                </h1>
+
+                <p>
+                    Please check back soon for our next exhibition.
+                </p>
+
+                <a
+                    href="exhibition.php"
+                    class="exhibition-details"
+                >
+                    View Exhibitions
+                </a>
+
+            </div>
+
+            <div class="exhibition-image">
+
+                <img
+                    src="Images/background-2.jpg"
+                    alt="EDL Gallery"
+                >
+
+            </div>
+
+        </div>
+
+    <?php endif; ?>
+
+</section>
 
 
         <section class="rent" id="rent-space-id">
@@ -57,47 +208,96 @@
         </section>
         
         <section class="artist" id="art-id">
-            <h2>FEATURED ARTISTS</h2>
-        <div class="artist-layout">
 
-        <article class="artist-info">
+    <h2>FEATURED ARTISTS</h2>
 
-            <div class="artist-image">
-                
-            <img src="Images/1.jpg"></div> 
-            <div class="artist-name">   
-            <h3>Erelah Zayn Sayson</h3>
-            <p>Graphic Artist</p>
+    <div class="artist-layout">
+
+        <?php if ($featuredArtists): ?>
+
+            <?php foreach ($featuredArtists as $artist): ?>
+
+                <article class="artist-info">
+
+                    <div class="artist-image">
+
+                        <?php if (!empty($artist["image"])): ?>
+
+                            <?php
+                            $artistImage = $artist["image"];
+
+                            if (
+                                str_starts_with($artistImage, "Images/") ||
+                                str_starts_with($artistImage, "images/")
+                            ) {
+                                $artistImagePath = $artistImage;
+                            } else {
+                                $artistImagePath = "Images/" . basename($artistImage);
+                            }
+                            ?>
+
+                            <img
+                                src="<?php echo htmlspecialchars(
+                                    $artistImagePath,
+                                    ENT_QUOTES,
+                                    "UTF-8"
+                                ); ?>"
+                                alt="<?php echo htmlspecialchars(
+                                    $artist["name"],
+                                    ENT_QUOTES,
+                                    "UTF-8"
+                                ); ?>"
+                            >
+
+                        <?php else: ?>
+
+                            <div class="artist-no-image">
+                                NO IMAGE
+                            </div>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="artist-name">
+
+                        <h3>
+                            <?php
+                            echo htmlspecialchars(
+                                $artist["name"],
+                                ENT_QUOTES,
+                                "UTF-8"
+                            );
+                            ?>
+                        </h3>
+
+                        <p>
+                            <?php
+                            echo htmlspecialchars(
+                                $artist["specialization"] ?? "Artist",
+                                ENT_QUOTES,
+                                "UTF-8"
+                            );
+                            ?>
+                        </p>
+
+                    </div>
+
+                </article>
+
+            <?php endforeach; ?>
+
+        <?php else: ?>
+
+            <div class="no-artists-message">
+                <p>No artists available at the moment.</p>
             </div>
-        </article>
 
-        <article class="artist-info">
-            <div class="artist-image">
-            <img src="Images/juan.jpg"></div>
-            <div class="artist-name">
-            <h3>Juan Dela Cruz</h3>
-            <p>Painter</p>
-            </div>
-        </article>
+        <?php endif; ?>
 
-        <article class="artist-info">
-            <div class="artist-image">
-                <img src="Images/andrea.jpg"></div>
-            <div class="artist-name">
-            <h3>Andrea Reyes</h3>
-            <p>Contemporary Artist</p>
-            </div>
-        </article>
+    </div>
 
-        <article class="artist-info">
-            <div class="artist-image">
-                <img src="Images/carlo.jpg"></div>
-            <div class="artist-name">
-            <h3>Carlo Mendoza</h3>
-            <p>Sculptor</p>
-            </div>
-        </article>
-        </section>
+</section>
 
 
         <section class="about" id="about-us-id">

@@ -27,11 +27,7 @@ if (!$exhibitionId) {
     $exhibition = null;
 
 } else {
-
-    // =====================================================
-    // GET PUBLISHED EXHIBITION
-    // =====================================================
-
+   
     $sql = "
         SELECT *
         FROM exhibitions
