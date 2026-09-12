@@ -223,13 +223,6 @@ body {
     color: black;
 }
 
-.exhibition-image {
-    flex: 0 0 48%;
-    margin-left: 30px;
-    transform: translateY(-125px);
-}
-
-
 .exhibition-image img {
     display: block;
     width: 100%;
@@ -271,6 +264,23 @@ body {
     color: #ffffff;
 }
 
+
+.exhibition-image {
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.exhibition-no-image {
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    box-sizing: border-box;
+    border: 2px solid #111111;
+    background: #ffffff;
+}
 .rent {
     padding: 32px 45px 50px;
     background-color: black;
@@ -367,72 +377,151 @@ body {
 }
 
 .artist-layout {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    flex-direction: row;
-
-    justify-content: space-between;
-
-    width: 100%;
-
-    margin-top: 60px;
-
-    gap: 20px;
-
-    box-sizing: border-box;
-
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    align-items: start;
 }
+
+
 .artist-info {
-    flex: 1;
     text-align: center;
 }
 
-.artist-name {
-    color: black;
-    font-size: 25px;
-    font-family: 'Montserrat',sans-serif;   
-    font-weight: normal;
-    margin: 0 24px 24px;
-    text-align: center;
-}
-
-.artist-name h3 {
-    margin: 0 24px;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 28px;
-    font-weight: normal;
-    text-align: center;
-}
-
-.artist-name p {
-    text-align: center;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 28px;
-    font-weight: bold;
-}
 
 .artist-image {
-    width: 240px;
-    height: 240px;
-    margin: 0 24px 25px;
+    width: 300px;
+    height: 300px;
+
+    margin: 0 auto 30px;
+
     border-radius: 50%;
+
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    
+
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.15);
 }
+
 
 .artist-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
     display: block;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition:
+        transform 0.4s ease;
 }
 
+
+/* Slight zoom when hovering */
+
+.artist-info:hover .artist-image img {
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   ARTIST NAME
+   ========================================================= */
+
+.artist-name {
+    text-align: center;
+}
+
+
+.artist-name h3 {
+    margin: 0 0 8px;
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+
+.artist-name p {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+.artist-no-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #777777;
+    background: #f5f5f5;
+}
+
+.artist-no-data {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+
+.artist-no-data h3 {
+    margin-bottom: 10px;
+    font-family: 'Lora', serif;
+    font-size: 28px;
+}
+
+
+.artist-no-data p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+
+    .artist-layout {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .artist-image {
+        width: 260px;
+        height: 260px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .artist-layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .artist-image {
+        width: 240px;
+        height: 240px;
+    }
+
+    .artist-name h3 {
+        font-size: 23px;
+    }
+
+}
 .about {
     display: flex;
     flex-direction: row;
