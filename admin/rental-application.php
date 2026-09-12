@@ -270,11 +270,7 @@ $activePage  = "rental-applications";
 $extraStyles = ["rental-application.css"];
 require_once "admin-head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
-    <link rel="stylesheet" href="admin-layout.css">
-    <link rel="stylesheet" href="rental-application.css">
+
 <section class="rental-admin-page">
 
     <!-- BACK TO ADMIN DASHBOARD -->
@@ -663,4 +659,5 @@ require_once "admin-head.php";
     </div>
 
 </section>
-</html>
+
+<?php require_once "admin-foot.php"; ?>

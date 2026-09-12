@@ -25,12 +25,11 @@ $extraStyles = $extraStyles ?? [];
     <title><?php echo htmlspecialchars($pageTitle); ?> | EDL Gallery Admin</title>
     <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin-layout.css">
     <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="includes/admin-layout.css">
 
     <?php foreach ($extraStyles as $extraStyle): ?>
-        <link rel="stylesheet" href="admin.css">
+        <link rel="stylesheet" href="<?php echo htmlspecialchars($extraStyle); ?>">
     <?php endforeach; ?>
 
 </head>

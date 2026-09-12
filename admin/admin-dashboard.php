@@ -49,14 +49,6 @@ $activePage = "dashboard";
 require_once "admin-head.php";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-</html>
-    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
-    <link rel="stylesheet" href="admin-layout.css">
-    <link rel="stylesheet" href="admin.css">
-
 <section class="admin-dashboard ">
 
     <div class="admin-header">
@@ -161,6 +153,5 @@ require_once "admin-head.php";
     </div>
 
 </section>
-</html>
 
-
+<?php require_once "admin-foot.php"; ?>

@@ -84,10 +84,6 @@ $pageTitle  = "Exhibition Inquiries";
 $activePage = "inquiries";
 require_once "admin-head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
-    <link rel="stylesheet" href="admin-layout.css">
 
 <section class="admin-page">
 
@@ -221,4 +217,5 @@ require_once "admin-head.php";
     <?php endif; ?>
 
 </section>
-</html> 
+
+<?php require_once "admin-foot.php"; ?>

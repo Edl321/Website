@@ -129,7 +129,7 @@ $artworks = $artworkStmt->fetchAll();
 
 $pageTitle  = $artist["name"];
 $activePage = "artists";
-require_once "includes/admin-head.php";
+require_once "admin-head.php";
 ?>
 
 <section class="admin-page">
@@ -280,4 +280,4 @@ require_once "includes/admin-head.php";
 </section>
 
 
-<?php require_once "includes/admin-foot.php"; ?>
+<?php require_once "admin-foot.php"; ?>

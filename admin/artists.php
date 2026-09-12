@@ -380,11 +380,6 @@ $pageTitle  = "Artists";
 $activePage = "artists";
 require_once "admin-head.php";
 ?>
-    <!DOCTYPE html>
-    <html lang="en"></html>
-
-    <link rel="icon" type="image/x-icon" href="Images/logo.png">
-    <link rel="stylesheet" href="admin-layout.css">
 <section class="admin-page">
 
     <div class="admin-header">
@@ -551,4 +546,5 @@ require_once "admin-head.php";
     <?php endif; ?>
 
 </section>
-</html>
+
+<?php require_once "admin-foot.php"; ?>

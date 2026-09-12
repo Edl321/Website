@@ -214,13 +214,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
 <body>
 
-<?php require_once "include/header.php"; ?>
+<?php require_once "includes/header.php"; ?>
 
 
 <section class="dashboard-content" style="padding-top: 60px;">
 
-    <a href="my-exhibitions.php" class="admin-back-link">
-        &larr; Back to My Exhibitions
+    <a href="my-exhibitions.php" class="back-dashboard-link">
+        &larr;Back to My Exhibitions
     </a>
 
     <div class="dashboard-heading">
@@ -346,29 +346,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
     </form>
 
-
-    <!-- NEXT STEP -->
-
-    <?php if ($isEditable): ?>
-
-        <div class="admin-text-block" style="margin-top:40px;">
-
-            <h4>NEXT STEP</h4>
-
-            <p>
-                Once your exhibition details are saved, add the artists
-                and artworks for this exhibition. (Artist and artwork
-                submission is coming in the next part of the system.)
-            </p>
-
-        </div>
-
-    <?php endif; ?>
-
 </section>
 
 
-<?php require_once "include/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>
 
 </body>
 </html>

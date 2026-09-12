@@ -270,11 +270,6 @@ $activePage  = "exhibitions";
 $extraStyles = ["exhibition-create.css"];
 require_once "admin-head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
-    <link rel="stylesheet" href="admin-layout.css">
-    <link rel="stylesheet" href="exhibition-create.css">
 <div class="admin-page">
 
     <!-- ----------------------------------------- -->
@@ -493,4 +488,4 @@ require_once "admin-head.php";
 
 </div>
 
-<?php require_once "includes/admin-foot.php"; ?>
+<?php require_once "admin-foot.php"; ?>

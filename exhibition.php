@@ -1,22 +1,32 @@
 <?php
 
-    require_once "database/config.php";
-    $basePath = "";
+require_once "database/config.php";
+
+$basePath = "";
 
 
-// Get all exhibitions from the database
-$sql = "SELECT *
-        FROM exhibitions
-        WHERE end_date >= CURDATE()
-        ORDER BY start_date ASC";
+// =========================================================
+// GET ALL UPCOMING EXHIBITIONS
+// =========================================================
+
+$sql = "
+    SELECT *
+    FROM exhibitions
+    WHERE end_date >= CURDATE()
+      AND status = 'published'
+    ORDER BY start_date ASC
+";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 
-$exhibitions = $stmt->fetchAll();
+$exhibitions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-// Get the first upcoming exhibition
+// =========================================================
+// GET THE FIRST UPCOMING EXHIBITION
+// =========================================================
+
 $featuredExhibition = $exhibitions[0] ?? null;
 
 ?>
@@ -31,8 +41,17 @@ $featuredExhibition = $exhibitions[0] ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Exhibitions | EDL Gallery</title>
-    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="Images/logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
@@ -48,7 +67,6 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
 <section class="ex-page-layout">
 
-
     <div class="ex-text">
 
         <h1>EXHIBITIONS</h1>
@@ -57,11 +75,15 @@ $featuredExhibition = $exhibitions[0] ?? null;
         <?php if ($featuredExhibition): ?>
 
             <h2>
+
                 <?php
                 echo htmlspecialchars(
-                    $featuredExhibition["title"]
+                    $featuredExhibition["title"],
+                    ENT_QUOTES,
+                    "UTF-8"
                 );
                 ?>
+
             </h2>
 
 
@@ -87,10 +109,10 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
 
             <a
-                href="#upcoming-exhibitions"
+                href="exhibition-details.php?id=<?php echo (int)$featuredExhibition["id"]; ?>"
                 class="exhibit-button"
             >
-                VIEW EXHIBITIONS
+                VIEW EXHIBITION
             </a>
 
 
@@ -118,10 +140,14 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
             <img
                 src="<?php echo htmlspecialchars(
-                    $featuredExhibition["image"]
+                    $featuredExhibition["image"],
+                    ENT_QUOTES,
+                    "UTF-8"
                 ); ?>"
                 alt="<?php echo htmlspecialchars(
-                    $featuredExhibition["title"]
+                    $featuredExhibition["title"],
+                    ENT_QUOTES,
+                    "UTF-8"
                 ); ?>"
             >
 
@@ -166,6 +192,10 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
             <?php foreach ($exhibitions as $exhibition): ?>
 
+                <!-- =========================================
+                     EXHIBITION CARD
+                ========================================= -->
+
                 <article class="upcoming-card">
 
 
@@ -175,10 +205,14 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
                             <img
                                 src="<?php echo htmlspecialchars(
-                                    $exhibition["image"]
+                                    $exhibition["image"],
+                                    ENT_QUOTES,
+                                    "UTF-8"
                                 ); ?>"
                                 alt="<?php echo htmlspecialchars(
-                                    $exhibition["title"]
+                                    $exhibition["title"],
+                                    ENT_QUOTES,
+                                    "UTF-8"
                                 ); ?>"
                             >
 
@@ -193,7 +227,9 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
                             <?php
                             echo htmlspecialchars(
-                                $exhibition["title"]
+                                $exhibition["title"],
+                                ENT_QUOTES,
+                                "UTF-8"
                             );
                             ?>
 
@@ -229,7 +265,9 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
                                 <?php
                                 echo htmlspecialchars(
-                                    $exhibition["description"]
+                                    $exhibition["description"],
+                                    ENT_QUOTES,
+                                    "UTF-8"
                                 );
                                 ?>
 
@@ -237,9 +275,21 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
                         <?php endif; ?>
 
+
+                        <!-- VIEW DETAILS BUTTON -->
+
+                        <a
+                            href="exhibition-details.php?id=<?php echo (int)$exhibition["id"]; ?>"
+                            class="exhibition-details-button"
+                        >
+                            VIEW EXHIBITION
+                            <span>→</span>
+                        </a>
+
                     </div>
 
                 </article>
+
 
             <?php endforeach; ?>
 
