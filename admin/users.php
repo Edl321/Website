@@ -3,9 +3,12 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 require_once "../security/shield.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {
@@ -32,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } else {
 
-        $targetId  = $_POST["user_id"] ?? "";
-        $newRole   = $_POST["new_role"] ?? "";
+        $targetId = $_POST["user_id"] ?? "";
+        $newRole  = $_POST["new_role"] ?? "";
 
         if (
             !ctype_digit((string)$targetId) ||
@@ -83,13 +86,17 @@ require_once "admin-head.php";
 
     <div class="admin-header">
 
-        <p class="admin-label">ADMIN</p>
+        <div>
 
-        <h1>Users</h1>
+            <p class="admin-label">ADMIN</p>
 
-        <p class="admin-subtext">
-            Everyone registered on EDL Gallery (<?php echo count($users); ?> total).
-        </p>
+            <h1>Users</h1>
+
+            <p class="admin-subtext">
+                Everyone registered on EDL Gallery (<?php echo count($users); ?> total).
+            </p>
+
+        </div>
 
     </div>
 
@@ -129,7 +136,7 @@ require_once "admin-head.php";
 
             <div class="admin-list-row-actions">
 
-                <strong class="status-<?php echo $user['role'] === 'admin' ? 'published' : 'draft'; ?>">
+                <strong class="<?php echo $user['role'] === 'admin' ? 'role-badge-admin' : 'role-badge-user'; ?>">
                     <?php echo strtoupper($user["role"]); ?>
                 </strong>
 

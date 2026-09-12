@@ -3,9 +3,12 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 require_once "../security/shield.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {

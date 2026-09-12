@@ -3,12 +3,14 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 require_once "../security/shield.php";
+require_once "admin-includes/helpers.php";
 
 
-// Only logged-in ADMIN users may view this page.
 if (!isLoggedIn() || !isAdmin()) {
 
     header("Location: ../login.php");
@@ -65,12 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } elseif ($current["status"] !== "pending") {
 
-            // Already reviewed - do not allow acting on it again.
             $errors[] = "This inquiry has already been reviewed.";
 
         } elseif ((int)$current["user_id"] === (int)$adminId) {
 
-            // An admin should never approve/reject their own inquiry.
             $errors[] = "You cannot review your own inquiry.";
 
         } elseif ($action === "reject" && $adminNote === "") {

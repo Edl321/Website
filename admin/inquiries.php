@@ -3,15 +3,13 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
+require_once "admin-includes/helpers.php";
 
 
-// Only logged-in ADMIN users may view this page.
-// NOTE: this assumes security/authorize.php provides an isAdmin()
-// function (matching your users.role column: 'user' / 'admin').
-// If your authorize.php uses a different function name, just
-// swap it in here.
 if (!isLoggedIn() || !isAdmin()) {
 
     header("Location: ../login.php");
@@ -89,14 +87,18 @@ require_once "admin-head.php";
 
     <div class="admin-header">
 
-        <p class="admin-label">ADMIN</p>
+        <div>
 
-        <h1>Exhibition Inquiries</h1>
+            <p class="admin-label">ADMIN</p>
 
-        <p class="admin-subtext">
-            Review, approve, or reject exhibition inquiries
-            submitted by users.
-        </p>
+            <h1>Exhibition Inquiries</h1>
+
+            <p class="admin-subtext">
+                Review, approve, or reject exhibition inquiries
+                submitted by users.
+            </p>
+
+        </div>
 
     </div>
 

@@ -97,6 +97,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $_SESSION["role"] = $user["role"];
 
+            // Extend the session cookie so it survives browser restarts
+            $cookieLifetime = 60 * 60 * 24 * 30; // 30 days
+
+            setcookie(
+            session_name(),
+            session_id(),
+            [
+            'expires'  => time() + $cookieLifetime,
+            'path'     => '/',
+            'domain'   => '',
+            'secure'   => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            ]
+        );
+
 
             // ==========================================
             // REDIRECT BASED ON ROLE

@@ -3,9 +3,12 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 require_once "../security/shield.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {
@@ -164,22 +167,6 @@ $artworks = $artworkStmt->fetchAll();
 $artworkCounts = ["pending" => 0, "approved" => 0, "rejected" => 0];
 foreach ($artworks as $artwork) {
     $artworkCounts[$artwork["status"]] = ($artworkCounts[$artwork["status"]] ?? 0) + 1;
-}
-
-
-function formatStatusLabel($status) {
-
-    $labels = [
-        "draft"              => "DRAFT",
-        "artwork_submission" => "ARTWORK SUBMISSION",
-        "ready_to_publish"   => "READY TO PUBLISH",
-        "published"          => "PUBLISHED",
-        "completed"          => "COMPLETED",
-        "cancelled"          => "CANCELLED",
-    ];
-
-    return $labels[$status] ?? strtoupper($status);
-
 }
 
 $nextSteps = $allowedTransitions[$exhibition["status"]] ?? [];

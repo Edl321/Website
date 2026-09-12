@@ -96,6 +96,7 @@ $extraStyles = ["exhibition-create.css"];
 require_once "admin-head.php";
 ?>
 
+    <link rel="stylesheet" href="admin.css">
 <section class="admin-page">
 
     <div class="admin-header">
@@ -111,13 +112,6 @@ require_once "admin-head.php";
         </p>
 
     </div>
-
-    <a
-        href="exhibition-create.php"
-        class="admin-create-button"
-    >
-        + CREATE EXHIBITION
-    </a>
 
 </div>
 

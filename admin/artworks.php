@@ -3,8 +3,11 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {
@@ -72,13 +75,17 @@ require_once "admin-head.php";
 
     <div class="admin-header">
 
-        <p class="admin-label">ADMIN</p>
+        <div>
 
-        <h1>Artworks</h1>
+            <p class="admin-label">ADMIN</p>
 
-        <p class="admin-subtext">
-            Review artworks submitted for upcoming exhibitions.
-        </p>
+            <h1>Artworks</h1>
+
+            <p class="admin-subtext">
+                Review artworks submitted for upcoming exhibitions.
+            </p>
+
+        </div>
 
     </div>
 

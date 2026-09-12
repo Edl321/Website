@@ -3,8 +3,11 @@
 session_start();
 $basePath = "../";
 
+define('EDL_ADMIN', true);
+
 require_once "../database/config.php";
 require_once "../security/authorize.php";
+require_once "admin-includes/helpers.php";
 
 
 if (!isLoggedIn() || !isAdmin()) {
@@ -49,23 +52,23 @@ $activePage = "dashboard";
 require_once "admin-head.php";
 ?>
 
-<section class="admin-dashboard ">
+<section class="admin-page">
 
     <div class="admin-header">
 
-        <div class="admin-label"><p>ADMIN</p>
+        <div>
 
-        <h1>
-            Welcome back,
-            <?php echo htmlspecialchars($_SESSION["first_name"]); ?>
-        </h1>
+            <p class="admin-label">ADMIN</p>
+
+            <h1>
+                Welcome back,
+                <?php echo htmlspecialchars($_SESSION["first_name"]); ?>
+            </h1>
 
         </div>
 
     </div>
 
-
-    
 
     <div class="admin-stats-grid">
 
@@ -75,14 +78,9 @@ require_once "admin-head.php";
         </a>
 
         <a href="rental-application.php?status=pending" class="admin-stat-card">
-            <span class="admin-stat-number">
-            <?php echo $pendingRentalApplications; ?>
-        </span>
-
-        <span class="admin-stat-label">
-            PENDING RENTAL APPLICATIONS
-        </span>
-    </a>
+            <span class="admin-stat-number"><?php echo $pendingRentalApplications; ?></span>
+            <span class="admin-stat-label">PENDING RENTAL APPLICATIONS</span>
+        </a>
 
         <a href="artworks.php?status=pending" class="admin-stat-card">
             <span class="admin-stat-number"><?php echo $pendingArtworks; ?></span>
@@ -114,7 +112,7 @@ require_once "admin-head.php";
 
     <!-- QUICK ACTIONS -->
 
-    <div class="admin-header" style="margin-top:50px;">
+    <div class="admin-header">
         <p class="admin-label">MANAGE</p>
     </div>
 
