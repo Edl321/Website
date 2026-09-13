@@ -11,9 +11,6 @@
     box-sizing: border-box;
 }
 
-
-
-
 .user-dashboard-hero {
     display: flex;
     justify-content: space-between;
@@ -760,3 +757,4 @@
 .profile-panel .user-account-row {
     padding: 9px 0;
 }
+

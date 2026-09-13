@@ -1,6 +1,8 @@
 <?php
 session_start();
 $basePath = "";
+
+require_once "security/shield.php";
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +133,60 @@ $basePath = "";
         </div>
 
 
-        <form class="contact-form">
+        <form
+            class="contact-form"
+            method="POST"
+            action="contact-handler.php"
+        >
+
+            <?php echo csrf_field(); ?>
+
+
+            <!-- SUCCESS MESSAGE -->
+
+            <?php if (isset($_GET["success"])): ?>
+
+                <div class="contact-success">
+                    <p>
+                        Thank you! Your message has been sent.
+                        We'll get back to you soon.
+                    </p>
+                </div>
+
+            <?php endif; ?>
+
+
+            <!-- ERROR MESSAGES -->
+
+            <?php if (isset($_GET["error"])): ?>
+
+                <div class="contact-error">
+
+                    <?php if ($_GET["error"] === "validation"): ?>
+
+                        <p>
+                            Please fill in all required fields with
+                            a valid email address.
+                        </p>
+
+                    <?php elseif ($_GET["error"] === "csrf"): ?>
+
+                        <p>
+                            Invalid security token. Please try again.
+                        </p>
+
+                    <?php elseif ($_GET["error"] === "save"): ?>
+
+                        <p>
+                            Something went wrong. Please try again.
+                        </p>
+
+                    <?php endif; ?>
+
+                </div>
+
+            <?php endif; ?>
+
 
             <div class="form-row">
 
@@ -146,6 +201,8 @@ $basePath = "";
                         id="name"
                         name="name"
                         placeholder="Your Name"
+                        maxlength="150"
+                        required
                     >
 
                 </div>
@@ -162,6 +219,8 @@ $basePath = "";
                         id="email"
                         name="email"
                         placeholder="Your Email"
+                        maxlength="255"
+                        required
                     >
 
                 </div>
@@ -180,6 +239,7 @@ $basePath = "";
                     id="subject"
                     name="subject"
                     placeholder="Subject"
+                    maxlength="255"
                 >
 
             </div>
@@ -196,6 +256,8 @@ $basePath = "";
                     name="message"
                     rows="7"
                     placeholder="Write your message..."
+                    maxlength="5000"
+                    required
                 ></textarea>
 
             </div>
@@ -265,4 +327,3 @@ $basePath = "";
             <?php require_once "includes/footer.php"; ?>
                 </body>
                     </html>
-    

@@ -1,53 +1,10 @@
 <?php
 
 session_start();
-
+require_once "includes/function.php";
 require_once "database/config.php";
 
 $basePath = "";
-
-
-/*
-|--------------------------------------------------------------------------
-| IMAGE PATH HELPER
-|--------------------------------------------------------------------------
-| Handles:
-| - Images/filename.jpg
-| - uploads/exhibitions/filename.jpg
-| - full http/https URLs
-| - database values containing only a filename
-|--------------------------------------------------------------------------
-*/
-
-function homepageImagePath($image)
-{
-    if (empty($image)) {
-        return "";
-    }
-
-    $image = trim($image);
-
-    // External image
-    if (
-        str_starts_with($image, "http://") ||
-        str_starts_with($image, "https://")
-    ) {
-        return $image;
-    }
-
-    // Already contains a valid project directory
-    if (
-        str_starts_with($image, "Images/") ||
-        str_starts_with($image, "images/") ||
-        str_starts_with($image, "uploads/") ||
-        str_starts_with($image, "Uploads/")
-    ) {
-        return $image;
-    }
-
-    // Otherwise assume the image is stored in Images/
-    return "Images/" . basename($image);
-}
 
 
 /*
@@ -88,10 +45,6 @@ $featuredExhibition = $exhibitionStmt->fetch(PDO::FETCH_ASSOC);
 |--------------------------------------------------------------------------
 | GET ALL PUBLISHED / UPCOMING EXHIBITIONS
 |--------------------------------------------------------------------------
-|
-| Used if you later want the homepage to display more than one.
-| Keeping this here also makes the homepage data-driven.
-|
 */
 
 $upcomingExhibitionsStmt = $pdo->prepare("
@@ -121,10 +74,7 @@ $upcomingExhibitions =
 | GET ARTISTS FOR THE FEATURED EXHIBITION
 |--------------------------------------------------------------------------
 |
-| IMPORTANT:
-| Artists are NOT taken randomly from the artists table.
-|
-| They are taken through:
+| Artists are taken through:
 |
 | exhibitions
 |      ↓
@@ -132,8 +82,8 @@ $upcomingExhibitions =
 |      ↓
 | artists
 |
-| Therefore only artists actually assigned to the
-| published exhibition will appear.
+| Only artists actually assigned to the published exhibition
+| will appear.
 |
 */
 
@@ -226,7 +176,7 @@ if ($featuredExhibition) {
 
     <div class="intro">
 
-        <p style="text-align: justify;">
+        <p class="intro-justified">
 
             EDL Gallery is an contemporary art space
             that is dedicated in showcasing exceptional artworks,
@@ -332,7 +282,7 @@ if ($featuredExhibition) {
                     <img
                         src="<?php
                             echo htmlspecialchars(
-                                homepageImagePath(
+                                edlImagePath(
                                     $featuredExhibition["image"]
                                 ),
                                 ENT_QUOTES,
@@ -428,7 +378,7 @@ if ($featuredExhibition) {
             </h1>
 
 
-            <p style="text-align: justify;">
+            <p class="intro-justified">
 
                 EDL Gallery offers a professional and
                 inspiring space for artists to present their
@@ -489,7 +439,7 @@ if ($featuredExhibition) {
                             <img
                                 src="<?php
                                     echo htmlspecialchars(
-                                        homepageImagePath(
+                                        edlImagePath(
                                             $artist["image"]
                                         ),
                                         ENT_QUOTES,

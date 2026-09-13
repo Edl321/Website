@@ -7,6 +7,7 @@ $basePath = "";
 require_once "database/config.php";
 require_once "security/shield.php";
 require_once "security/authorize.php";
+require_once "includes/function.php";
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +60,7 @@ $stmt = $pdo->prepare("
         status
     FROM exhibitions
     WHERE id = :exhibition_id
-      AND organizer_id = :user_id
+    AND organizer_id = :user_id
     LIMIT 1
 ");
 
@@ -74,30 +75,12 @@ if (!$exhibition) {
     die("Exhibition not found or you do not have permission to manage it.");
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| MESSAGE VARIABLES
-|--------------------------------------------------------------------------
-*/
-
 $errors = [];
 $successMessage = "";
 
 
-/*
-|--------------------------------------------------------------------------
-| HANDLE POST REQUESTS
-|--------------------------------------------------------------------------
-*/
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    /*
-    |--------------------------------------------------------------------------
-    | CSRF PROTECTION
-    |--------------------------------------------------------------------------
-    */
 
     if (!verify_csrf_token()) {
         die("Invalid CSRF token.");
@@ -105,12 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $action = $_POST["action"] ?? "";
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | ADD ARTWORK
-    |--------------------------------------------------------------------------
-    */
 
     if ($action === "add_artwork") {
 
@@ -127,12 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $description = trim($_POST["description"] ?? "");
         $price = trim($_POST["price"] ?? "");
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDATION
-        |--------------------------------------------------------------------------
-        */
 
         if ($title === "") {
             $errors[] = "Artwork title is required.";
@@ -186,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 INNER JOIN artists a
                     ON a.id = ea.artist_id
                 WHERE ea.exhibition_id = :exhibition_id
-                  AND ea.artist_id = :artist_id
+                AND ea.artist_id = :artist_id
                 LIMIT 1
             ");
 
@@ -203,11 +174,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | IMAGE UPLOAD
-        |--------------------------------------------------------------------------
-        */
 
         $uploadedImageName = null;
 
@@ -228,12 +194,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $errors[] = "Artwork image must not exceed 5MB.";
                     }
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | CHECK MIME TYPE
-                    |--------------------------------------------------------------------------
-                    */
-
                     $allowedMimeTypes = [
                         "image/jpeg" => "jpg",
                         "image/png"  => "png",
@@ -250,11 +210,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $errors[] = "Only JPG, PNG, and WEBP images are allowed.";
                     }
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | CREATE IMAGE DIRECTORY
-                    |--------------------------------------------------------------------------
-                    */
 
                     $imageDirectory = __DIR__ . "/Images";
 
@@ -265,26 +220,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         }
                     }
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | GENERATE UNIQUE FILE NAME
-                    |--------------------------------------------------------------------------
-                    */
 
                     if (!$errors) {
 
                         $extension = $allowedMimeTypes[$mimeType];
 
+                        // Store the path AS THE BROWSER SEES IT (relative to /Website/)
+                        // so the DB value works from any page — user side or admin side.
                         $uploadedImageName =
-                            "artwork_" .
+                            "Images/artwork_" .
                             bin2hex(random_bytes(16)) .
                             "." .
                             $extension;
 
+                        // Full disk path for move_uploaded_file — use basename to strip
+                        // the "Images/" prefix off, since $imageDirectory already ends in "/Images"
                         $imageDestination =
                             $imageDirectory .
                             "/" .
-                            $uploadedImageName;
+                            basename($uploadedImageName);
 
 
                         if (
@@ -301,12 +255,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | INSERT ARTWORK
-        |--------------------------------------------------------------------------
-        */
 
         if (!$errors) {
 
@@ -354,11 +302,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ]);
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | SUCCESS
-                |--------------------------------------------------------------------------
-                */
 
                 header(
                     "Location: exhibition-artworks.php?id=" .
@@ -370,18 +313,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             } catch (PDOException $e) {
 
-                /*
-                |--------------------------------------------------------------------------
-                | DELETE UPLOADED IMAGE IF DATABASE INSERT FAILS
-                |--------------------------------------------------------------------------
-                */
+
 
                 if ($uploadedImageName) {
 
                     $uploadedImagePath =
                         __DIR__ .
                         "/Images/" .
-                        $uploadedImageName;
+                        basename($uploadedImageName);
 
                     if (file_exists($uploadedImagePath)) {
                         unlink($uploadedImagePath);
@@ -394,11 +333,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | REMOVE ARTWORK
-    |--------------------------------------------------------------------------
-    */
 
     elseif ($action === "remove_artwork") {
 
@@ -412,13 +346,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die("Invalid Artwork ID.");
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | VERIFY ARTWORK BELONGS TO USER'S EXHIBITION
-        |--------------------------------------------------------------------------
-        */
-
         $artworkCheck = $pdo->prepare("
             SELECT
                 a.id,
@@ -427,8 +354,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             INNER JOIN exhibitions e
                 ON e.id = a.exhibition_id
             WHERE a.id = :artwork_id
-              AND a.exhibition_id = :exhibition_id
-              AND e.organizer_id = :user_id
+            AND a.exhibition_id = :exhibition_id
+            AND e.organizer_id = :user_id
             LIMIT 1
         ");
 
@@ -445,12 +372,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE ARTWORK
-        |--------------------------------------------------------------------------
-        */
-
         try {
 
             $deleteArtwork = $pdo->prepare("
@@ -463,12 +384,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ]);
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | DELETE IMAGE FILE
-            |--------------------------------------------------------------------------
-            */
-
             if (!empty($artwork["image"])) {
 
                 $imagePath =
@@ -480,13 +395,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     unlink($imagePath);
                 }
             }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | REDIRECT
-            |--------------------------------------------------------------------------
-            */
 
             header(
                 "Location: exhibition-artworks.php?id=" .
@@ -504,12 +412,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| SUCCESS MESSAGE
-|--------------------------------------------------------------------------
-*/
-
 if (isset($_GET["success"])) {
 
     if ($_GET["success"] === "artwork_added") {
@@ -523,12 +425,6 @@ if (isset($_GET["success"])) {
     }
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| GET ASSIGNED ARTISTS
-|--------------------------------------------------------------------------
-*/
 
 $artistStmt = $pdo->prepare("
     SELECT
@@ -547,12 +443,6 @@ $artistStmt->execute([
 
 $assignedArtists = $artistStmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-/*
-|--------------------------------------------------------------------------
-| GET ARTWORKS
-|--------------------------------------------------------------------------
-*/
 
 $artworkStmt = $pdo->prepare("
     SELECT
@@ -583,14 +473,11 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<?php include "includes/header.php"; ?>
+<?php require_once "includes/header.php"; ?>
 
 <link rel="stylesheet" href="style.css">
 <main class="exhibition-artworks-page">
 
-    <!-- =====================================================
-         HERO
-         ===================================================== -->
 
     <section class="exhibition-artworks-hero">
 
@@ -618,10 +505,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
     </section>
 
-
-    <!-- =====================================================
-         MESSAGES
-         ===================================================== -->
 
     <?php if ($successMessage || $errors): ?>
 
@@ -661,11 +544,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
         </section>
 
     <?php endif; ?>
-
-
-    <!-- =====================================================
-         ADD ARTWORK
-         ===================================================== -->
 
     <section class="add-artwork-section">
 
@@ -791,9 +669,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 </div>
 
-
-                <!-- MEDIUM -->
-
                 <div class="artwork-form-group">
 
                     <label for="medium">
@@ -817,7 +692,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
 
-                <!-- YEAR -->
 
                 <div class="artwork-form-group">
 
@@ -843,7 +717,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
 
-                <!-- DIMENSIONS -->
 
                 <div class="artwork-form-group">
 
@@ -896,8 +769,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 </div>
 
-
-                <!-- DESCRIPTION -->
 
                 <div class="artwork-form-group artwork-full-width">
 
@@ -960,11 +831,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
     </section>
 
-
-    <!-- =====================================================
-         CURRENT ARTWORKS
-         ===================================================== -->
-
     <section class="current-artworks-section">
 
         <div class="artwork-section-heading">
@@ -1009,18 +875,19 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <?php if (!empty($artwork["image"])): ?>
 
-                                <img
-                                    src="Images/<?php echo htmlspecialchars(
-                                        basename($artwork["image"]),
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    ); ?>"
-                                    alt="<?php echo htmlspecialchars(
-                                        $artwork["title"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    ); ?>"
-                                >
+                            <img
+                                src="<?php echo htmlspecialchars(
+                                edlImagePath($artwork["image"]),
+                                ENT_QUOTES,
+                                "UTF-8"
+                                ); ?>"
+
+                                alt="<?php echo htmlspecialchars(
+                                $artwork["title"],
+                                ENT_QUOTES,
+                                "UTF-8"
+                                ); ?>"
+                            >
 
                             <?php else: ?>
 
@@ -1257,4 +1124,4 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 </main>
 
 
-<?php include "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

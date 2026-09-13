@@ -67,28 +67,31 @@ $unreadCount = $unreadStmt->fetchColumn();
                 UPDATES
             </p>
 
-
             <h1>
                 Notifications
             </h1>
+
+            <div class="notification-heading-meta">
+
                 <a href="dashboard.php" class="back-dashboard">
                     ← BACK TO DASHBOARD
                 </a>
 
+                <?php if ($unreadCount > 0): ?>
 
-            <?php if ($unreadCount > 0): ?>
+                    <span class="notification-count">
+                        <?php echo (int)$unreadCount; ?> UNREAD
+                    </span>
 
-                <span class="notification-count">
-                    <?php echo (int)$unreadCount; ?> UNREAD
-                </span>
+                <?php else: ?>
 
-            <?php else: ?>
+                    <span class="notification-count no-unread">
+                        ALL READ
+                    </span>
 
-                <span class="notification-count no-unread">
-                    ALL READ
-                </span>
+                <?php endif; ?>
 
-            <?php endif; ?>
+            </div>
 
         </div>
 

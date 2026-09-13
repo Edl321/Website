@@ -4,6 +4,7 @@ session_start();
 
 $basePath = "";
 
+require_once "includes/function.php";
 require_once "database/config.php";
 require_once "security/shield.php";
 require_once "security/authorize.php";
@@ -308,12 +309,8 @@ foreach ($assignedArtists as $artist) {
 ?>
 
 <?php require_once "includes/header.php"; ?>
-
-<link
-    rel="stylesheet"
-    href="<?php echo htmlspecialchars($basePath); ?>style.css"
->
-
+<link rel="icon" type="image/x-icon" href="Images/logo.png">
+<link rel="stylesheet" href="style.css">
 <main class="exhibition-artists-page">
 
     <!-- =========================================================
@@ -373,7 +370,7 @@ foreach ($assignedArtists as $artist) {
         </div>
 
 
-        <?php if (!empty($availableArtists)): ?>
+                <?php if (!empty($availableArtists)): ?>
 
             <form
                 method="POST"
@@ -444,6 +441,11 @@ foreach ($assignedArtists as $artist) {
 
             </form>
 
+            <p class="field-help field-help-spaced">
+                Don't see the artist you're looking for?
+                <a href="my-artists.php">Add them to your artist directory first →</a>
+            </p>
+
         <?php else: ?>
 
             <div class="no-artists-message">
@@ -453,8 +455,17 @@ foreach ($assignedArtists as $artist) {
                 </h3>
 
                 <p>
-                    You currently have no artists available to add.
+                    You haven't added any artists yet. Add one to
+                    your artist directory, then come back here to
+                    include them in this exhibition.
                 </p>
+
+                <a
+                    href="my-artists.php"
+                    class="outline-button outline-button-spaced"
+                >
+                    GO TO MY ARTISTS
+                </a>
 
             </div>
 
@@ -511,9 +522,9 @@ foreach ($assignedArtists as $artist) {
                             <?php if (!empty($artist["image"])): ?>
 
                                 <img
-                                    src="Images/<?php
+                                    src="<?php
                                     echo htmlspecialchars(
-                                        $artist["image"],
+                                        edlImagePath($artist["image"]),
                                         ENT_QUOTES,
                                         "UTF-8"
                                     );

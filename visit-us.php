@@ -237,7 +237,7 @@
 
         <div class="cta-buttons">
 
-            <a href="contact.php "
+            <a href="contact.php"
                 class="cta-contact">
 
                 CONTACT US

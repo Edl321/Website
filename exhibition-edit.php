@@ -110,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     // ---- OPTIONAL IMAGE UPLOAD ----
 
     $imagePath = $exhibition["image"]; // keep the existing image unless replaced
+    $newImageUploaded = false;
 
     if (!empty($_FILES["image"]["name"])) {
 
@@ -133,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
             $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
             $newFileName = "exhibition_" . $exhibitionId . "_" . uniqid() . "." . $extension;
 
-            $uploadDir = "uploads/exhibitions/";
+            $uploadDir = "Images/exhibitions/";
 
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
@@ -142,7 +143,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
             $destination = $uploadDir . $newFileName;
 
             if (move_uploaded_file($fileTmpPath, $destination)) {
-                $imagePath = $destination;
+                // Stored relative to /Images/, matching how the public
+                // exhibition pages read this column.
+                $imagePath = "Images/exhibitions/" . $newFileName;
+                $newImageUploaded = true;
             } else {
                 $errors[] = "There was a problem uploading your image. Please try again.";
             }
@@ -183,6 +187,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
         $updateStmt->bindValue(":organizer_id", $userId, PDO::PARAM_INT);
         $updateStmt->execute();
 
+        // If a NEW image replaced an OLD one, remove the old file from
+        // disk now that the DB row points elsewhere. Only delete files
+        // this site created itself (prefix guard).
+        if ($newImageUploaded) {
+
+            $oldImage = (string)$exhibition["image"];
+
+            $deletePrefixes = [
+                "Images/exhibitions/exhibition_",
+                "uploads/exhibitions/exhibition_",
+            ];
+
+            foreach ($deletePrefixes as $prefix) {
+
+                if (
+                    $oldImage !== "" &&
+                    strpos($oldImage, $prefix) === 0 &&
+                    strpos($oldImage, "..") === false &&
+                    is_file($oldImage)
+                ) {
+                    @unlink($oldImage);
+                    break;
+                }
+
+            }
+
+        }
+
         // Refresh $exhibition so the page below shows the saved data.
         $exhibition["title"]       = $title;
         $exhibition["description"] = $description;
@@ -208,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Manage Exhibition | EDL Gallery</title>
-    <link rel="icon" type="image/x-icon" href="image/logo.png">
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -217,10 +249,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 <?php require_once "includes/header.php"; ?>
 
 
-<section class="dashboard-content" style="padding-top: 60px;">
+<section class="dashboard-content dashboard-content--top-spaced">
 
     <a href="my-exhibitions.php" class="back-dashboard-link">
-        &larr;Back to My Exhibitions
+        &larr; Back to My Exhibitions
     </a>
 
     <div class="dashboard-heading">
@@ -246,8 +278,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
     <?php if (!$isEditable): ?>
 
-        <div class="form-errors" style="border-left-color:#888; background-color:#f2f2f2;">
-            <p style="color:#555;">
+        <div class="form-errors form-errors--neutral">
+            <p>
                 This exhibition is currently
                 "<?php echo htmlspecialchars(strtoupper($exhibition["status"])); ?>"
                 and can no longer be edited here.
@@ -322,7 +354,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
                 <img
                     src="<?php echo htmlspecialchars($exhibition['image']); ?>"
                     alt="Current exhibition image"
-                    style="max-width:220px; display:block; margin-bottom:12px;"
+                    class="exhibition-edit-preview-img"
                 >
 
             <?php endif; ?>

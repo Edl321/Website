@@ -24,10 +24,6 @@ $pendingInquiries = $pdo->query(
     "SELECT COUNT(*) FROM exhibition_inquiries WHERE status = 'pending'"
 )->fetchColumn();
 
-$pendingRentalApplications = $pdo->query(
-    "SELECT COUNT(*) FROM rental_applications WHERE status = 'pending'"
-)->fetchColumn();
-
 $pendingArtworks = $pdo->query(
     "SELECT COUNT(*) FROM artworks WHERE status = 'pending'"
 )->fetchColumn();
@@ -77,11 +73,6 @@ require_once "admin-head.php";
             <span class="admin-stat-label">PENDING INQUIRIES</span>
         </a>
 
-        <a href="rental-application.php?status=pending" class="admin-stat-card">
-            <span class="admin-stat-number"><?php echo $pendingRentalApplications; ?></span>
-            <span class="admin-stat-label">PENDING RENTAL APPLICATIONS</span>
-        </a>
-
         <a href="artworks.php?status=pending" class="admin-stat-card">
             <span class="admin-stat-number"><?php echo $pendingArtworks; ?></span>
             <span class="admin-stat-label">PENDING ARTWORKS</span>
@@ -118,14 +109,9 @@ require_once "admin-head.php";
 
     <div class="admin-quick-actions">
 
-        <a href="rental-application.php" class="admin-quick-action">
-            <h3>Rental Applications</h3>
-            <p>Review exhibition rental applications submitted by users.</p>
-        </a>
-
         <a href="inquiries.php" class="admin-quick-action">
             <h3>Exhibition Inquiries</h3>
-            <p>Review and approve or reject rental requests.</p>
+            <p>Review and approve or reject exhibition requests.</p>
         </a>
 
         <a href="exhibitions.php" class="admin-quick-action">

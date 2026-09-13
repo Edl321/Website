@@ -1,96 +1,96 @@
 <?php
+
 session_start();
 $basePath = "";
+
 require_once "security/shield.php";
 require_once "database/config.php";
 require_once "security/authorize.php";
+
 
 if (!isUser()) {
     header("Location: login.php");
     exit;
 }
 
-// Get the number of rental applications
-$applicationStmt = $pdo->prepare("
+
+$userId = $_SESSION["user_id"];
+
+
+// =========================================================
+// INQUIRY COUNTS
+// =========================================================
+
+$inquiryCountStmt = $pdo->prepare("
     SELECT COUNT(*)
-    FROM rental_applications
+    FROM exhibition_inquiries
     WHERE user_id = :user_id
 ");
 
-$applicationStmt->bindValue(
-    ":user_id",
-    $_SESSION["user_id"],
-    PDO::PARAM_INT
-);
+$inquiryCountStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
+$inquiryCountStmt->execute();
 
-$applicationStmt->execute();
-
-$applicationCount = $applicationStmt->fetchColumn();
+$inquiryCount = (int)$inquiryCountStmt->fetchColumn();
 
 
-// Get the user's latest rental application
-$statusStmt = $pdo->prepare("
-    SELECT
-        id,
-        exhibition_title,
-        exhibition_description,
-        preferred_start_date,
-        preferred_end_date,
-        status,
-        admin_message,
-        created_at
-    FROM rental_applications
+// =========================================================
+// LATEST INQUIRY
+// =========================================================
+
+$latestInquiryStmt = $pdo->prepare("
+    SELECT id, exhibition_title, status, created_at
+    FROM exhibition_inquiries
     WHERE user_id = :user_id
     ORDER BY created_at DESC
     LIMIT 1
 ");
 
-$statusStmt->bindValue(
-    ":user_id",
-    $_SESSION["user_id"],
-    PDO::PARAM_INT
-);
+$latestInquiryStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
+$latestInquiryStmt->execute();
 
-$statusStmt->execute();
+$latestInquiry = $latestInquiryStmt->fetch();
 
-$latestApplication = $statusStmt->fetch();
+$latestInquiryStatus = $latestInquiry
+    ? $latestInquiry["status"]
+    : "Not Applied";
 
-// Get all rental applications for the logged-in user
-$applicationsStmt = $pdo->prepare("
-    SELECT 
-        id,
-        exhibition_title,
-        preferred_start_date,
-        preferred_end_date,
-        status,
-        admin_message,
-        created_at
-    FROM rental_applications
+
+// =========================================================
+// RECENT INQUIRIES (for the panel)
+// =========================================================
+
+$recentInquiriesStmt = $pdo->prepare("
+    SELECT id, exhibition_title, exhibition_type, status, created_at
+    FROM exhibition_inquiries
     WHERE user_id = :user_id
     ORDER BY created_at DESC
     LIMIT 3
 ");
 
-// Get notifications for the logged-in user
+$recentInquiriesStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
+$recentInquiriesStmt->execute();
+
+$recentInquiries = $recentInquiriesStmt->fetchAll();
+
+
+// =========================================================
+// NOTIFICATIONS
+// =========================================================
+
 $notificationStmt = $pdo->prepare("
-    SELECT
-        id,
-        title,
-        message,
-        is_read,
-        created_at
+    SELECT id, title, message, is_read, created_at
     FROM notifications
     WHERE user_id = :user_id
     ORDER BY created_at DESC
     LIMIT 3
 ");
 
-$notificationStmt->execute([
-    ":user_id" => $_SESSION["user_id"]
-]);
+$notificationStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
+$notificationStmt->execute();
 
 $notifications = $notificationStmt->fetchAll();
-// Count unread notifications
+
+
 $unreadStmt = $pdo->prepare("
     SELECT COUNT(*)
     FROM notifications
@@ -98,40 +98,36 @@ $unreadStmt = $pdo->prepare("
     AND is_read = 0
 ");
 
-$unreadStmt->execute([
-    ":user_id" => $_SESSION["user_id"]
-]);
+$unreadStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
+$unreadStmt->execute();
 
-$unreadCount = $unreadStmt->fetchColumn();
-$applicationsStmt->execute([
-    ":user_id" => $_SESSION["user_id"]
-]);
+$unreadCount = (int)$unreadStmt->fetchColumn();
 
-$applications = $applicationsStmt->fetchAll();
 
-// Get the latest application status
-if ($latestApplication) {
-    $latestApplicationStatus = $latestApplication["status"];
-} else {
-    $latestApplicationStatus = "Not Applied";
-}
+// =========================================================
+// GALLERY STATS + UPCOMING EXHIBITION
+// =========================================================
 
-// Public information used by the rental dashboard.
-$exhibitionStmt = $pdo->query("SELECT COUNT(*) FROM exhibitions");
-$exhibitionCount = $exhibitionStmt->fetchColumn();
-
-$artistStmt = $pdo->query("SELECT COUNT(*) FROM artists");
-$artistCount = $artistStmt->fetchColumn();
-
-// Show the nearest upcoming exhibition, if one exists.
-$upcomingStmt = $pdo->query(
-    "SELECT title, start_date, end_date, image
+$exhibitionCountStmt = $pdo->query("
+    SELECT COUNT(*)
     FROM exhibitions
-    WHERE end_date >= CURDATE()
+    WHERE status = 'published'
+");
+
+$exhibitionCount = (int)$exhibitionCountStmt->fetchColumn();
+
+
+$upcomingStmt = $pdo->query("
+    SELECT title, start_date, end_date, image
+    FROM exhibitions
+    WHERE status = 'published'
+    AND end_date >= CURDATE()
     ORDER BY start_date ASC
-    LIMIT 1"
-);
+    LIMIT 1
+");
+
 $upcomingExhibition = $upcomingStmt->fetch();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -155,7 +151,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
             <p class="user-dashboard-label">EDL GALLERY / USER AREA</p>
             <h1>Welcome back, <span><?php echo htmlspecialchars($_SESSION["first_name"]); ?></span></h1>
             <p class="user-dashboard-welcome">
-                Manage your exhibition rental journey and keep track of your gallery plans.
+                Submit exhibition inquiries and keep track of your gallery plans.
             </p>
         </div>
 
@@ -166,209 +162,206 @@ $upcomingExhibition = $upcomingStmt->fetch();
     </section>
 
     <section class="user-dashboard-stats">
+
         <div class="user-stat-card">
             <div class="user-stat-icon">▣</div>
-            <p>Your Applications</p>
-            <h2><?php echo (int)$applicationCount; ?></h2>
+            <p>Your Inquiries</p>
+            <h2><?php echo $inquiryCount; ?></h2>
         </div>
 
         <div class="user-stat-card">
             <div class="user-stat-icon">✓</div>
-            <p>Application Status</p>
+            <p>Latest Inquiry</p>
             <h2>
-        <?php echo htmlspecialchars(
-        ucwords(str_replace("_", " ", $latestApplicationStatus))); 
-        ?>
+                <?php echo htmlspecialchars(
+                    ucwords(str_replace("_", " ", $latestInquiryStatus))
+                ); ?>
             </h2>
         </div>
 
         <div class="user-stat-card">
             <div class="user-stat-icon">◫</div>
             <p>Gallery Exhibitions</p>
-            <h2><?php echo (int)$exhibitionCount; ?></h2>
+            <h2><?php echo $exhibitionCount; ?></h2>
         </div>
+
     </section>
 
     <div class="user-dashboard-grid">
 
         <div>
+
             <section class="rent-cta">
                 <div class="rent-cta-content">
                     <p>Rent Our Space</p>
                     <h2>Turn Your Vision Into an Exhibition.</h2>
                     <span>
-                        Submit your exhibition idea, choose your preferred date,
+                        Submit your exhibition idea, choose your preferred dates,
                         and let EDL Gallery help bring your work to an audience.
                     </span>
-                    <a href="rent-space.php" class="rent-button">Start Rental Application →</a>
+                    <a href="rent-space.php" class="rent-button">Learn About the Space →</a>
                 </div>
                 <div class="rent-cta-image"></div>
             </section>
 
+
             <section class="user-panel">
 
-    <!-- NOTIFICATIONS -->
+                <!-- NOTIFICATIONS -->
 
-    <div class="user-panel-title">
-    <div>
-        <p>UPDATES</p>
-        <h2>Notifications</h2>
+                <div class="user-panel-title">
+                    <div>
+                        <p>UPDATES</p>
+                        <h2>Notifications</h2>
 
-        <?php if ($unreadCount > 0): ?>
-            <a href="notification.php" class="unread-count">
-                <?php echo (int)$unreadCount; ?> UNREAD
-            </a>
-        <?php endif; ?>
-    </div>
-</div>
-
-    <?php if (empty($notifications)): ?>
-
-        <p>No notifications yet.</p>
-
-    <?php else: ?>
-
-        <div class="notifications-list">
-
-            <?php foreach ($notifications as $notification): ?>
-
-                <div class="notification-item <?php echo ($notification["is_read"] == 0) ? "unread" : ""; ?>">
-
-                    <div class="notification-info">
-
-                        <h3>
-                            <?php echo htmlspecialchars($notification["title"]); ?>
-                        </h3>
-
-                        <p>
-                            <?php echo htmlspecialchars($notification["message"]); ?>
-                        </p>
-
-                        <small>
-                            <?php
-                            echo date(
-                                "F d, Y h:i A",
-                                strtotime($notification["created_at"])
-                            );
-                            ?>
-                        </small>
-                        <?php if ($notification["is_read"] == 0): ?>
-
-                    <form method="POST" action="notification-read.php">
-                        <?php echo csrf_field(); ?>
-                        <input type="hidden" name="notification_id" value="<?php echo (int)$notification["id"]; ?>">
-                        <button type="submit" class="mark-read-button">Mark as Read</button>
-                    </form>
-
-<?php endif; ?>
-
-                    </div>
-
-                </div>
-
-            <?php endforeach; ?>
-
-        </div>
-
-    <?php endif; ?>
-
-
-    <!-- MY APPLICATIONS -->
-
-    <div class="user-panel-title my-applications-title">
-        <div>
-            <p>RENTAL</p>
-            <h2>My Applications</h2>
-        </div>
-    </div>
-
-    <?php if (empty($applications)): ?>
-
-        <p>No rental applications found.</p>
-
-    <?php else: ?>
-
-        <div class="applications-list">
-
-            <?php foreach ($applications as $application): ?>
-
-                <div class="application-item">
-
-                    <div class="application-info">
-
-                        <h3>
-                            <?php echo htmlspecialchars($application["exhibition_title"]); ?>
-                        </h3>
-
-                        <p>
-                            <strong>Date:</strong>
-                            <?php echo htmlspecialchars($application["preferred_start_date"]); ?>
-
-                            <?php if (!empty($application["preferred_end_date"])): ?>
-                                -
-                                <?php echo htmlspecialchars($application["preferred_end_date"]); ?>
-                            <?php endif; ?>
-                        </p>
-
-                        <p>
-                            <strong>Submitted:</strong>
-                            <?php
-                            echo date(
-                                "F d, Y",
-                                strtotime($application["created_at"])
-                            );
-                            ?>
-                        </p>
-
-                        <?php if (!empty($application["admin_message"])): ?>
-
-                            <p>
-                                <strong>Admin Message:</strong>
-                                <?php echo htmlspecialchars($application["admin_message"]); ?>
-                            </p>
-
+                        <?php if ($unreadCount > 0): ?>
+                            <a href="notification.php" class="unread-count">
+                                <?php echo $unreadCount; ?> UNREAD
+                            </a>
                         <?php endif; ?>
-
                     </div>
-
-                    <div class="application-status">
-
-                        <span class="status-badge">
-                            <?php echo htmlspecialchars($application["status"]); ?>
-                        </span>
-
-                    </div>
-
                 </div>
 
-            <?php endforeach; ?>
+                <?php if (empty($notifications)): ?>
+
+                    <p>No notifications yet.</p>
+
+                <?php else: ?>
+
+                    <div class="notifications-list">
+
+                        <?php foreach ($notifications as $notification): ?>
+
+                            <div class="notification-item <?php echo ($notification["is_read"] == 0) ? "unread" : ""; ?>">
+
+                                <div class="notification-info">
+
+                                    <h3>
+                                        <?php echo htmlspecialchars($notification["title"]); ?>
+                                    </h3>
+
+                                    <p>
+                                        <?php echo htmlspecialchars($notification["message"]); ?>
+                                    </p>
+
+                                    <small>
+                                        <?php
+                                        echo date(
+                                            "F d, Y h:i A",
+                                            strtotime($notification["created_at"])
+                                        );
+                                        ?>
+                                    </small>
+
+                                    <?php if ($notification["is_read"] == 0): ?>
+
+                                        <form method="POST" action="notification-read.php">
+                                            <?php echo csrf_field(); ?>
+                                            <input type="hidden" name="notification_id" value="<?php echo (int)$notification["id"]; ?>">
+                                            <button type="submit" class="mark-read-button">Mark as Read</button>
+                                        </form>
+
+                                    <?php endif; ?>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+
+                <!-- MY INQUIRIES -->
+
+                <div class="user-panel-title my-applications-title">
+                    <div>
+                        <p>INQUIRIES</p>
+                        <h2>My Inquiries</h2>
+                    </div>
+                </div>
+
+                <?php if (empty($recentInquiries)): ?>
+
+                    <p>No exhibition inquiries submitted yet.</p>
+
+                <?php else: ?>
+
+                    <div class="applications-list">
+
+                        <?php foreach ($recentInquiries as $inquiry): ?>
+
+                            <div class="application-item">
+
+                                <div class="application-info">
+
+                                    <h3>
+                                        <?php echo htmlspecialchars($inquiry["exhibition_title"]); ?>
+                                    </h3>
+
+                                    <?php if (!empty($inquiry["exhibition_type"])): ?>
+                                        <p>
+                                            <strong>Type:</strong>
+                                            <?php echo htmlspecialchars($inquiry["exhibition_type"]); ?>
+                                        </p>
+                                    <?php endif; ?>
+
+                                    <p>
+                                        <strong>Submitted:</strong>
+                                        <?php
+                                        echo date(
+                                            "F d, Y",
+                                            strtotime($inquiry["created_at"])
+                                        );
+                                        ?>
+                                    </p>
+
+                                </div>
+
+                                <div class="application-status">
+
+                                    <span class="status-badge status-<?php echo htmlspecialchars($inquiry["status"]); ?>">
+                                        <?php echo htmlspecialchars(strtoupper($inquiry["status"])); ?>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+            </section>
+
+
+            <div class="rental-steps">
+                <div class="rental-step">
+                    <span class="rental-step-number">01</span>
+                    <h3>Submit an Inquiry</h3>
+                    <p>Tell us about your exhibition, preferred dates, and the artists involved.</p>
+                </div>
+
+                <div class="rental-step">
+                    <span class="rental-step-number">02</span>
+                    <h3>Gallery Review</h3>
+                    <p>EDL Gallery reviews your request and checks the requested schedule.</p>
+                </div>
+
+                <div class="rental-step">
+                    <span class="rental-step-number">03</span>
+                    <h3>Exhibition Setup</h3>
+                    <p>Once approved, add your artists and artworks and prepare your show.</p>
+                </div>
+            </div>
 
         </div>
 
-    <?php endif; ?>
-
-</section>
-
-                <div class="rental-steps">
-                    <div class="rental-step">
-                        <span class="rental-step-number">01</span>
-                        <h3>Submit Application</h3>
-                        <p>Provide your exhibition details, preferred dates, and supporting information.</p>
-                    </div>
-
-                    <div class="rental-step">
-                        <span class="rental-step-number">02</span>
-                        <h3>Gallery Review</h3>
-                        <p>EDL Gallery reviews your request and checks the requested schedule.</p>
-                    </div>
-
-                    <div class="rental-step">
-                        <span class="rental-step-number">03</span>
-                        <h3>Confirmation</h3>
-                        <p>Once approved, your exhibition schedule can be prepared for the gallery.</p>
-                    </div>
-                </div>
-            </section>
+        <aside>
 
             <section class="user-panel">
                 <div class="user-panel-title">
@@ -396,9 +389,8 @@ $upcomingExhibition = $upcomingStmt->fetch();
                     </div>
                 <?php endif; ?>
             </section>
-        </div>
 
-        <aside>
+
             <section class="user-panel">
                 <div class="user-panel-title">
                     <div>
@@ -409,90 +401,96 @@ $upcomingExhibition = $upcomingStmt->fetch();
 
                 <div class="user-actions">
 
-    <!-- Rent Our Space -->
-    <a href="rent-space.php" class="user-action">
-        <div class="user-action-icon">+</div>
+                    <a href="rent-space.php" class="user-action">
+                        <div class="user-action-icon">+</div>
+                        <div class="user-action-content">
+                            <h3>Rent Our Space</h3>
+                            <p>Learn about the gallery and how to exhibit.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
 
-        <div class="user-action-content">
-            <h3>Rent Our Space</h3>
-            <p>Submit a new exhibition rental request.</p>
-        </div>
+                    <a href="submit-inquiry.php" class="user-action">
+                        <div class="user-action-icon">✎</div>
+                        <div class="user-action-content">
+                            <h3>Submit an Inquiry</h3>
+                            <p>Propose a new exhibition to EDL Gallery.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
 
-        <span class="user-action-arrow">→</span>
-    </a>
+                    <a href="notification.php" class="user-action">
+                        <div class="user-action-icon">🔔</div>
+                        <div class="user-action-content">
+                            <h3>Notifications</h3>
+                            <p>View your latest updates and notifications.</p>
+                        </div>
+                        <?php if ($unreadCount > 0): ?>
+                            <span class="user-action-badge">
+                                <?php echo $unreadCount; ?>
+                            </span>
+                        <?php endif; ?>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                    <a href="my-inquiries.php" class="user-action">
+                        <div class="user-action-icon">◎</div>
+                        <div class="user-action-content">
+                            <h3>My Inquiries</h3>
+                            <p>Track the status of your exhibition inquiries.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                    <a href="my-artists.php" class="user-action">
+                        <div class="user-action-icon">✦</div>
+                        <div class="user-action-content">
+                            <h3>My Artists</h3>
+                            <p>Add and manage the artists you work with.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                    <a href="my-exhibitions.php" class="user-action">
+                        <div class="user-action-icon">▣</div>
+                        <div class="user-action-content">
+                            <h3>My Exhibitions</h3>
+                            <p>Manage the exhibitions you've been approved for.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                    <a href="exhibition.php" class="user-action">
+                        <div class="user-action-icon">□</div>
+                        <div class="user-action-content">
+                            <h3>View Exhibitions</h3>
+                            <p>Check current and upcoming exhibitions.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                    <a href="artist.php" class="user-action">
+                        <div class="user-action-icon">○</div>
+                        <div class="user-action-content">
+                            <h3>Meet Our Artists</h3>
+                            <p>Explore artists featured by EDL Gallery.</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                    <a href="contact.php" class="user-action">
+                        <div class="user-action-icon">@</div>
+                        <div class="user-action-content">
+                            <h3>Contact Gallery</h3>
+                            <p>Have a question about exhibiting?</p>
+                        </div>
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
+                </div>
+            </section>
 
 
-    <!-- Notifications -->
-    <a href="notification.php" class="user-action">
-        <div class="user-action-icon">🔔</div>
-
-        <div class="user-action-content">
-            <h3>Notifications</h3>
-            <p>View your latest updates and notifications.</p>
-        </div>
-
-        <?php if ($unreadCount > 0): ?>
-            <span class="user-action-badge">
-                <?php echo (int)$unreadCount; ?>
-            </span>
-        <?php endif; ?>
-
-        <span class="user-action-arrow">→</span>
-    </a>
-
-
-    <!-- My Exhibitions -->
-    <a href="my-exhibitions.php" class="user-action">
-        <div class="user-action-icon">▣</div>
-
-        <div class="user-action-content">
-            <h3>My Exhibitions</h3>
-            <p>Manage your exhibitions and exhibition details.</p>
-        </div>
-
-        <span class="user-action-arrow">→</span>
-    </a>
-
-
-    <!-- View Exhibitions -->
-    <a href="exhibition.php" class="user-action">
-        <div class="user-action-icon">□</div>
-
-        <div class="user-action-content">
-            <h3>View Exhibitions</h3>
-            <p>Check current and upcoming exhibitions.</p>
-        </div>
-
-        <span class="user-action-arrow">→</span>
-    </a>
-
-
-    <!-- Meet Our Artists -->
-    <a href="artist.php" class="user-action">
-        <div class="user-action-icon">○</div>
-
-        <div class="user-action-content">
-            <h3>Meet Our Artists</h3>
-            <p>Explore artists featured by EDL Gallery.</p>
-        </div>
-
-        <span class="user-action-arrow">→</span>
-    </a>
-
-
-    <!-- Contact Gallery -->
-    <a href="contact.php" class="user-action">
-        <div class="user-action-icon">@</div>
-
-        <div class="user-action-content">
-            <h3>Contact Gallery</h3>
-            <p>Have a question about renting the space?</p>
-        </div>
-
-        <span class="user-action-arrow">→</span>
-    </a>
-
-</div>
             <section class="user-panel profile-panel">
                 <div class="user-panel-title">
                     <div>
@@ -517,6 +515,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
                 </div>
             </section>
 
+
             <section class="user-panel">
                 <div class="user-panel-title">
                     <div>
@@ -524,15 +523,17 @@ $upcomingExhibition = $upcomingStmt->fetch();
                         <h2>About EDL</h2>
                     </div>
                 </div>
-                <p style="margin:0;color:#666;font-size:14px;line-height:1.7;">
+                <p class="user-panel-blurb">
                     EDL Gallery provides a space for artists and groups to present
                     creative work through meaningful exhibitions and experiences.
                 </p>
-                <a href="about-us.php" class="user-panel-link" style="display:inline-block;margin-top:18px;">Learn More →</a>
+                <a href="about-us.php" class="user-panel-link user-panel-link--spaced">Learn More →</a>
             </section>
+
         </aside>
 
     </div>
+
 </main>
 
 <?php require_once "includes/footer.php"; ?>

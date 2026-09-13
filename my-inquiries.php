@@ -52,9 +52,7 @@ $inquiries = $stmt->fetchAll();
      PAGE HERO
 ========================================= -->
 
-<section class="dashboard-hero" style="background-image:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-    url('image/background-4.jpg');">
+<section class="dashboard-hero dashboard-hero--inquiries">
 
     <div class="dashboard-hero-content">
 

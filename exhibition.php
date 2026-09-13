@@ -1,5 +1,6 @@
 <?php
 
+require_once "includes/function.php";
 require_once "database/config.php";
 
 $basePath = "";
@@ -38,21 +39,15 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Exhibitions | EDL Gallery</title>
 
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="Images/logo.png"
-    >
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -60,10 +55,6 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
 <?php require_once "includes/header.php"; ?>
 
-
-<!-- =========================================
-     EXHIBITION HERO
-========================================= -->
 
 <section class="ex-page-layout">
 
@@ -140,7 +131,7 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
             <img
                 src="<?php echo htmlspecialchars(
-                    $featuredExhibition["image"],
+                    edlImagePath($featuredExhibition["image"]),
                     ENT_QUOTES,
                     "UTF-8"
                 ); ?>"
@@ -154,7 +145,6 @@ $featuredExhibition = $exhibitions[0] ?? null;
         </div>
 
     <?php endif; ?>
-
 
 </section>
 
@@ -205,7 +195,7 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
                             <img
                                 src="<?php echo htmlspecialchars(
-                                    $exhibition["image"],
+                                    edlImagePath($exhibition["image"]),
                                     ENT_QUOTES,
                                     "UTF-8"
                                 ); ?>"

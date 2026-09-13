@@ -1,8 +1,24 @@
+/* =========================================================
+   FONTS
+========================================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
 :root {
     --background-1: url('Images/background-1.jpg');
     --exhibit: url('Images/background-2.jpg');
 }
+
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -18,6 +34,10 @@ body {
 }
 
 
+/* =========================================================
+   HOME PAGE — HERO
+========================================================= */
+
 .home {
     width: 100%;
     height: calc(100vh - 100px);
@@ -30,6 +50,41 @@ body {
     position: relative;
     overflow: hidden;
 }
+
+.t1 {
+    color: white;
+    font-size: 90px;
+    line-height: 1.1;
+    font-weight: 400;
+    margin: 0;
+    width: 70%;
+    padding: 80px 0 0 70px;
+    text-align: left;
+}
+
+.t1 span {
+    color: orange;
+}
+
+.intro {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-size: 26px;
+    line-height: 1.2;
+    text-align: left;
+    width: 50%;
+    margin: 80px 0 0 70px;
+    padding: 0;
+}
+
+.intro p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   HEADER / NAV
+========================================================= */
 
 .logo {
     display: flex;
@@ -97,21 +152,12 @@ body {
 }
 
 
-/* VISIT US */
-
-.visit-us {
-    color: #ff7a00;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
+/* VISIT US BUTTON */
 
 .visit-us {
     margin-top: 30px;
     margin-left: 20px;
-    padding: 12px 20px; 
+    padding: 12px 20px;
     border: none;
     background-color: #ff7a00;
     color: #ffffff;
@@ -128,36 +174,9 @@ body {
 }
 
 
-
-
-.t1 {
-    color: white;
-    font-size: 90px;
-    line-height: 1.1;
-    font-weight: 400;
-    margin: 0;
-    width: 70%;
-    padding: 80px 0 0 70px;
-    text-align: left;
-}
-
-.t1 span {
-    color: orange;
-}
-
-.intro {
-    font-family: 'Montserrat', sans-serif;
-    color: white;
-    font-size: 26px;
-    line-height: 1.2;
-    text-align: left;
-    width: 50%;
-    margin: 80px 0 0 70px;
-    padding: 0;
-}
-.intro p{
-    margin: 0;
-}
+/* =========================================================
+   UPCOMING EXHIBITION SECTION (HOME)
+========================================================= */
 
 .upcoming {
     padding: 32px 32px 50px;
@@ -168,7 +187,7 @@ body {
 .upcoming h2 {
     color: orange;
     font-family: 'Montserrat', sans-serif;
-    font-size: 48px;
+    font-size: 38px;
     font-weight: bold;
     margin: 70px 0 0 90px;
 }
@@ -176,22 +195,25 @@ body {
 .exhibition-layout {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;      /* ← was flex-start */
     flex-direction: row;
     width: 100%;
-    margin-top: 80px;
+    margin-top: 10px;
     padding: 0 30px 0 100px;
     box-sizing: border-box;
+    gap: 60px;
+    align-self: center;
 }
 
 .exhibition-info {
-    flex: 1;
+    flex: 1 1 45%;
+    min-width: 0;
     padding-top: 0;
 }
 
 .exhibition-info h1 {
     color: orange;
-    font-size: 90px;
+    font-size: 52px;
     margin: 0;
     font-weight: normal;
     line-height: 1.1;
@@ -200,7 +222,7 @@ body {
 .exhibition-info p {
     color: black;
     margin: 25px 0 0;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: normal;
 }
 
@@ -211,7 +233,7 @@ body {
     border: none;
     background-color: #ff7a00;
     color: white;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
@@ -223,14 +245,30 @@ body {
     color: black;
 }
 
+.exhibition-image {
+    flex: 1 1 55%;
+    max-width: 55%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
 .exhibition-image img {
     display: block;
     width: 100%;
-    height: 550px;
+    height: 100%;
     object-fit: cover;
 }
 
-
+.exhibition-no-image {
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    box-sizing: border-box;
+    border: 2px solid #111111;
+    background: #ffffff;
+}
 
 .exhibition-details-button {
     display: inline-flex;
@@ -247,10 +285,7 @@ body {
     letter-spacing: 1.5px;
     text-decoration: none;
     text-transform: uppercase;
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .exhibition-details-button span {
@@ -265,22 +300,10 @@ body {
 }
 
 
-.exhibition-image {
-    width: 100%;
-    height: 450px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* =========================================================
+   RENT SECTION (HOME)
+========================================================= */
 
-
-.exhibition-no-image {
-    width: calc(100% - 30px);
-    height: calc(100% - 30px);
-    box-sizing: border-box;
-    border: 2px solid #111111;
-    background: #ffffff;
-}
 .rent {
     padding: 32px 45px 50px;
     background-color: black;
@@ -361,6 +384,11 @@ body {
     color: black;
 }
 
+
+/* =========================================================
+   FEATURED ARTISTS (HOME)
+========================================================= */
+
 .artist {
     padding: 40px 70px 60px;
     background-color: white;
@@ -383,64 +411,40 @@ body {
     align-items: start;
 }
 
-
 .artist-info {
     text-align: center;
 }
 
-
 .artist-image {
     width: 300px;
     height: 300px;
-
     margin: 0 auto 30px;
-
     border-radius: 50%;
-
     overflow: hidden;
-
     background: #ffffff;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    box-shadow:
-        0 15px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
-
 
 .artist-image img {
     width: 100%;
     height: 100%;
-
     display: block;
-
     border-radius: 50%;
-
     object-fit: cover;
     object-position: center;
-
-    transition:
-        transform 0.4s ease;
+    transition: transform 0.4s ease;
 }
-
-
-/* Slight zoom when hovering */
 
 .artist-info:hover .artist-image img {
     transform: scale(1.05);
 }
 
-
-/* =========================================================
-   ARTIST NAME
-   ========================================================= */
-
 .artist-name {
     text-align: center;
 }
-
 
 .artist-name h3 {
     margin: 0 0 8px;
@@ -450,14 +454,12 @@ body {
     line-height: 1.3;
 }
 
-
 .artist-name p {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     line-height: 1.6;
 }
-
 
 .artist-no-image {
     width: 100%;
@@ -479,49 +481,22 @@ body {
     padding: 60px 20px;
 }
 
-
 .artist-no-data h3 {
     margin-bottom: 10px;
     font-family: 'Lora', serif;
     font-size: 28px;
 }
 
-
 .artist-no-data p {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
 }
 
-@media (max-width: 1100px) {
 
-    .artist-layout {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* =========================================================
+   ABOUT SECTION (HOME)
+========================================================= */
 
-    .artist-image {
-        width: 260px;
-        height: 260px;
-    }
-
-}
-
-@media (max-width: 600px) {
-
-    .artist-layout {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-
-    .artist-image {
-        width: 240px;
-        height: 240px;
-    }
-
-    .artist-name h3 {
-        font-size: 23px;
-    }
-
-}
 .about {
     display: flex;
     flex-direction: row;
@@ -529,11 +504,18 @@ body {
     background-color: black;
 }
 
-.about-info{
+.about-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+}
+
+.about-info {
     width: 38%;
     padding: 30px 40px 30px 55px;
-
 }
+
 .about-info h2 {
     color: #ff7a00;
     font-family: 'Montserrat', sans-serif;
@@ -544,29 +526,22 @@ body {
     margin-right: 18px;
 }
 
-.about-info h1{
-        color:white;
-        font-size: 40px;
-        line-height: 1.3;
-        font-weight: 400;
-        letter-spacing: 1px;
-        margin-top: 36px;
+.about-info h1 {
+    color: white;
+    font-size: 40px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-top: 36px;
 }
 
-.about-layout {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    width: 100%;
-}
-
-.about-image{
+.about-image {
     width: 70%;
     height: 500px;
     overflow: hidden;
 }
 
-.about-image img{
+.about-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -575,7 +550,22 @@ body {
 }
 
 
-.inform h2 {
+/* =========================================================
+   INFO SECTION (HOME)
+========================================================= */
+
+.info {
+    padding: 20px 70px 60px;
+    background-color: white;
+    box-sizing: border-box;
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 34px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.info h2 {
     color: #ff7a00;
     font-family: 'Montserrat', sans-serif;
     font-size: 38px;
@@ -584,18 +574,7 @@ body {
     text-align: center;
 }
 
-.info{
-    padding: 20px 70px 60px;
-    background-color: white;
-    box-sizing: border-box;
-    color: #ff7a00;
-    font-family: 'Montserrat',sans-serif;
-    font-size: 34px;
-    font-weight: normal;
-    text-align: center;
-}
-
-.info-layout{
+.info-layout {
     display: flex;
     align-items: flex-start;
     flex-direction: row;
@@ -604,44 +583,22 @@ body {
     margin-top: 60px;
     gap: 50px;
     box-sizing: border-box;
-
 }
 
-.location img{
+.location img,
+.time img,
+.email img,
+.contact img {
     width: 120px;
     height: 120px;
     margin-left: 80px;
     margin-right: 80px;
-
 }
 
-.location h3{
-    margin: 0;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    font-weight: normal;
-    text-align: center;
-}
-
-.location p{
-    margin: 0;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 22px;
-    font-weight: normal;
-    text-align: center;
-}
-
-.time img{
-    width: 120px;
-    height: 120px;
-    margin-left: 80px;
-    margin-right: 80px;
-
-}
-
-.time h3{
+.location h3,
+.time h3,
+.email h3,
+.contact h3 {
     margin: 0;
     color: black;
     font-family: 'Montserrat', sans-serif;
@@ -650,7 +607,10 @@ body {
     text-align: center;
 }
 
-.time p{
+.location p,
+.time p,
+.email p,
+.contact p {
     margin: 0;
     color: black;
     font-family: 'Montserrat', sans-serif;
@@ -659,59 +619,10 @@ body {
     text-align: center;
 }
 
-.email img{
-    width: 120px;
-    height: 120px;
-    margin-left: 80px;
-    margin-right: 80px;
 
-}
-
-.email h3{
-    margin: 0;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    font-weight: 400;
-    text-align: center;
-}
-
-.email p{
-    margin: 0;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 22px;
-    font-weight: 400;
-    text-align: center;
-}
-
-.contact img{
-    width: 120px;
-    height: 120px;
-    margin-left: 80px;
-    margin-right: 80px;
-
-}
-
-.contact h3{
-    margin: 0;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    font-weight: 400;
-    text-align: center;
-}
-
-.contact p{
-    margin: 0;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 22px;
-    font-weight: 400;
-    text-align: center;
-}
-
-/*EXHIBITION PAGE*/
+/* =========================================================
+   EXHIBITION PAGE — HERO
+========================================================= */
 
 .ex-page-layout {
     display: flex;
@@ -745,7 +656,7 @@ body {
     color: white;
     letter-spacing: 3px;
     margin-bottom: 60px;
-    font-family: 'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
 }
 
@@ -793,7 +704,7 @@ body {
     transition: all 0.5s ease;
 }
 
-.ex-img:hover{
+.ex-img:hover {
     transform: scale(1.04);
 }
 
@@ -803,11 +714,16 @@ body {
     object-fit: cover;
 }
 
-.upcoming-exhibition-layout{
+
+/* =========================================================
+   EXHIBITION PAGE — UPCOMING CARDS
+========================================================= */
+
+.upcoming-exhibition-layout {
     display: flex;
     margin: 0;
     min-height: 600px;
-    background-color:black;
+    background-color: black;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -816,32 +732,28 @@ body {
     position: relative;
     justify-content: center;
 }
-.upcoming-exhibit-text{
+
+.upcoming-exhibit-text {
     color: #ffffff;
     text-align: center;
-    font-family: 'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 200;
     font-size: 26px;
 }
 
-.upcoming-info{
+.upcoming-info {
     color: #ffffff;
     text-align: center;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 24px;
     margin-top: 50px;
 }
 
-/* =========================================
-    UPCOMING EXHIBITION CONTENT
-========================================= */
-
 .upcoming-content {
     width: 100%;
     max-width: 1200px;
 }
-
 
 .upcoming-title {
     color: white;
@@ -851,7 +763,6 @@ body {
     text-align: center;
     margin: 0 0 50px;
 }
-
 
 .upcoming-card {
     display: flex;
@@ -863,18 +774,16 @@ body {
     transition: all 0.5s ease;
 }
 
-.upcoming-card:hover{
+.upcoming-card:hover {
     transform: scale(1.04);
-    box-shadow: 0 15px 35px rgb(0, 0, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
-
 
 .upcoming-image {
     width: 50%;
     height: 350px;
     flex-shrink: 0;
 }
-
 
 .upcoming-image img {
     width: 100%;
@@ -883,31 +792,21 @@ body {
     object-fit: cover;
 }
 
-
 .upcoming-card .upcoming-info {
     flex: 1;
-
     padding: 40px;
-
     margin: 0;
-
     color: black;
-
     text-align: left;
 }
 
-
 .upcoming-card .upcoming-info h3 {
     color: #ff7a00;
-
     font-family: 'Lora', serif;
-
     font-size: 42px;
     font-weight: 500;
-
     margin: 0 0 20px;
 }
-
 
 .upcoming-card .upcoming-info p {
     color: #333;
@@ -917,7 +816,6 @@ body {
     margin: 0 0 15px;
 }
 
-
 .upcoming-card .upcoming-info .upcoming-description {
     color: #333;
     font-size: 16px;
@@ -925,9 +823,9 @@ body {
 }
 
 
-/* ================================
-   ARTISTS HERO SECTION
-   ================================ */
+/* =========================================================
+   ARTIST PAGE — HERO
+========================================================= */
 
 .art-page-layout {
     width: 100%;
@@ -940,31 +838,24 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     position: relative;
     overflow: hidden;
 }
 
-/* Dark overlay */
 .art-page-layout::before {
     content: "";
     position: absolute;
     inset: 0;
-
     background: rgba(0, 0, 0, 0.45);
-
     z-index: 0;
 }
 
-/* Text container */
 .artpage-text {
     position: relative;
     z-index: 1;
-
     width: 45%;
 }
 
-/* Small heading */
 .art-label {
     display: inline-block;
     color: white;
@@ -976,8 +867,7 @@ body {
     position: relative;
 }
 
-
-.artpage-text h1{
+.artpage-text h1 {
     margin: 0 0 8px;
     color: white !important;
     font-family: 'Lora', serif;
@@ -990,18 +880,19 @@ body {
     color: #ff7a00 !important;
 }
 
-
 .artpage-text p {
     margin: 0;
-
     color: white !important;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 22px;
     font-weight: 400;
-
     line-height: 1.4;
 }
+
+
+/* =========================================================
+   ARTIST PAGE — LIST
+========================================================= */
 
 .artist-section {
     width: 100%;
@@ -1020,106 +911,75 @@ body {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-
     width: 100%;
     min-height: 260px;
-
     padding: 35px 25px;
-
     box-sizing: border-box;
-
     gap: 50px;
-
     border-bottom: 1px solid #222;
 }
 
-/* Artist image */
 .artist-card > img {
     width: 180px !important;
     height: 180px !important;
-
     min-width: 180px;
     max-width: 180px;
-
     min-height: 180px;
     max-height: 180px;
-
     object-fit: cover;
-
     display: block;
 }
 
-/* Artist information */
-.artist-info {
+.artist-card .artist-info {
     display: flex !important;
     flex-direction: column !important;
-
     align-items: flex-start !important;
     justify-content: center !important;
-
     flex: 1;
-
     padding: 0;
 }
 
-/* Artist name */
-.artist-info h2 {
+.artist-card .artist-info h2 {
     margin: 0 0 15px;
-
     color: #ff7a00 !important;
-
     font-family: 'Lora', serif !important;
     font-size: 32px;
-
     font-weight: 400;
-
     line-height: 1.2;
 }
 
-/* Biography */
-.artist-info p {
+.artist-card .artist-info p {
     max-width: 700px;
-
     margin: 0;
-
     color: #222 !important;
-
     font-family: 'Montserrat', sans-serif !important;
     font-size: 18px;
-
     font-weight: 400;
-
     line-height: 1.6;
 }
 
-
-/* =========================================
-   NO ARTISTS
-========================================= */
-
 .no-artists {
     padding: 80px 0;
-
     text-align: center;
 }
 
 .no-artists h2 {
     margin-bottom: 15px;
-
     color: #222;
-
     font-family: 'Lora', serif;
     font-size: 32px;
 }
 
 .no-artists p {
     color: #333;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 17px;
 }
 
-/*RENT PAGE*/
+
+/* =========================================================
+   RENT PAGE
+========================================================= */
 
 .rent-hero {
     position: relative;
@@ -1133,24 +993,17 @@ body {
     box-sizing: border-box;
 }
 
-
-/* DARK OVERLAY */
-
 .rent-hero-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
 }
 
-
-/* HERO CONTENT */
-
 .rent-hero-content {
     position: relative;
     z-index: 2;
     max-width: 650px;
 }
-
 
 .rent-hero-content h1 {
     margin: 0 0 20px;
@@ -1161,7 +1014,6 @@ body {
     font-weight: 600;
 }
 
-
 .rent-hero-content h2 {
     margin: 0 0 25px;
     color: white;
@@ -1171,11 +1023,9 @@ body {
     font-weight: 400;
 }
 
-
 .rent-hero-content h2 span {
     color: #ff7a00;
 }
-
 
 .rent-hero-content p {
     max-width: 550px;
@@ -1183,6 +1033,12 @@ body {
     color: white;
     font-size: 18px;
     line-height: 1.6;
+}
+
+.rent-hero-buttons {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
 }
 
 .rent-button {
@@ -1197,12 +1053,15 @@ body {
     transition: 0.3s ease;
 }
 
-
 .rent-button:hover {
     background-color: white;
     color: black;
 }
 
+
+/* =========================================================
+   RENT PAGE — SPACE SECTION
+========================================================= */
 
 .space-section {
     width: 100%;
@@ -1214,13 +1073,11 @@ body {
     box-sizing: border-box;
 }
 
-
 .space-image {
     width: 52%;
     height: 450px;
     overflow: hidden;
 }
-
 
 .space-image img {
     width: 100%;
@@ -1229,11 +1086,9 @@ body {
     display: block;
 }
 
-
 .space-content {
     width: 48%;
 }
-
 
 .space-content h4,
 .section-heading h4,
@@ -1256,11 +1111,9 @@ body {
     font-weight: 400;
 }
 
-
 .space-content h2 span {
     color: #ff7a00;
 }
-
 
 .space-content p {
     margin: 0 0 18px;
@@ -1269,6 +1122,11 @@ body {
     font-size: 16px;
     line-height: 1.7;
 }
+
+
+/* =========================================================
+   OUTLINE BUTTON (SHARED)
+========================================================= */
 
 .outline-button {
     display: inline-block;
@@ -1283,19 +1141,21 @@ body {
     transition: 0.3s ease;
 }
 
-
 .outline-button:hover {
     background-color: #ff7a00;
     color: white;
 }
 
 
+/* =========================================================
+   SECTION HEADING (SHARED)
+========================================================= */
+
 .section-heading {
     text-align: center;
     max-width: 700px;
     margin: 0 auto 50px;
 }
-
 
 .section-heading h2 {
     margin: 0 0 15px;
@@ -1305,7 +1165,6 @@ body {
     font-weight: 400;
 }
 
-
 .section-heading p {
     margin: 0;
     color: #555;
@@ -1314,11 +1173,14 @@ body {
 }
 
 
+/* =========================================================
+   RENT PAGE — HOST SECTION
+========================================================= */
+
 .host-section {
     padding: 90px 100px;
     background-color: #f7f7f7;
 }
-
 
 .host-container {
     max-width: 1200px;
@@ -1327,7 +1189,6 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
-
 
 .host-card {
     min-height: 260px;
@@ -1338,12 +1199,10 @@ body {
     transition: 0.3s ease;
 }
 
-
 .host-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
-
 
 .host-number {
     margin-bottom: 25px;
@@ -1352,7 +1211,6 @@ body {
     font-size: 14px;
     font-weight: 600;
 }
-
 
 .host-card h3 {
     margin: 0 0 15px;
@@ -1369,6 +1227,11 @@ body {
     font-size: 15px;
     line-height: 1.6;
 }
+
+
+/* =========================================================
+   RENT PAGE — PACKAGE SECTION
+========================================================= */
 
 .package-section {
     padding: 90px 100px;
@@ -1395,14 +1258,12 @@ body {
     gap: 20px;
 }
 
-
 .package-card {
     position: relative;
     padding: 40px 35px;
     background-color: white;
     box-sizing: border-box;
 }
-
 
 .package-card h3 {
     margin: 0;
@@ -1412,14 +1273,12 @@ body {
     font-weight: 500;
 }
 
-
 .package-line {
     width: 50px;
     height: 3px;
     margin: 15px 0 20px;
     background-color: #ff7a00;
 }
-
 
 .package-description {
     min-height: 55px;
@@ -1428,13 +1287,11 @@ body {
     line-height: 1.5;
 }
 
-
 .package-card ul {
     margin: 25px 0;
     padding: 0;
     list-style: none;
 }
-
 
 .package-card li {
     margin-bottom: 12px;
@@ -1442,14 +1299,12 @@ body {
     font-size: 14px;
 }
 
-
 .package-card li::before {
     content: "✓";
     margin-right: 10px;
     color: #ff7a00;
     font-weight: bold;
 }
-
 
 .package-button {
     display: inline-block;
@@ -1463,16 +1318,13 @@ body {
     transition: 0.3s ease;
 }
 
-
 .package-button:hover {
     background-color: black;
 }
 
-
 .featured-package {
     border: 3px solid #ff7a00;
 }
-
 
 .popular {
     position: absolute;
@@ -1485,6 +1337,11 @@ body {
     font-weight: 600;
     letter-spacing: 1px;
 }
+
+
+/* =========================================================
+   RENT PAGE — PREVIEW
+========================================================= */
 
 .preview-section {
     padding: 90px 100px;
@@ -1501,7 +1358,6 @@ body {
 
 .preview-image {
     height: 280px;
-
     overflow: hidden;
 }
 
@@ -1517,12 +1373,14 @@ body {
     transition: 0.5s ease;
 }
 
-
 .preview-image:hover img {
     transform: scale(1.05);
 }
 
 
+/* =========================================================
+   RENT PAGE — AVAILABILITY
+========================================================= */
 
 .availability-section {
     position: relative;
@@ -1534,11 +1392,9 @@ body {
     box-sizing: border-box;
 }
 
-
 .availability-content {
     width: 45%;
 }
-
 
 .availability-content h2 {
     margin: 0 0 25px;
@@ -1549,11 +1405,9 @@ body {
     font-weight: 400;
 }
 
-
 .availability-content h2 span {
     color: #ff7a00;
 }
-
 
 .availability-content p {
     max-width: 500px;
@@ -1561,7 +1415,6 @@ body {
     font-size: 16px;
     line-height: 1.6;
 }
-
 
 .availability-form {
     width: 55%;
@@ -1572,7 +1425,9 @@ body {
 }
 
 
-
+/* =========================================================
+   FORM GROUPS (SHARED)
+========================================================= */
 
 .form-group {
     display: flex;
@@ -1580,22 +1435,20 @@ body {
     margin-bottom: 22px;
 }
 
-
 .form-group label {
+    display: block;
     margin-bottom: 8px;
-    color: black;
+    color: #111;
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-
     padding: 13px 15px;
     border: 1px solid #ccc;
     background-color: white;
@@ -1606,13 +1459,30 @@ body {
     box-sizing: border-box;
 }
 
-
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     border-color: #ff7a00;
 }
 
+.form-group textarea {
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.form-row {
+    display: flex;
+    gap: 25px;
+}
+
+.form-row .form-group {
+    width: 50%;
+}
+
+
+/* =========================================================
+   BUTTONS (SHARED)
+========================================================= */
 
 .check-button,
 .submit-button {
@@ -1627,46 +1497,34 @@ body {
     transition: 0.3s ease;
 }
 
-
 .check-button:hover,
 .submit-button:hover {
     background-color: black;
 }
-
-
-.inquiry-section {
-    padding: 90px 100px;
-    background-color: white;
-}
-
-
-.inquiry-form {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-
-.form-row {
-    display: flex;
-    gap: 25px;
-}
-
-
-.form-row .form-group {
-    width: 50%;
-}
-
 
 .submit-button {
     margin-top: 10px;
 }
 
 
+/* =========================================================
+   RENT PAGE — INQUIRY / PROCESS / GUIDELINE
+========================================================= */
+
+.inquiry-section {
+    padding: 90px 100px;
+    background-color: white;
+}
+
+.inquiry-form {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 .process-section {
     padding: 90px 100px;
     background-color: #f7f7f7;
 }
-
 
 .process-container {
     max-width: 1100px;
@@ -1676,11 +1534,9 @@ body {
     gap: 30px;
 }
 
-
 .process-item {
     text-align: center;
 }
-
 
 .process-item span {
     display: block;
@@ -1690,7 +1546,6 @@ body {
     font-weight: 600;
 }
 
-
 .process-item h3 {
     margin: 0 0 12px;
     color: black;
@@ -1699,14 +1554,12 @@ body {
     font-weight: 500;
 }
 
-
 .process-item p {
     margin: 0;
     color: #555;
     font-size: 14px;
     line-height: 1.6;
 }
-
 
 .guideline-section {
     display: flex;
@@ -1716,11 +1569,9 @@ body {
     box-sizing: border-box;
 }
 
-
 .guideline-content {
     width: 40%;
 }
-
 
 .guideline-content h2 {
     margin: 0;
@@ -1730,11 +1581,9 @@ body {
     font-weight: 400;
 }
 
-
 .guideline-list {
     width: 60%;
 }
-
 
 .guideline-list p {
     margin: 0;
@@ -1745,242 +1594,83 @@ body {
 }
 
 
+/* =========================================================
+   RENT — CTA
+========================================================= */
+
 .rent-cta {
     padding: 90px 30px;
-
     text-align: center;
-
     background-color: #ff7a00;
 }
 
-
 .rent-cta h2 {
     margin: 0 0 20px;
-
     color: white;
-
     font-family: 'Lora', serif;
-
     font-size: 52px;
-
     line-height: 1.1;
-
     font-weight: 400;
 }
-
 
 .rent-cta h2 span {
     color: black;
 }
 
-
 .rent-cta p {
     margin: 0 auto 30px;
-
     max-width: 600px;
-
     color: white;
-
     font-size: 17px;
-
     line-height: 1.6;
 }
 
+.rent-cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
 .cta-button {
     display: inline-block;
-
     padding: 14px 30px;
-
     background-color: black;
-
     color: white;
-
     text-decoration: none;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     font-weight: 600;
-
     transition: 0.3s ease;
 }
 
-
 .cta-button:hover {
     background-color: white;
-
     color: black;
 }
 
+.cta-button-outline {
+    display: inline-block;
+    padding: 14px 30px;
+    border: 2px solid black;
+    background-color: transparent;
+    color: black;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
 
-    .rent-hero {
-        padding: 70px 50px;
-    }
-
-    .space-section {
-        padding: 70px 50px;
-
-        gap: 40px;
-    }
-
-    .host-section,
-    .package-section,
-    .preview-section,
-    .inquiry-section,
-    .process-section {
-        padding: 70px 50px;
-    }
-
-    .availability-section {
-        padding: 70px 50px;
-
-        gap: 40px;
-    }
-
-    .guideline-section {
-        padding: 70px 50px;
-
-        gap: 50px;
-    }
+.cta-button-outline:hover {
+    background-color: black;
+    color: white;
+}
 
 
-    .host-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-
-    .package-container {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-    }
-
-
-    .process-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .rent-hero {
-        min-height: 500px;
-
-        padding: 50px 25px;
-    }
-
-
-    .rent-hero-content h2 {
-        font-size: 40px;
-    }
-
-
-    .space-section {
-        flex-direction: column;
-
-        padding: 60px 25px;
-    }
-
-
-    .space-image,
-    .space-content {
-        width: 100%;
-    }
-
-
-    .space-image {
-        height: 300px;
-    }
-
-
-    .host-section,
-    .package-section,
-    .preview-section,
-    .inquiry-section,
-    .process-section {
-        padding: 60px 25px;
-    }
-
-
-    .section-heading h2 {
-        font-size: 38px;
-    }
-
-
-    .host-container {
-        grid-template-columns: 1fr;
-    }
-
-
-    .preview-grid {
-        grid-template-columns: 1fr;
-    }
-
-
-    .preview-image,
-    .preview-image.large {
-        height: 280px;
-    }
-
-
-    .availability-section {
-        flex-direction: column;
-
-        padding: 60px 25px;
-
-        gap: 40px;
-    }
-
-
-    .availability-content,
-    .availability-form {
-        width: 100%;
-    }
-
-
-    .availability-form {
-        padding: 25px;
-    }
-
-
-    .form-row {
-        flex-direction: column;
-
-        gap: 0;
-    }
-
-
-    .form-row .form-group {
-        width: 100%;
-    }
-
-
-    .process-container {
-        grid-template-columns: 1fr;
-    }
-
-
-    .guideline-section {
-        flex-direction: column;
-
-        padding: 60px 25px;
-
-        gap: 30px;
-    }
-
-
-    .guideline-content,
-    .guideline-list {
-        width: 100%;
-    }
-
-
-    .rent-cta {
-        padding: 70px 25px;
-    }
-
-
-    .rent-cta h2 {
-        font-size: 40px;
-    }
+/* =========================================================
+   ABOUT PAGE — HERO
+========================================================= */
 
 .about-hero {
     width: 100%;
@@ -2006,7 +1696,6 @@ body {
     font-weight: 600;
 }
 
-
 .about-hero-text h2 {
     margin: 0 0 25px;
     color: white;
@@ -2016,11 +1705,9 @@ body {
     font-weight: 400;
 }
 
-
 .about-hero-text h2 span {
     color: #ff7a00;
 }
-
 
 .about-hero-text p {
     max-width: 500px;
@@ -2037,7 +1724,6 @@ body {
     overflow: hidden;
 }
 
-
 .about-hero-image img {
     width: 100%;
     height: 100%;
@@ -2045,6 +1731,10 @@ body {
     display: block;
 }
 
+
+/* =========================================================
+   ABOUT PAGE — STORY
+========================================================= */
 
 .about-story {
     width: 100%;
@@ -2056,13 +1746,11 @@ body {
     box-sizing: border-box;
 }
 
-
 .story-image {
     width: 50%;
     height: 450px;
     overflow: hidden;
 }
-
 
 .story-image img {
     width: 100%;
@@ -2071,475 +1759,278 @@ body {
     display: block;
 }
 
-
 .story-text {
     width: 50%;
 }
 
-
 .story-text h4 {
-
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     letter-spacing: 2px;
-
 }
-
 
 .story-text h2 {
-
     margin: 0 0 25px;
-
     color: black;
-
     font-family: 'Lora', serif;
-
     font-size: 50px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .story-text h2 span {
-
     color: #ff7a00;
-
 }
-
 
 .story-text p {
-
     margin: 0 0 18px;
-
     color: #444;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 16px;
-
     line-height: 1.7;
-
 }
 
+
+/* =========================================================
+   ABOUT PAGE — BELIEF
+========================================================= */
 
 .belief-section {
-
     padding: 90px 100px;
-
     background-color: #f4f4f4;
-
     box-sizing: border-box;
-
 }
-
 
 .belief-heading {
-
     max-width: 700px;
-
     margin: 0 auto 60px;
-
     text-align: center;
-
 }
-
 
 .belief-heading h4 {
-
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     letter-spacing: 2px;
-
 }
-
 
 .belief-heading h2 {
-
     margin: 0;
-
     color: black;
-
     font-family: 'Lora', serif;
-
     font-size: 50px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .belief-heading h2 span {
-
     color: #ff7a00;
-
 }
+
 .belief-container {
-
     max-width: 1100px;
-
     margin: 0 auto;
-
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 25px;
-
 }
-
 
 .belief-card {
-
     min-height: 280px;
-
     padding: 40px;
-
     background-color: white;
-
     box-sizing: border-box;
-
     border-top: 4px solid #ff7a00;
-
     transition: 0.3s ease;
-
 }
-
 
 .belief-card:hover {
-
     transform: translateY(-7px);
-
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
 }
-
 
 .belief-card span {
-
     display: block;
-
     margin-bottom: 30px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     font-weight: 600;
-
 }
-
 
 .belief-card h3 {
-
     margin: 0 0 20px;
-
     color: black;
-
     font-family: 'Lora', serif;
-
     font-size: 30px;
-
     font-weight: 500;
-
 }
-
 
 .belief-card p {
-
     margin: 0;
-
     color: #555;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 15px;
-
     line-height: 1.7;
-
 }
 
+
+/* =========================================================
+   ABOUT PAGE — MISSION / VISION
+========================================================= */
 
 .mission-section {
-
     width: 100%;
-
     min-height: 550px;
-
     display: flex;
-
     align-items: center;
-
     gap: 80px;
-
     padding: 80px 100px;
-
     background-color: black;
-
     box-sizing: border-box;
-
 }
-
 
 .mission-image {
-
     width: 50%;
-
     height: 430px;
-
     overflow: hidden;
-
 }
-
 
 .mission-image img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
 }
-
 
 .mission-text {
-
     width: 50%;
-
 }
-
 
 .mission-text h4 {
-
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     letter-spacing: 2px;
-
 }
-
 
 .mission-text h2 {
-
     margin: 0 0 25px;
-
     color: white;
-
     font-family: 'Lora', serif;
-
     font-size: 50px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .mission-text h2 span {
-
     color: #ff7a00;
-
 }
-
 
 .mission-text p {
-
     max-width: 550px;
-
     margin: 0;
-
     color: #ddd;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 16px;
-
     line-height: 1.7;
-
 }
-
 
 .vision-section {
-
     width: 100%;
-
     min-height: 550px;
-
     display: flex;
-
     align-items: center;
-
     gap: 80px;
-
     padding: 80px 100px;
-
     background-color: white;
-
     box-sizing: border-box;
-
 }
-
 
 .vision-text {
-
     width: 50%;
-
 }
-
 
 .vision-text h4 {
-
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     letter-spacing: 2px;
-
 }
-
 
 .vision-text h2 {
-
     margin: 0 0 25px;
-
     color: black;
-
     font-family: 'Lora', serif;
-
     font-size: 50px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .vision-text h2 span {
-
     color: #ff7a00;
-
 }
-
 
 .vision-text p {
-
     max-width: 550px;
-
     margin: 0;
-
     color: #444;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 16px;
-
     line-height: 1.7;
-
 }
-
 
 .vision-image {
-
     width: 50%;
-
     height: 430px;
-
     overflow: hidden;
-
 }
-
 
 .vision-image img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
 }
 
+
+/* =========================================================
+   ABOUT — CTA
+========================================================= */
 
 .about-cta {
-
     padding: 100px 30px;
-
     text-align: center;
-
     background-color: #ff7a00;
-
     box-sizing: border-box;
-
 }
-
 
 .about-cta h2 {
-
     margin: 0 0 20px;
-
     color: white;
-
     font-family: 'Lora', serif;
-
     font-size: 55px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .about-cta h2 span {
     color: black;
 }
 
-
 .about-cta p {
-
     max-width: 600px;
     margin: 0 auto 30px;
     color: white;
     font-family: 'Montserrat', sans-serif;
     font-size: 17px;
     line-height: 1.6;
-
 }
-
 
 .about-cta-button {
     display: inline-block;
@@ -2551,269 +2042,143 @@ body {
     font-size: 14px;
     font-weight: 600;
     transition: 0.3s ease;
-
 }
-
 
 .about-cta-button:hover {
     background-color: white;
     color: black;
-
 }
+
 
 /* =========================================================
    CONTACT PAGE
 ========================================================= */
 
-
-/* =========================================================
-   CONTACT HERO
-========================================================= */
-
 .contact-hero {
-
     width: 100%;
-
     min-height: 600px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     padding: 80px 100px;
-
     background-color: black;
-
     box-sizing: border-box;
-
 }
-
-
-/* LEFT TEXT */
 
 .contact-hero-text {
-
     width: 48%;
-
 }
-
 
 .contact-hero-text h1 {
-
     margin: 0 0 20px;
-
     color: white;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 18px;
-
     letter-spacing: 3px;
-
     font-weight: 600;
-
 }
-
 
 .contact-hero-text h2 {
-
     margin: 0 0 25px;
-
     color: white;
-
     font-family: 'Lora', serif;
-
     font-size: 55px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .contact-hero-text h2 span {
-
     color: #ff7a00;
-
 }
-
 
 .contact-hero-text p {
-
     max-width: 500px;
-
     margin: 0;
-
     color: white;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 18px;
-
     line-height: 1.7;
-
 }
-
-
-/* HERO IMAGE */
 
 .contact-hero-image {
-
     width: 45%;
-
     height: 430px;
-
     overflow: hidden;
-
 }
-
 
 .contact-hero-image img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
 }
-
-
-
-/* =========================================================
-   GET IN TOUCH
-========================================================= */
 
 .contact-info {
-
     padding: 90px 100px;
-
     background-color: white;
-
     box-sizing: border-box;
-
 }
-
 
 .contact-heading {
-
     text-align: center;
-
     margin-bottom: 60px;
-
 }
-
 
 .contact-heading h4 {
-
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 14px;
-
     letter-spacing: 2px;
-
 }
-
 
 .contact-heading h2 {
-
     margin: 0;
-
     color: black;
-
     font-family: 'Lora', serif;
-
     font-size: 50px;
-
     line-height: 1.1;
-
     font-weight: 400;
-
 }
-
 
 .contact-heading h2 span {
-
     color: #ff7a00;
-
 }
-
-
-/* CONTACT CARDS */
 
 .contact-container {
-
     max-width: 1100px;
-
     margin: auto;
-
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 30px;
-
 }
-
 
 .contact-card {
-
     padding: 40px 30px;
-
     text-align: center;
-
     background-color: #f5f5f5;
-
     border-top: 4px solid #ff7a00;
-
 }
-
 
 .contact-icon {
-
     width: 50px;
-
     height: 50px;
-
     margin: 0 auto 20px;
-
 }
-
 
 .contact-icon img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: contain;
-
 }
-
 
 .contact-card h3 {
-
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 18px;
-
     letter-spacing: 1px;
-
 }
-
 
 .contact-card p {
     margin: 0;
@@ -2821,9 +2186,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     line-height: 1.6;
-
 }
-
 
 .message-section {
     display: flex;
@@ -2833,11 +2196,9 @@ body {
     box-sizing: border-box;
 }
 
-
 .message-heading {
     width: 40%;
 }
-
 
 .message-heading h4 {
     margin: 0 0 15px;
@@ -2846,7 +2207,6 @@ body {
     font-size: 14px;
     letter-spacing: 2px;
 }
-
 
 .message-heading h2 {
     margin: 0 0 25px;
@@ -2857,11 +2217,9 @@ body {
     font-weight: 400;
 }
 
-
 .message-heading h2 span {
     color: #ff7a00;
 }
-
 
 .message-heading p {
     max-width: 400px;
@@ -2871,61 +2229,11 @@ body {
     line-height: 1.7;
 }
 
-
 .contact-form {
     width: 60%;
 }
 
-
-.form-row {
-    display: flex;
-    gap: 25px;
-}
-
-
-.form-group {
-    width: 100%;
-    margin-bottom: 25px;
-}
-
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #ccc;
-    background-color: white;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    box-sizing: border-box;
-    outline: none;
-}
-
-
-.form-group input:focus,
-.form-group textarea:focus {
-    border: 1px solid #ff7a00;
-}
-
-
-.form-group textarea {
-    resize: vertical;
-}
-
-
 .send-button {
-
     padding: 15px 35px;
     border: none;
     background-color: #ff7a00;
@@ -2937,11 +2245,9 @@ body {
     transition: 0.3s ease;
 }
 
-
 .send-button:hover {
     background-color: black;
 }
-
 
 .find-section {
     display: flex;
@@ -2952,11 +2258,9 @@ body {
     box-sizing: border-box;
 }
 
-
 .find-text {
     width: 40%;
 }
-
 
 .find-text h4 {
     margin: 0 0 15px;
@@ -2965,7 +2269,6 @@ body {
     font-size: 14px;
     letter-spacing: 2px;
 }
-
 
 .find-text h2 {
     margin: 0 0 25px;
@@ -2976,11 +2279,9 @@ body {
     font-weight: 400;
 }
 
-
 .find-text h2 span {
     color: #ff7a00;
 }
-
 
 .find-text p {
     max-width: 450px;
@@ -2989,7 +2290,6 @@ body {
     font-size: 16px;
     line-height: 1.7;
 }
-
 
 .find-text strong {
     color: #ff7a00;
@@ -3001,7 +2301,6 @@ body {
     overflow: hidden;
 }
 
-
 .map-container img {
     width: 100%;
     height: 100%;
@@ -3009,15 +2308,12 @@ body {
     display: block;
 }
 
-
-
 .contact-cta {
     padding: 100px 30px;
     text-align: center;
     background-color: #ff7a00;
     box-sizing: border-box;
 }
-
 
 .contact-cta h2 {
     margin: 0 0 20px;
@@ -3028,11 +2324,9 @@ body {
     font-weight: 400;
 }
 
-
 .contact-cta h2 span {
     color: black;
 }
-
 
 .contact-cta p {
     max-width: 600px;
@@ -3042,7 +2336,6 @@ body {
     font-size: 17px;
     line-height: 1.6;
 }
-
 
 .contact-cta-button {
     display: inline-block;
@@ -3056,12 +2349,15 @@ body {
     transition: 0.3s ease;
 }
 
-
 .contact-cta-button:hover {
     background-color: white;
     color: black;
 }
 
+
+/* =========================================================
+   VISIT PAGE
+========================================================= */
 
 .visit-hero {
     display: flex;
@@ -3074,11 +2370,9 @@ body {
     box-sizing: border-box;
 }
 
-
 .visit-hero-text {
     width: 45%;
 }
-
 
 .visit-hero-text h1 {
     margin: 0 0 20px;
@@ -3089,7 +2383,6 @@ body {
     font-weight: bold;
 }
 
-
 .visit-hero-text h2 {
     margin: 0 0 25px;
     color: white;
@@ -3099,11 +2392,9 @@ body {
     font-weight: 400;
 }
 
-
 .visit-hero-text h2 span {
     color: #ff7a00;
 }
-
 
 .visit-hero-text p {
     max-width: 500px;
@@ -3114,13 +2405,11 @@ body {
     line-height: 1.7;
 }
 
-
 .visit-hero-image {
     width: 48%;
     height: 430px;
     overflow: hidden;
 }
-
 
 .visit-hero-image img {
     width: 100%;
@@ -3135,36 +2424,6 @@ body {
     box-sizing: border-box;
 }
 
-
-.section-heading {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-
-.section-heading h4 {
-    margin: 0 0 15px;
-    color: #ff7a00;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-}
-
-
-.section-heading h2 {
-    margin: 0;
-    color: black;
-    font-family: 'Lora', serif;
-    font-size: 50px;
-    line-height: 1.1;
-    font-weight: 400;
-}
-
-
-.section-heading h2 span {
-    color: #ff7a00;
-}
-
 .visit-info-container {
     max-width: 1100px;
     margin: auto;
@@ -3172,7 +2431,6 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
-
 
 .visit-info-card {
     padding: 40px 30px;
@@ -3182,20 +2440,17 @@ body {
     box-sizing: border-box;
 }
 
-
 .visit-icon {
     width: 50px;
     height: 50px;
     margin: 0 auto 20px;
 }
 
-
 .visit-icon img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
-
 
 .visit-info-card h3 {
     margin: 0 0 15px;
@@ -3205,7 +2460,6 @@ body {
     letter-spacing: 1px;
 }
 
-
 .visit-info-card p {
     margin: 0;
     color: #333;
@@ -3213,7 +2467,6 @@ body {
     font-size: 16px;
     line-height: 1.7;
 }
-
 
 .visit-info-card small {
     display: block;
@@ -3232,11 +2485,9 @@ body {
     box-sizing: border-box;
 }
 
-
 .gallery-visit-text {
     width: 40%;
 }
-
 
 .gallery-visit-text h4 {
     margin: 0 0 15px;
@@ -3245,7 +2496,6 @@ body {
     font-size: 14px;
     letter-spacing: 3px;
 }
-
 
 .gallery-visit-text h2 {
     margin: 0 0 25px;
@@ -3256,11 +2506,9 @@ body {
     font-weight: 400;
 }
 
-
 .gallery-visit-text h2 span {
     color: #ff7a00;
 }
-
 
 .gallery-visit-text p {
     max-width: 450px;
@@ -3270,13 +2518,11 @@ body {
     line-height: 1.7;
 }
 
-
 .gallery-visit-image {
     width: 52%;
     height: 420px;
     overflow: hidden;
 }
-
 
 .gallery-visit-image img {
     width: 100%;
@@ -3286,18 +2532,15 @@ body {
 }
 
 .find-us {
-
     padding: 90px 100px;
     background-color: white;
     box-sizing: border-box;
 }
 
-
 .find-us-heading {
     text-align: center;
     margin-bottom: 45px;
 }
-
 
 .find-us-heading h4 {
     margin: 0 0 15px;
@@ -3306,7 +2549,6 @@ body {
     font-size: 14px;
     letter-spacing: 3px;
 }
-
 
 .find-us-heading h2 {
     margin: 0 0 20px;
@@ -3317,11 +2559,9 @@ body {
     font-weight: 400;
 }
 
-
 .find-us-heading h2 span {
     color: #ff7a00;
 }
-
 
 .find-us-heading p {
     max-width: 600px;
@@ -3340,7 +2580,6 @@ body {
     overflow: hidden;
 }
 
-
 .map-area img {
     width: 100%;
     height: 100%;
@@ -3348,16 +2587,12 @@ body {
     display: block;
 }
 
-
-
-
 .visit-cta {
     padding: 100px 30px;
     text-align: center;
     background-color: #ff7a00;
     box-sizing: border-box;
 }
-
 
 .visit-cta h2 {
     margin: 0 0 20px;
@@ -3368,11 +2603,9 @@ body {
     font-weight: 400;
 }
 
-
 .visit-cta h2 span {
     color: black;
 }
-
 
 .visit-cta p {
     max-width: 650px;
@@ -3393,6 +2626,8 @@ body {
 .cta-exhibition {
     display: inline-block;
     padding: 15px 30px;
+    background-color: black;
+    color: white;
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
@@ -3400,53 +2635,26 @@ body {
     transition: 0.3s ease;
 }
 
-
-.cta-contact {
-    background-color: black;
-    color: white;
-}
-
-
-.cta-exhibition {
-    background-color: black;
-    color: white;
-}
-
-
-.cta-contact:hover {
-    background-color: white;
-    color: black;
-}
-
-
+.cta-contact:hover,
 .cta-exhibition:hover {
     background-color: white;
     color: black;
-
 }
 
-/* =========================
+
+/* =========================================================
    FOOTER
-========================= */
-
-.footer {
-    background-color: black;
-    color: white;
-    padding: 70px 70px 30px;
-    box-sizing: border-box;
-}
-
-
-/* MAIN FOOTER LAYOUT */
+========================================================= */
 
 .footer {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    background-color: black;
+    color: white;
+    padding: 70px 70px 30px;
+    box-sizing: border-box;
 }
-
-
-/* LOGO - LEFT SIDE */
 
 .logo-1 {
     display: block;
@@ -3460,9 +2668,6 @@ body {
     object-fit: contain;
 }
 
-
-/* LINKS - RIGHT SIDE */
-
 .foot-link {
     width: 65%;
     display: flex;
@@ -3471,34 +2676,25 @@ body {
     gap: 50px;
 }
 
-
-/* FOOTER COLUMNS */
-
 .foot-column {
     display: flex;
     flex-direction: column;
     min-width: 130px;
 }
 
-
-/* HEADINGS */
-
 .foot-column h3 {
     margin: 0 0 25px;
     color: #ff7a00;
-    font-family: 'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-
-/* LINKS */
-
 .foot-column a {
     color: white;
     text-decoration: none;
-    font-family:'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     margin-bottom: 14px;
     transition: color 0.3s ease;
@@ -3508,22 +2704,16 @@ body {
     color: #ff7a00;
 }
 
-
-/* SOCIAL MEDIA */
-
 .social-item {
     display: flex;
     align-items: center;
-
     gap: 10px;
-
     margin-bottom: 14px;
 }
 
 .social-item img {
     width: 20px;
     height: 20px;
-
     object-fit: contain;
 }
 
@@ -3531,34 +2721,24 @@ body {
     margin: 0;
 }
 
-
-/* ORANGE LINE */
-
 .footer-line {
     width: 100%;
-
     border: none;
     border-top: 2px solid #ff7a00;
-
     margin: 70px 0 25px;
 }
 
-
-/* COPYRIGHT */
-
 .copyright {
     width: 100%;
-
     margin: 0;
-
     color: #aaa;
-
     font-size: 14px;
 }
 
-/* ================================
-   DASHBOARD
-================================ */
+
+/* =========================================================
+   DASHBOARD (LEGACY — user-dashboard.php replacement)
+========================================================= */
 
 .dashboard {
     min-height: 600px;
@@ -3567,18 +2747,12 @@ body {
     box-sizing: border-box;
 }
 
-
-/* Main heading */
-
 .dashboard h1 {
     margin: 0 0 15px;
     color: black;
     font-size: 52px;
     font-weight: 700;
 }
-
-
-/* Welcome text */
 
 .dashboard h2 {
     margin: 0 0 15px;
@@ -3587,15 +2761,11 @@ body {
     font-weight: 600;
 }
 
-
 .dashboard > p {
     margin-bottom: 50px;
     color: #555;
     font-size: 17px;
 }
-
-
-/* Account information box */
 
 .dashboard-info {
     width: 600px;
@@ -3605,9 +2775,6 @@ body {
     box-sizing: border-box;
 }
 
-
-/* Account heading */
-
 .dashboard-info h3 {
     margin: 0 0 30px;
     color: #ff7a00;
@@ -3615,26 +2782,17 @@ body {
     letter-spacing: 1px;
 }
 
-
-/* Account information */
-
 .dashboard-info p {
     margin: 0 0 18px;
     color: white;
     font-size: 16px;
 }
 
-
-/* Labels */
-
 .dashboard-info strong {
     display: inline-block;
     width: 110px;
     color: #ff7a00;
 }
-
-
-/* Logout button */
 
 .dashboard-info a {
     display: inline-block;
@@ -3648,806 +2806,178 @@ body {
     transition: 0.3s ease;
 }
 
-
 .dashboard-info a:hover {
     background-color: white;
     color: black;
 }
 
-/* =====================================================
-   EDL GALLERY USER DASHBOARD
-===================================================== */
 
-.user-dashboard {
-    width: 100%;
-    background-color: #fff;
-}
-
-
-/* =====================================================
-   HERO
-===================================================== */
+/* =========================================================
+   DASHBOARD HERO (SHARED — dashboard.php, my-inquiries.php,
+   submit-inquiry.php, my-inquiry-view.php)
+========================================================= */
 
 .dashboard-hero {
     width: 100%;
     min-height: 480px;
-
     display: flex;
     align-items: center;
-
     padding: 80px 100px;
-
     box-sizing: border-box;
-
-    background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0.65),
-            rgba(0, 0, 0, 0.65)
-        ),
-        url("Images/background-2.jpg");
-
     background-size: cover;
     background-position: center;
-
+    background-repeat: no-repeat;
     position: relative;
 }
-
 
 .dashboard-hero-content {
     max-width: 700px;
 }
 
-
 .dashboard-label {
     margin: 0 0 15px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 12px;
-
     letter-spacing: 2px;
-
     font-weight: 500;
 }
 
-
 .dashboard-hero h1 {
     margin: 0 0 20px;
-
     color: white;
-
     font-family: 'Lora', serif;
-
     font-size: 58px;
-
     font-weight: 400;
-
     line-height: 1.1;
 }
-
 
 .dashboard-hero h1 span {
     color: #ff7a00;
 }
 
-
 .dashboard-description {
     max-width: 550px;
-
     margin: 0 0 35px;
-
     color: #eee;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 17px;
-
     line-height: 1.7;
 }
 
-
 .dashboard-main-button {
     display: inline-block;
-
     padding: 14px 32px;
-
     background-color: #ff7a00;
-
     color: white;
-
     text-decoration: none;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 13px;
-
     font-weight: 600;
-
     letter-spacing: 1px;
-
     transition: 0.3s ease;
 }
 
-
 .dashboard-main-button:hover {
     background-color: white;
-
     color: black;
 }
 
 
-/* =====================================================
-   CONTENT
-===================================================== */
+/* =========================================================
+   DASHBOARD CONTENT
+========================================================= */
 
 .dashboard-content {
     width: 100%;
-
     max-width: 1250px;
-
     margin: 0 auto;
-
     padding: 80px 40px;
-
     box-sizing: border-box;
 }
-
-
-/* =====================================================
-   HEADINGS
-===================================================== */
 
 .dashboard-heading {
     margin-bottom: 35px;
 }
 
-
 .dashboard-heading p {
     margin: 0 0 8px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 11px;
-
     font-weight: 600;
-
     letter-spacing: 2px;
 }
 
-
 .dashboard-heading h2 {
     margin: 0;
-
     color: #111;
-
     font-family: 'Lora', serif;
-
     font-size: 38px;
-
     font-weight: 400;
 }
 
 
-/* =====================================================
-   STATISTICS
-===================================================== */
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
 
 .dashboard-stats {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-
     margin-bottom: 80px;
 }
 
-
 .dashboard-stat {
     display: flex;
-
     align-items: center;
-
     gap: 25px;
-
     padding: 30px;
-
     border: 1px solid #ddd;
-
     background-color: #fff;
-
     transition: 0.3s ease;
 }
 
-
 .dashboard-stat:hover {
     transform: translateY(-5px);
-
     border-color: #ff7a00;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
-
 
 .dashboard-stat-number {
     color: #ff7a00;
-
     font-family: 'Lora', serif;
-
     font-size: 48px;
-
     line-height: 1;
 }
 
-
 .dashboard-stat span {
     display: block;
-
     margin-bottom: 8px;
-
     color: #111;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 12px;
-
     font-weight: 600;
-
     letter-spacing: 1px;
 }
 
-
 .dashboard-stat p {
     margin: 0;
-
     color: #777;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 13px;
-
     line-height: 1.5;
 }
-
-
-/* =====================================================
-   PANELS
-===================================================== */
 
 .dashboard-panel {
     margin-bottom: 80px;
 }
 
 
-/* =====================================================
-   INQUIRY CARD
-===================================================== */
-
-.inquiry-card {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 35px;
-
-    border: 1px solid #ddd;
-
-    background-color: #fafafa;
-}
-
-
-.inquiry-type {
-    margin: 0 0 8px;
-
-    color: #ff7a00;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    letter-spacing: 2px;
-}
-
-
-.inquiry-main h3 {
-    margin: 0 0 10px;
-
-    color: #111;
-
-    font-family: 'Lora', serif;
-
-    font-size: 30px;
-
-    font-weight: 400;
-}
-
-
-.inquiry-main > p:last-child {
-    margin: 0;
-
-    color: #777;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 13px;
-}
-
-
-.inquiry-status {
-    text-align: right;
-}
-
-
-.status-label {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #888;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-}
-
-
-.inquiry-status strong {
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 13px;
-
-    letter-spacing: 1px;
-}
-
-
-.status-pending {
-    color: #d88a00;
-}
-
-
-.status-approved {
-    color: #268a4b;
-}
-
-
-.status-rejected {
-    color: #c0392b;
-}
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-.inquiry-progress {
-    display: flex;
-
-    align-items: center;
-
-    padding: 35px 10px 10px;
-}
-
-
-.progress-step {
-    text-align: center;
-
-    min-width: 90px;
-}
-
-
-.progress-step span {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 38px;
-    height: 38px;
-
-    margin: 0 auto 10px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 50%;
-
-    color: #999;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 11px;
-}
-
-
-.progress-step p {
-    margin: 0;
-
-    color: #999;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 1px;
-}
-
-
-.progress-step.active span {
-    border-color: #ff7a00;
-
-    background-color: #ff7a00;
-
-    color: white;
-}
-
-
-.progress-step.active p {
-    color: #111;
-
-    font-weight: 600;
-}
-
-
-.progress-line {
-    flex: 1;
-
-    height: 1px;
-
-    background-color: #ddd;
-
-    margin: 0 10px 25px;
-}
-
-
-/* =====================================================
-   QUICK ACTIONS
-===================================================== */
-
-.dashboard-actions {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 15px;
-}
-
-
-.dashboard-action {
-    display: flex;
-
-    align-items: center;
-
-    gap: 25px;
-
-    padding: 28px;
-
-    border: 1px solid #ddd;
-
-    color: #111;
-
-    text-decoration: none;
-
-    transition: 0.3s ease;
-}
-
-
-.dashboard-action:hover {
-    border-color: #ff7a00;
-
-    background-color: #ff7a00;
-
-    color: white;
-
-    transform: translateY(-3px);
-}
-
-
-.dashboard-action > span {
-    color: #ff7a00;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 12px;
-
-    font-weight: 600;
-}
-
-
-.dashboard-action:hover > span {
-    color: white;
-}
-
-
-.dashboard-action h3 {
-    margin: 0 0 7px;
-
-    font-family: 'Lora', serif;
-
-    font-size: 23px;
-
-    font-weight: 400;
-}
-
-
-.dashboard-action p {
-    margin: 0;
-
-    color: #777;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 13px;
-}
-
-
-.dashboard-action:hover p {
-    color: white;
-}
-
-
-.dashboard-action b {
-    margin-left: auto;
-
-    font-size: 22px;
-
-    font-weight: 400;
-}
-
-
-/* =====================================================
-   ACCOUNT
-===================================================== */
-
-.dashboard-account {
-    padding-top: 20px;
-
-    border-top: 1px solid #ddd;
-}
-
-
-.account-information {
-    border-top: 1px solid #ddd;
-}
-
-
-.account-row {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 20px 0;
-
-    border-bottom: 1px solid #ddd;
-}
-
-
-.account-row span {
-    color: #888;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 11px;
-
-    letter-spacing: 1px;
-}
-
-
-.account-row strong {
-    color: #222;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 14px;
-
-    font-weight: 500;
-}
-
-
-.empty-dashboard {
-    padding: 60px 30px;
-
-    text-align: center;
-
-    border: 1px solid #ddd;
-}
-
-
-.empty-dashboard h3 {
-    margin: 0 0 10px;
-
-    color: #111;
-
-    font-family: 'Lora', serif;
-
-    font-size: 26px;
-
-    font-weight: 400;
-}
-
-
-.empty-dashboard p {
-    margin: 0 0 25px;
-
-    color: #777;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 14px;
-}
-
-
-.dashboard-outline-button {
-    display: inline-block;
-
-    padding: 12px 25px;
-
-    border: 1px solid #111;
-
-    color: #111;
-
-    text-decoration: none;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 11px;
-
-    letter-spacing: 1px;
-
-    transition: 0.3s ease;
-}
-
-
-.dashboard-outline-button:hover {
-    background-color: #111;
-
-    color: white;
-}
-
-
-@media (max-width: 900px) {
-
-    .dashboard-hero {
-        padding: 70px 50px;
-    }
-
-    .dashboard-content {
-        padding: 60px 30px;
-    }
-
-    .dashboard-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-actions {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .dashboard-hero {
-        min-height: 450px;
-
-        padding: 50px 25px;
-    }
-
-    .dashboard-hero h1 {
-        font-size: 42px;
-    }
-
-    .dashboard-content {
-        padding: 50px 20px;
-    }
-
-    .inquiry-card {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 25px;
-    }
-
-    .inquiry-status {
-        text-align: left;
-    }
-
-    .inquiry-progress {
-        overflow-x: auto;
-    }
-
-    .account-row {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 8px;
-    }
-
-}
-
-
-.rent-hero-buttons {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.rent-cta-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.cta-button-outline {
-    display: inline-block;
-    padding: 14px 30px;
-    border: 2px solid black;
-    background-color: transparent;
-    color: black;
-    text-decoration: none;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    transition: 0.3s ease;
-}
-
-.cta-button-outline:hover {
-    background-color: black;
-    color: white;
-}
-
-
-/* =====================================================
-   FORM ERROR MESSAGES
-   (used on submit-inquiry.php when validation fails)
-===================================================== */
-
-.form-errors {
-    max-width: 900px;
-    margin: 0 auto 30px;
-    padding: 20px 25px;
-    border-left: 4px solid #c0392b;
-    background-color: #fdecea;
-}
-
-.form-errors p {
-    margin: 0 0 6px;
-    color: #c0392b;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-}
-
-.form-errors p:last-child {
-    margin-bottom: 0;
-}
-
-
-/* =====================================================
-   INQUIRY CARD - LAYOUT UPDATE
-   The card itself now stacks vertically so a status note
-   (approved / rejected) can appear below the title/status
-   row. ".inquiry-card-row" holds the original left/right
-   layout.
-===================================================== */
+/* =========================================================
+   INQUIRY CARD (SHARED)
+========================================================= */
 
 .inquiry-card {
     display: block;
@@ -4455,6 +2985,7 @@ body {
     border: 1px solid #ddd;
     background-color: #fafafa;
     margin-bottom: 25px;
+    transition: 0.3s ease;
 }
 
 .inquiry-card:last-child {
@@ -4469,6 +3000,30 @@ body {
     flex-wrap: wrap;
 }
 
+.inquiry-type {
+    margin: 0 0 8px;
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.inquiry-main h3 {
+    margin: 0 0 10px;
+    color: #111;
+    font-family: 'Lora', serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.inquiry-main > p:last-child {
+    margin: 0;
+    color: #777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+}
+
 .inquiry-meta {
     margin: 0 0 6px;
     color: #777;
@@ -4480,10 +3035,46 @@ body {
     margin-bottom: 0;
 }
 
+.inquiry-status {
+    text-align: right;
+}
 
-/* =====================================================
-   INQUIRY STATUS NOTES
-===================================================== */
+.status-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.inquiry-status strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   INQUIRY STATUS COLORS
+========================================================= */
+
+.status-pending {
+    color: #d88a00;
+}
+
+.status-approved {
+    color: #268a4b;
+}
+
+.status-rejected {
+    color: #c0392b;
+}
+
+
+/* =========================================================
+   INQUIRY NOTES
+========================================================= */
 
 .inquiry-note {
     margin-top: 20px;
@@ -4516,32 +3107,232 @@ body {
 }
 
 
-/* =====================================================
-   RESPONSIVE ADJUSTMENTS
-===================================================== */
+/* =========================================================
+   PROGRESS BAR (DASHBOARD)
+========================================================= */
 
-@media (max-width: 600px) {
+.inquiry-progress {
+    display: flex;
+    align-items: center;
+    padding: 35px 10px 10px;
+}
 
-    .inquiry-card-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
+.progress-step {
+    text-align: center;
+    min-width: 90px;
+}
 
-    .rent-cta-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
+.progress-step span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 10px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    color: #999;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+}
 
+.progress-step p {
+    margin: 0;
+    color: #999;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.progress-step.active span {
+    border-color: #ff7a00;
+    background-color: #ff7a00;
+    color: white;
+}
+
+.progress-step.active p {
+    color: #111;
+    font-weight: 600;
+}
+
+.progress-line {
+    flex: 1;
+    height: 1px;
+    background-color: #ddd;
+    margin: 0 10px 25px;
 }
 
 
+/* =========================================================
+   DASHBOARD QUICK ACTIONS
+========================================================= */
 
-/* =====================================================
+.dashboard-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.dashboard-action {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 28px;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.dashboard-action:hover {
+    border-color: #ff7a00;
+    background-color: #ff7a00;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.dashboard-action > span {
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dashboard-action:hover > span {
+    color: white;
+}
+
+.dashboard-action h3 {
+    margin: 0 0 7px;
+    font-family: 'Lora', serif;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.dashboard-action p {
+    margin: 0;
+    color: #777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+}
+
+.dashboard-action:hover p {
+    color: white;
+}
+
+.dashboard-action b {
+    margin-left: auto;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   DASHBOARD ACCOUNT
+========================================================= */
+
+.dashboard-account {
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.account-information {
+    border-top: 1px solid #ddd;
+}
+
+.account-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.account-row span {
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.account-row strong {
+    color: #222;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-dashboard {
+    padding: 60px 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.empty-dashboard h3 {
+    margin: 0 0 10px;
+    color: #111;
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.empty-dashboard p {
+    margin: 0 0 25px;
+    color: #777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+.dashboard-outline-button {
+    display: inline-block;
+    padding: 12px 25px;
+    border: 1px solid #111;
+    color: #111;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.dashboard-outline-button:hover {
+    background-color: #111;
+    color: white;
+}
+
+
+/* =========================================================
+   FORM ERRORS
+========================================================= */
+
+.form-errors {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 20px 25px;
+    border-left: 4px solid #c0392b;
+    background-color: #fdecea;
+}
+
+.form-errors p {
+    margin: 0 0 6px;
+    color: #c0392b;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+.form-errors p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
    EXHIBITION LIFECYCLE STATUS COLORS
-   (used on my-exhibitions.php, admin/exhibitions.php,
-   admin/exhibition-view.php)
-===================================================== */
+========================================================= */
 
 .status-draft {
     color: #888;
@@ -4567,21 +3358,15 @@ body {
     color: #c0392b;
 }
 
-/* =====================================================
-   EDL GALLERY ADMIN DASHBOARD
-===================================================== */
+
+/* =========================================================
+   ADMIN DASHBOARD
+========================================================= */
 
 .admin-dashboard {
     width: 100%;
     background-color: #fff;
 }
-
-
-/* =====================================================
-   ADMIN HERO
-===================================================== */
-
-
 
 .admin-hero-content {
     position: relative;
@@ -4598,7 +3383,6 @@ body {
     letter-spacing: 3px;
 }
 
-
 .admin-label h1 {
     margin: 10px 0 20px;
     color: black;
@@ -4608,695 +3392,361 @@ body {
     line-height: 1.1;
 }
 
-
 .admin-description {
     max-width: 600px;
-
     margin: 0;
-
     color: #ddd;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 16px;
-
     line-height: 1.7;
 }
 
-
-/* =====================================================
-   ADMIN CONTENT
-===================================================== */
-
 .admin-content {
     width: 100%;
-
     max-width: 1250px;
-
     margin: 0 auto;
-
     padding: 80px 40px;
-
     box-sizing: border-box;
 }
-
-
-/* =====================================================
-   HEADINGS
-===================================================== */
 
 .admin-heading {
     margin-bottom: 40px;
 }
 
-
 .admin-heading p,
 .admin-panel-heading p {
     margin: 0 0 8px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 11px;
-
     font-weight: 600;
-
     letter-spacing: 2px;
 }
-
 
 .admin-heading h2,
 .admin-panel-heading h2 {
     margin: 0;
-
     color: #111;
-
     font-family: 'Lora', serif;
-
     font-size: 38px;
-
     font-weight: 400;
 }
 
 
-/* =====================================================
-   STATISTICS
-===================================================== */
+/* =========================================================
+   ADMIN STATS
+========================================================= */
 
 .admin-stats {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 20px;
-
     margin-bottom: 80px;
 }
-
 
 .admin-stat {
     display: flex;
-
     align-items: center;
-
     gap: 25px;
-
     padding: 30px;
-
     border: 1px solid #ddd;
-
     background-color: white;
-
     color: inherit;
-
     text-decoration: none;
-
     transition: 0.3s ease;
 }
 
-
 .admin-stat:hover {
     transform: translateY(-5px);
-
     border-color: #ff7a00;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
-
 
 .admin-stat-number {
     color: #ff7a00;
-
     font-family: 'Lora', serif;
-
     font-size: 48px;
-
     line-height: 1;
 }
 
-
 .admin-stat span {
     display: block;
-
     margin-bottom: 8px;
-
     color: #111;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 11px;
-
     font-weight: 600;
-
     letter-spacing: 1px;
 }
 
-
 .admin-stat p {
     margin: 0;
-
     color: #777;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 12px;
-
     line-height: 1.5;
 }
 
-
-/* =====================================================
-   TWO COLUMN GRID
-===================================================== */
-
 .admin-grid {
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 60px;
-
     margin-bottom: 80px;
 }
 
-
-/* =====================================================
-   PANELS
-===================================================== */
-
 .admin-panel {
     width: 100%;
-
     box-sizing: border-box;
 }
-
 
 .admin-panel-heading {
     margin-bottom: 30px;
 }
 
-
-/* =====================================================
-   QUICK ACTIONS
-===================================================== */
-
 .admin-actions {
     border-top: 1px solid #ddd;
 }
 
-
 .admin-action {
     display: flex;
-
     align-items: center;
-
     gap: 20px;
-
     padding: 22px 15px;
-
     border-bottom: 1px solid #ddd;
-
     color: #111;
-
     text-decoration: none;
-
     transition: 0.3s ease;
 }
 
-
 .admin-action:hover {
     padding-left: 25px;
-
     background-color: #ff7a00;
-
     color: white;
 }
 
-
 .admin-action > span {
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 11px;
-
     font-weight: 600;
 }
-
 
 .admin-action:hover > span {
     color: white;
 }
 
-
 .admin-action h3 {
     margin: 0 0 5px;
-
     font-family: 'Lora', serif;
-
     font-size: 21px;
-
     font-weight: 400;
 }
 
-
 .admin-action p {
     margin: 0;
-
     color: #777;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 12px;
 }
-
 
 .admin-action:hover p {
     color: white;
 }
 
-
 .admin-action b {
     margin-left: auto;
-
     font-size: 20px;
-
     font-weight: 400;
 }
-
-
-/* =====================================================
-   RECENT INQUIRIES
-===================================================== */
 
 .admin-list {
     border-top: 1px solid #ddd;
 }
 
-
 .admin-list-item {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 20px;
-
     padding: 22px 15px;
-
     border-bottom: 1px solid #ddd;
-
     color: #111;
-
     text-decoration: none;
-
     transition: 0.3s ease;
 }
-
 
 .admin-list-item:hover {
     background-color: #f7f7f7;
-
     padding-left: 20px;
 }
 
-
 .admin-list-type {
     display: block;
-
     margin-bottom: 7px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 9px;
-
     font-weight: 600;
-
     letter-spacing: 1.5px;
 }
 
-
 .admin-list-item h3 {
     margin: 0 0 5px;
-
     font-family: 'Lora', serif;
-
     font-size: 19px;
-
     font-weight: 400;
 }
 
-
 .admin-list-item p {
     margin: 0;
-
     color: #777;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 11px;
 }
 
-
 .admin-list-right {
     display: flex;
-
     align-items: center;
-
     gap: 18px;
 }
 
-
 .admin-status {
     font-family: 'Montserrat', sans-serif;
-
     font-size: 9px;
-
     font-weight: 600;
-
     letter-spacing: 1px;
 }
-
 
 .admin-arrow {
     color: #111;
-
     font-size: 18px;
 }
 
-
-.status-pending {
-    color: #d88a00;
-}
-
-
-.status-approved {
-    color: #268a4b;
-}
-
-
-.status-rejected {
-    color: #c0392b;
-}
-
-
 .admin-view-all {
     display: inline-block;
-
     margin-top: 25px;
-
     color: #111;
-
     text-decoration: none;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 10px;
-
     font-weight: 600;
-
     letter-spacing: 1px;
-
     transition: 0.3s ease;
 }
-
 
 .admin-view-all:hover {
     color: #ff7a00;
 }
 
-
-/* =====================================================
-   EMPTY STATE
-===================================================== */
-
 .admin-empty {
     padding: 50px 25px;
-
     border: 1px solid #ddd;
-
     text-align: center;
 }
 
-
 .admin-empty h3 {
     margin: 0 0 10px;
-
     color: #111;
-
     font-family: 'Lora', serif;
-
     font-size: 23px;
-
     font-weight: 400;
 }
 
-
 .admin-empty p {
     margin: 0;
-
     color: #777;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 13px;
 }
-
-
-/* =====================================================
-   ARTWORK PANEL
-===================================================== */
 
 .admin-artwork-panel {
     margin-bottom: 80px;
 }
 
-
 .admin-artwork-list {
     border-top: 1px solid #ddd;
 }
 
-
 .admin-artwork-item {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 20px;
-
     padding: 25px 15px;
-
     border-bottom: 1px solid #ddd;
-
     color: #111;
-
     text-decoration: none;
-
     transition: 0.3s ease;
 }
 
-
 .admin-artwork-item:hover {
     background-color: #f7f7f7;
-
     padding-left: 25px;
 }
 
-
 .admin-artwork-item > div:first-child > span {
     display: block;
-
     margin-bottom: 6px;
-
     color: #ff7a00;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 10px;
-
     font-weight: 600;
-
     letter-spacing: 1px;
 }
 
-
 .admin-artwork-item h3 {
     margin: 0 0 5px;
-
     font-family: 'Lora', serif;
-
     font-size: 21px;
-
     font-weight: 400;
 }
 
-
 .admin-artwork-item p {
     margin: 0;
-
     color: #777;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 12px;
 }
 
-
-/* =====================================================
-   ADMIN ACCOUNT
-===================================================== */
-
 .admin-account {
     padding-top: 20px;
-
     border-top: 1px solid #ddd;
 }
-
 
 .admin-account-information {
     border-top: 1px solid #ddd;
 }
 
-
 .admin-account-row {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     padding: 20px 0;
-
     border-bottom: 1px solid #ddd;
 }
 
-
 .admin-account-row span {
     color: #888;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 10px;
-
     letter-spacing: 1px;
 }
 
-
 .admin-account-row strong {
     color: #222;
-
     font-family: 'Montserrat', sans-serif;
-
     font-size: 13px;
-
     font-weight: 500;
 }
-
 
 .admin-role {
     color: #ff7a00 !important;
 }
 
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 1000px) {
-
-    .admin-hero {
-        padding: 70px 50px;
-    }
-
-
-    .admin-content {
-        padding: 60px 30px;
-    }
-
-
-    .admin-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-
-    .admin-grid {
-        grid-template-columns: 1fr;
-
-        gap: 70px;
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .admin-hero {
-        min-height: 420px;
-
-        padding: 50px 25px;
-    }
-
-
-    .admin-hero h1 {
-        font-size: 42px;
-    }
-
-
-    .admin-content {
-        padding: 50px 20px;
-    }
-
-
-    .admin-stats {
-        grid-template-columns: 1fr;
-    }
-
-
-    .admin-heading h2,
-    .admin-panel-heading h2 {
-        font-size: 32px;
-    }
-
-
-    .admin-stat {
-        padding: 25px;
-    }
-
-
-    .admin-list-item,
-    .admin-artwork-item {
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-
-
-    .admin-list-right {
-        width: 100%;
-
-        justify-content: space-between;
-    }
-
-
-    .admin-account-row {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 8px;
-    }
-
-}
-
-/*This is for the rental Application in the dashboard I think*/
+/* =========================================================
+   RENT SPACE PAGE
+========================================================= */
 
 .rent-space-page {
     width: 100%;
@@ -5341,9 +3791,6 @@ body {
     line-height: 1.7;
 }
 
-
-
-
 .rental-application-section {
     width: 100%;
     padding: 100px;
@@ -5385,8 +3832,6 @@ body {
     font-size: 16px;
     line-height: 1.7;
 }
-
-
 
 .rental-form-container {
     width: 65%;
@@ -5434,7 +3879,6 @@ body {
     border-color: #ff7a00;
 }
 
-
 .rental-date-row {
     display: flex;
     gap: 20px;
@@ -5443,9 +3887,6 @@ body {
 .rental-date-row .rental-form-group {
     flex: 1;
 }
-
-
-
 
 .rental-submit-button {
     display: inline-block;
@@ -5464,8 +3905,6 @@ body {
     background: #000;
 }
 
-
-
 .rental-errors {
     margin-bottom: 25px;
     padding: 15px 20px;
@@ -5479,8 +3918,6 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
 }
-
-
 
 .rental-success {
     padding: 25px;
@@ -5506,18 +3943,16 @@ body {
     color: #000;
 }
 
-/* =========================================
+
+/* =========================================================
    NOTIFICATION PAGE
-========================================= */
+========================================================= */
 
 .notification-page {
     width: 100%;
     min-height: 70vh;
     background: #ffffff;
 }
-
-
-/* HEADER */
 
 .notification-hero {
     padding: 80px 8% 60px;
@@ -5530,57 +3965,39 @@ body {
 
 .notification-label {
     margin: 0 0 10px 0;
-
     color: #ff7a00;
-
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 700;
-
     letter-spacing: 2px;
     text-transform: uppercase;
 }
 
 .notification-heading h1 {
     margin: 0;
-
     color: #111111;
-
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Lora', serif;
     font-size: 64px;
     font-weight: 400;
-
     line-height: 1.1;
 }
 
-
-/* COUNT */
-
 .notification-count {
     display: inline-block;
-
     margin-top: 20px;
-
     padding: 7px 12px;
-
     background: #ff7a00;
     color: #ffffff;
-
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 700;
-
     letter-spacing: 1px;
-
     text-transform: uppercase;
 }
 
 .notification-count.no-unread {
     background: #111111;
 }
-
-
-/* LIST */
 
 .notification-list-section {
     padding: 60px 8% 100px;
@@ -5591,18 +4008,11 @@ body {
     max-width: 1000px;
 }
 
-
-/* CARD */
-
 .notification-card {
     margin-bottom: 20px;
-
     padding: 30px;
-
     border: 1px solid #dddddd;
-
     background: #ffffff;
-
     transition: 0.3s ease;
 }
 
@@ -5619,74 +4029,46 @@ body {
     transform: translateY(-2px);
 }
 
-
-/* CARD TITLE */
-
 .notification-card-top {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
     gap: 20px;
 }
 
 .notification-card-top h2 {
     margin: 0;
-
     color: #111111;
-
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 22px;
     font-weight: 700;
 }
 
-
-/* NEW */
-
 .notification-status {
     flex-shrink: 0;
-
     padding: 5px 9px;
-
     background: #ff7a00;
     color: #ffffff;
-
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 10px;
     font-weight: 700;
-
     letter-spacing: 1px;
 }
 
-
-/* MESSAGE */
-
 .notification-message {
     margin: 18px 0;
-
     color: #555555;
-
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
-
     line-height: 1.7;
 }
 
-
-/* DATE */
-
 .notification-date {
     margin: 0;
-
     color: #888888;
-
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
 }
-
-
-/* MARK AS READ */
 
 .notification-read-form {
     margin-top: 20px;
@@ -5697,7 +4079,7 @@ body {
     border: none;
     background: #111111;
     color: #ffffff;
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -5709,23 +4091,16 @@ body {
     background: #ff7a00;
 }
 
-
-/* EMPTY STATE */
-
 .no-notifications {
     max-width: 700px;
-
     padding: 60px 40px;
-
     border: 1px solid #dddddd;
 }
 
 .no-notifications h2 {
     margin: 0 0 15px;
-
     color: #111111;
-
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Lora', serif;
     font-size: 36px;
     font-weight: 400;
 }
@@ -5733,7 +4108,7 @@ body {
 .no-notifications p:last-child {
     margin: 0;
     color: #666666;
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
 }
 
@@ -5745,7 +4120,7 @@ body {
     color: #ffffff;
     border: 2px solid #111111;
     border-radius: 4px;
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -5760,9 +4135,10 @@ body {
     color: #ffffff;
 }
 
+
 /* =========================================================
    EXHIBITION ARTISTS PAGE
-   ========================================================= */
+========================================================= */
 
 .exhibition-artists-page {
     background: #ffffff;
@@ -5770,11 +4146,6 @@ body {
     min-height: 100vh;
     padding-bottom: 100px;
 }
-
-
-/* =========================================================
-   PAGE HEADER
-   ========================================================= */
 
 .exhibition-artists-hero {
     width: 100%;
@@ -5787,23 +4158,17 @@ body {
     margin: 0 auto;
 }
 
-
-/* Back button */
-
 .back-dashboard-link {
     display: inline-block;
     margin-bottom: 28px;
-
     color: #111111;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.5px;
     text-decoration: none;
-
     border-bottom: 1px solid #ff7200;
     padding-bottom: 4px;
-
     transition: all 0.2s ease;
 }
 
@@ -5811,16 +4176,11 @@ body {
     color: #ff7200;
 }
 
-
-/* Orange section label */
-
 .exhibition-artists-heading .section-label,
 .artist-section-heading .section-label,
 .artworks-next-section .section-label {
     margin: 0 0 12px;
-
     color: #ff7200;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 600;
@@ -5828,52 +4188,32 @@ body {
     text-transform: uppercase;
 }
 
-
-/* Main title */
-
 .exhibition-artists-heading h1 {
     margin: 0;
-
     font-family: 'Lora', serif;
     font-size: 52px;
     font-weight: 400;
     line-height: 1.15;
-
     color: #111111;
 }
-
-
-/* Introduction */
 
 .exhibition-artists-intro {
     max-width: 700px;
     margin: 20px 0 0;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 17px;
     line-height: 1.7;
-
     color: #666666;
 }
-
-
-/* =========================================================
-   ADD ARTIST SECTION
-   ========================================================= */
 
 .add-artist-section {
     width: 78%;
     max-width: 1200px;
-
     margin: 0 auto 70px;
     padding: 45px;
-
     border: 1px solid #dddddd;
     background: #ffffff;
 }
-
-
-/* Section heading */
 
 .artist-section-heading {
     margin-bottom: 30px;
@@ -5881,12 +4221,10 @@ body {
 
 .artist-section-heading h2 {
     margin: 0;
-
     font-family: 'Lora', serif;
     font-size: 34px;
     font-weight: 400;
     line-height: 1.2;
-
     color: #111111;
 }
 
@@ -5894,47 +4232,31 @@ body {
     display: flex;
     align-items: flex-end;
     gap: 15px;
-
     flex-wrap: wrap;
 }
-
-
-/* Label */
 
 .add-artist-form label {
     width: 100%;
     margin-bottom: -5px;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-
     color: #222222;
 }
-
-
-/* Select */
 
 .add-artist-form select {
     width: 350px;
     height: 52px;
-
     padding: 0 16px;
-
     border: 1px solid #cccccc;
     border-radius: 0;
-
     background: #ffffff;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
-
     color: #111111;
-
     outline: none;
-
     cursor: pointer;
 }
 
@@ -5944,13 +4266,13 @@ body {
 
 
 /* =========================================================
-   ORANGE BUTTON
-   ========================================================= */
+   ORANGE BUTTON (SHARED — art pages)
+========================================================= */
 
 .orange-button {
     height: 52px;
     padding: 0 28px;
-    border: 1px solid orange;;
+    border: 1px solid orange;
     border-radius: 0;
     background: orange;
     color: #ffffff;
@@ -5959,9 +4281,7 @@ body {
     font-weight: 600;
     letter-spacing: 1px;
     cursor: pointer;
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .orange-button:hover {
@@ -5970,12 +4290,13 @@ body {
 }
 
 
+/* =========================================================
+   NO ARTISTS MESSAGE
+========================================================= */
 
 .no-artists-message {
     padding: 40px;
-
     border: 1px solid white;
-
     text-align: center;
 }
 
@@ -5996,12 +4317,15 @@ body {
 }
 
 
+/* =========================================================
+   CURRENT ARTISTS SECTION
+========================================================= */
+
 .current-artists-section {
     width: 78%;
     max-width: 1200px;
     margin: 0 auto 80px;
 }
-
 
 .exhibition-artist-grid {
     display: grid;
@@ -6009,23 +4333,19 @@ body {
     gap: 30px;
 }
 
-
 .exhibition-artist-card {
     display: grid;
     grid-template-columns: 190px 1fr;
     min-height: 190px;
     border: 1px solid #dddddd;
     background: #ffffff;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .exhibition-artist-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
 }
-
 
 .exhibition-artist-image {
     width: 190px;
@@ -6041,7 +4361,6 @@ body {
     object-fit: cover;
 }
 
-
 .artist-no-image {
     width: 100%;
     height: 100%;
@@ -6055,29 +4374,20 @@ body {
     letter-spacing: 2px;
 }
 
-
-
-
 .exhibition-artist-info {
     display: flex;
     flex-direction: column;
-
     padding: 25px;
 }
 
 .exhibition-artist-info h3 {
     margin: 0 0 12px;
-
     font-family: 'Lora', serif;
     font-size: 25px;
     font-weight: 400;
     line-height: 1.25;
-
     color: #111111;
 }
-
-
-
 
 .exhibition-artist-info p {
     margin: 0;
@@ -6090,9 +4400,6 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-
-
-
 
 .remove-artist-form {
     margin-top: auto;
@@ -6117,6 +4424,11 @@ body {
     background: #111111;
     color: #ffffff;
 }
+
+
+/* =========================================================
+   ARTWORKS NEXT SECTION
+========================================================= */
 
 .artworks-next-section {
     width: 78%;
@@ -6145,99 +4457,9 @@ body {
 }
 
 
-
-.outline-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 0 24px;
-    border: 1px solid #111111;
-    background: #ffffff;
-    color: #111111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.outline-button:hover {
-    background: #ff7200;
-    border-color: #ff7200;
-    color: #ffffff;
-}
-
-
 /* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .exhibition-artists-heading,
-    .add-artist-section,
-    .current-artists-section,
-    .artworks-next-section {
-        width: 88%;
-    }
-
-    .exhibition-artist-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .exhibition-artists-hero {
-        padding: 50px 0 35px;
-    }
-
-    .exhibition-artists-heading,
-    .add-artist-section,
-    .current-artists-section,
-    .artworks-next-section {
-        width: 90%;
-    }
-
-    .exhibition-artists-heading h1 {
-        font-size: 40px;
-    }
-
-    .add-artist-section {
-        padding: 30px 25px;
-    }
-
-    .add-artist-form {
-        display: block;
-    }
-
-    .add-artist-form select {
-        width: 100%;
-        margin-bottom: 12px;
-    }
-
-    .orange-button {
-        width: 100%;
-    }
-
-    .exhibition-artist-card {
-        display: block;
-    }
-
-    .exhibition-artist-image {
-        width: 100%;
-        height: 220px;
-    }
-
-    .artworks-next-section {
-        padding: 35px 25px;
-    }
-
-}
+   EXHIBITION ACTION BUTTONS
+========================================================= */
 
 .exhibition-actions {
     display: flex;
@@ -6266,24 +4488,15 @@ body {
     line-height: 1;
     text-decoration: none !important;
     cursor: pointer;
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-
-
-/* General hover */
 
 .exhibition-action-button:hover {
     background: #111111 !important;
     border-color: #111111 !important;
     color: #ffffff !important;
-
     text-decoration: none !important;
 }
-
-
 
 .exhibition-manage-button {
     background: white !important;
@@ -6292,13 +4505,10 @@ body {
 }
 
 .exhibition-manage-button:hover {
-    background:  orange !important;
+    background: orange !important;
     border-color: #111111 !important;
     color: #ffffff !important;
 }
-
-
-
 
 .exhibition-artists-button {
     background: white !important;
@@ -6312,8 +4522,6 @@ body {
     color: #ffffff !important;
 }
 
-
-
 .exhibition-submit-button {
     background: white !important;
     border-color: black !important;
@@ -6326,33 +4534,10 @@ body {
     color: #ffffff !important;
 }
 
-@media (max-width: 900px) {
-    .exhibition-actions {
-        justify-content: flex-start;
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .exhibition-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-    }
-
-    .exhibition-action-button {
-        width: 100%;
-    }
-
-}
 
 /* =========================================================
    EXHIBITION ARTWORKS PAGE
-   EDL GALLERY — WHITE / BLACK / ORANGE
-   ========================================================= */
+========================================================= */
 
 .exhibition-artworks-page {
     background: #ffffff;
@@ -6360,11 +4545,6 @@ body {
     min-height: 100vh;
     padding-bottom: 100px;
 }
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
 
 .exhibition-artworks-hero {
     width: 100%;
@@ -6408,8 +4588,8 @@ body {
 
 
 /* =========================================================
-   MESSAGES
-   ========================================================= */
+   ARTWORK MESSAGES
+========================================================= */
 
 .artwork-message-section {
     width: 78%;
@@ -6447,7 +4627,7 @@ body {
 
 /* =========================================================
    ADD ARTWORK SECTION
-   ========================================================= */
+========================================================= */
 
 .add-artwork-section {
     width: 78%;
@@ -6481,11 +4661,6 @@ body {
     font-weight: 400;
     line-height: 1.2;
 }
-
-
-/* =========================================================
-   ARTWORK FORM
-   ========================================================= */
 
 .add-artwork-form {
     display: grid;
@@ -6521,8 +4696,7 @@ body {
     color: #111111;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .artwork-form-group input,
@@ -6560,11 +4734,6 @@ body {
     grid-column: 1 / -1;
 }
 
-
-/* =========================================================
-   FILE INPUT
-   ========================================================= */
-
 .artwork-form-group input[type="file"] {
     height: auto;
     padding: 12px;
@@ -6588,37 +4757,15 @@ body {
     background: #ff7200;
 }
 
-
-/* =========================================================
-   SUBMIT BUTTON
-   ========================================================= */
-
 .artwork-form-submit {
     grid-column: 1 / -1;
     padding-top: 10px;
 }
 
-.orange-button {
-    min-height: 52px;
-    padding: 0 30px;
-    border: 1px solid #ff7200;
-    border-radius: 0;
-    background: #ff7200;
-    color: #ffffff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
-.orange-button:hover {
-    border-color: #111111;
-    background: #111111;
-    color: #ffffff;
-}
+/* =========================================================
+   NO ARTWORKS MESSAGE
+========================================================= */
 
 .no-artworks-message {
     padding: 45px;
@@ -6644,32 +4791,10 @@ body {
     line-height: 1.7;
 }
 
-.outline-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 0 24px;
-    border: 1px solid #111111;
-    background: #ffffff;
-    color: #111111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-}
 
-.outline-button:hover {
-    border-color: #ff7200;
-    background: #ff7200;
-    color: #ffffff;
-}
-
-
+/* =========================================================
+   CURRENT ARTWORKS
+========================================================= */
 
 .current-artworks-section {
     width: 78%;
@@ -6681,13 +4806,11 @@ body {
     margin-bottom: 35px;
 }
 
-
 .exhibition-artwork-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 30px;
 }
-
 
 .exhibition-artwork-card {
     display: grid;
@@ -6696,8 +4819,8 @@ body {
     border: 1px solid #111111;
     background: #ffffff;
     overflow: hidden;
-    transition: transform 0.2s ease,
-                box-shadow 0.2s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .exhibition-artwork-card:hover {
@@ -6705,13 +4828,11 @@ body {
     box-shadow: 7px 7px 0 #ff7200;
 }
 
-
 .exhibition-artwork-image {
     width: 100%;
     height: 440px;
     overflow: hidden;
     background: #f5f5f5;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6721,15 +4842,12 @@ body {
     width: 100%;
     height: 100%;
     display: block;
-
     object-fit: contain;
     object-position: center;
-
     transition: transform 0.3s ease;
 }
 
-.exhibition-artwork-card:hover
-.exhibition-artwork-image img {
+.exhibition-artwork-card:hover .exhibition-artwork-image img {
     transform: scale(1.05);
 }
 
@@ -6745,7 +4863,6 @@ body {
     font-weight: 600;
     letter-spacing: 2px;
 }
-
 
 .exhibition-artwork-info {
     display: flex;
@@ -6796,7 +4913,6 @@ body {
     overflow: hidden;
 }
 
-
 .artwork-status {
     margin-top: 12px;
 }
@@ -6831,7 +4947,6 @@ body {
     color: #111111 !important;
 }
 
-
 .artwork-admin-note {
     margin-top: 12px !important;
     padding: 10px 12px;
@@ -6841,8 +4956,6 @@ body {
     font-size: 11px !important;
     line-height: 1.6 !important;
 }
-
-
 
 .remove-artwork-form {
     margin-top: auto;
@@ -6871,41 +4984,9 @@ body {
 }
 
 
-
-.artworks-next-section {
-    width: 78%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 55px 0;
-    border-top: 1px solid #111111;
-}
-
-.artworks-next-section .section-label {
-    margin: 0 0 12px;
-    color: #ff7200;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
-.artworks-next-section h2 {
-    margin: 0 0 15px;
-    color: #111111;
-    font-family: 'Lora', serif;
-    font-size: 36px;
-    font-weight: 400;
-}
-
-.artworks-next-section > p:not(.section-label) {
-    max-width: 700px;
-    margin: 0 0 30px;
-    color: #555555;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.7;
-}
+/* =========================================================
+   ARTWORK NAVIGATION BUTTONS
+========================================================= */
 
 .artwork-navigation-buttons {
     display: flex;
@@ -6914,6 +4995,731 @@ body {
 }
 
 
+/* =========================================================
+   EXHIBITION SUCCESS / ERROR MESSAGES
+========================================================= */
+
+.exhibition-success-message {
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    border-left: 4px solid #ff7200;
+    background: #ffffff;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.exhibition-error-message {
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    border-left: 4px solid #111111;
+    background: #ffffff;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.exhibition-artwork-progress {
+    margin-top: 12px;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.ready-publish-form {
+    display: inline-block;
+    margin: 0;
+}
+
+.exhibition-ready-button {
+    cursor: pointer;
+    background: #ff7200;
+    border-color: #ff7200;
+    color: #ffffff;
+}
+
+.exhibition-ready-button:hover {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+}
+
+.exhibition-action-disabled {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    color: #777777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   EXHIBITION META NOTES
+========================================================= */
+
+.exhibition-meta-note {
+    max-width: 280px;
+    margin: 12px 0 0;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: right;
+}
+
+.exhibition-meta-note-cancelled {
+    color: #a93226;
+}
+
+
+/* =========================================================
+   EXHIBITION DETAILS PAGE
+========================================================= */
+
+.exhibition-not-found {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 8%;
+    background: #ffffff;
+    color: #111111;
+    text-align: center;
+}
+
+.exhibition-not-found-content {
+    max-width: 700px;
+}
+
+.exhibition-details-label,
+.exhibition-section-label {
+    margin-bottom: 15px;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.exhibition-not-found h1 {
+    margin-bottom: 20px;
+    font-family: 'Lora', serif;
+    font-size: 48px;
+}
+
+.exhibition-not-found p {
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.exhibition-details-hero {
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: #111111;
+}
+
+.exhibition-details-hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.exhibition-details-hero-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.25));
+}
+
+.exhibition-details-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.exhibition-details-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 100px 8% 80px;
+    color: #ffffff;
+}
+
+.exhibition-details-hero-content h1 {
+    max-width: 900px;
+    margin: 0 0 20px;
+    font-family: 'Lora', serif;
+    font-size: clamp(45px, 6vw, 82px);
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.exhibition-details-date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.exhibition-details-container {
+    width: 84%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.exhibition-back-link {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 50px;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.exhibition-back-link:hover {
+    color: #ff7200;
+    transform: translateX(-4px);
+}
+
+.exhibition-details-section {
+    padding: 100px 0;
+    background: #ffffff;
+    color: #111111;
+}
+
+.exhibition-description-block {
+    max-width: 950px;
+}
+
+.exhibition-description-block h2 {
+    margin-bottom: 30px;
+    font-family: 'Lora', serif;
+    font-size: 42px;
+    font-weight: 500;
+}
+
+.exhibition-full-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 2;
+    white-space: normal;
+}
+
+
+/* =========================================================
+   EXHIBITION ARTISTS SECTION (DETAILS PAGE)
+========================================================= */
+
+.exhibition-artists-section {
+    padding: 100px 0;
+    background: #111111;
+    color: #ffffff;
+}
+
+.exhibition-section-heading {
+    margin-bottom: 55px;
+}
+
+.exhibition-section-heading h2 {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-size: 46px;
+    font-weight: 500;
+}
+
+.exhibition-artists-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 35px;
+}
+
+.exhibition-artists-section .exhibition-artist-card {
+    overflow: hidden;
+    background: #ffffff;
+    color: #111111;
+    display: block;
+}
+
+.exhibition-artists-section .exhibition-artist-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: #111111;
+}
+
+.exhibition-artists-section .exhibition-artist-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.exhibition-artists-section .exhibition-artist-card:hover .exhibition-artist-image img {
+    transform: scale(1.04);
+}
+
+.exhibition-artists-section .exhibition-artist-info {
+    padding: 28px;
+}
+
+.exhibition-artists-section .exhibition-artist-info h3 {
+    margin: 0 0 15px;
+    font-family: 'Lora', serif;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.exhibition-artists-section .exhibition-artist-info p {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   EXHIBITION ARTWORKS SECTION (DETAILS PAGE)
+========================================================= */
+
+.exhibition-artworks-section {
+    padding: 100px 0;
+    background: #ffffff;
+    color: #111111;
+}
+
+.exhibition-artworks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 35px;
+}
+
+.exhibition-artworks-section .exhibition-artwork-card {
+    border: 1px solid #111111;
+    background: #ffffff;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exhibition-artworks-section .exhibition-artwork-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+.exhibition-artworks-section .exhibition-artwork-image {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    background: #111111;
+}
+
+.exhibition-artworks-section .exhibition-artwork-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.exhibition-artworks-section .exhibition-artwork-card:hover .exhibition-artwork-image img {
+    transform: scale(1.03);
+}
+
+.exhibition-artworks-section .exhibition-artwork-info {
+    padding: 28px;
+}
+
+.exhibition-artwork-artist {
+    margin: 0 0 8px;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.exhibition-artworks-section .exhibition-artwork-info h3 {
+    margin: 0 0 20px;
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.exhibition-artworks-section .exhibition-artwork-info > p {
+    margin: 8px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.exhibition-artwork-description {
+    margin-top: 20px !important;
+    padding-top: 18px;
+    border-top: 1px solid #dddddd;
+}
+
+.exhibition-artwork-price {
+    margin-top: 22px !important;
+    color: #ff7200;
+    font-size: 13px !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.exhibition-artwork-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.exhibition-artwork-link:hover {
+    color: inherit;
+}
+
+.exhibition-artwork-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.exhibition-artwork-view span {
+    font-size: 15px;
+    line-height: 1;
+}
+
+.exhibition-artworks-section .exhibition-artwork-card:hover .exhibition-artwork-view {
+    color: #ff7200;
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   EXHIBITION EMPTY SECTION
+========================================================= */
+
+.exhibition-empty-section {
+    padding: 40px 0;
+}
+
+.exhibition-empty-section p {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ARTWORK DETAILS PAGE
+========================================================= */
+
+.exhibition-artwork-details-page {
+    background: #ffffff;
+    color: #111111;
+}
+
+.artwork-details-hero {
+    position: relative;
+    min-height: 600px;
+    overflow: hidden;
+    background: #111111;
+}
+
+.artwork-details-hero-image {
+    position: absolute;
+    inset: 0;
+}
+
+.artwork-details-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.artwork-details-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+}
+
+.artwork-details-hero-content {
+    position: relative;
+    z-index: 2;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 8%;
+    color: #ffffff;
+}
+
+.artwork-details-label,
+.artwork-details-section-label {
+    margin: 0 0 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ff7200;
+}
+
+.artwork-details-hero-content h1 {
+    max-width: 900px;
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-size: clamp(42px, 6vw, 78px);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.artwork-details-artist {
+    margin: 22px 0 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.artwork-details-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 70px 40px 100px;
+}
+
+.artwork-details-container .exhibition-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 60px;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.artwork-details-container .exhibition-back-link:hover {
+    color: #ff7200;
+    transform: translateX(-4px);
+}
+
+.artwork-details-main {
+    padding-bottom: 80px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.artwork-details-information {
+    max-width: 900px;
+}
+
+.artwork-details-information h2 {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.artwork-details-byline {
+    margin: 16px 0 45px;
+    color: #555555;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.artwork-details-byline strong {
+    color: #111111;
+}
+
+.artwork-details-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid #111111;
+    border-bottom: 1px solid #dddddd;
+}
+
+.artwork-meta-item {
+    padding: 24px 25px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.artwork-meta-item:nth-child(odd) {
+    border-right: 1px solid #dddddd;
+}
+
+.artwork-meta-item:nth-last-child(-n + 2) {
+    border-bottom: none;
+}
+
+.artwork-meta-item span {
+    display: block;
+    margin-bottom: 8px;
+    color: #777777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.artwork-meta-item strong {
+    display: block;
+    color: #111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.artwork-details-description {
+    margin-top: 55px;
+    max-width: 850px;
+}
+
+.artwork-details-description p:last-child {
+    margin: 0;
+    color: #444444;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.artwork-details-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding: 25px 0;
+    border-top: 1px solid #111111;
+    border-bottom: 1px solid #111111;
+}
+
+.artwork-details-price span {
+    color: #777777;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.artwork-details-price strong {
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.artwork-details-artist-section {
+    padding-top: 80px;
+}
+
+.artwork-details-artist-card {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 45px;
+    margin-top: 25px;
+    padding: 35px;
+    background: #111111;
+    color: #ffffff;
+}
+
+.artwork-details-artist-image {
+    width: 260px;
+    height: 260px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.artwork-details-artist-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.artwork-details-artist-information {
+    align-self: center;
+}
+
+.artwork-details-artist-information h2 {
+    margin: 0 0 20px;
+    color: #ffffff;
+    font-family: 'Lora', serif;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.artwork-details-artist-information p {
+    max-width: 700px;
+    margin: 0;
+    color: #cccccc;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.artwork-details-bottom {
+    margin-top: 60px;
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1100px
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .artist-layout {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .artist-image {
+        width: 260px;
+        height: 260px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1050px
+========================================================= */
 
 @media (max-width: 1050px) {
 
@@ -6931,6 +5737,144 @@ body {
 
 }
 
+
+/* =========================================================
+   RESPONSIVE — 1000px
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .admin-hero {
+        padding: 70px 50px;
+    }
+
+    .admin-content {
+        padding: 60px 30px;
+    }
+
+    .admin-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 70px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 900px
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .rent-hero {
+        padding: 70px 50px;
+    }
+
+    .space-section {
+        padding: 70px 50px;
+        gap: 40px;
+    }
+
+    .host-section,
+    .package-section,
+    .preview-section,
+    .inquiry-section,
+    .process-section {
+        padding: 70px 50px;
+    }
+
+    .availability-section {
+        padding: 70px 50px;
+        gap: 40px;
+    }
+
+    .guideline-section {
+        padding: 70px 50px;
+        gap: 50px;
+    }
+
+    .host-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .package-container {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+
+    .process-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-hero {
+        padding: 70px 50px;
+    }
+
+    .dashboard-content {
+        padding: 60px 30px;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .exhibition-artists-heading,
+    .add-artist-section,
+    .current-artists-section,
+    .artworks-next-section {
+        width: 88%;
+    }
+
+    .exhibition-artist-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .exhibition-artists-grid,
+    .exhibition-artworks-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .exhibition-actions {
+        justify-content: flex-start;
+    }
+
+    .artwork-details-hero {
+        min-height: 500px;
+    }
+
+    .artwork-details-hero-content {
+        min-height: 500px;
+        padding: 60px 6%;
+    }
+
+    .artwork-details-container {
+        padding: 55px 30px 80px;
+    }
+
+    .artwork-details-artist-card {
+        grid-template-columns: 200px 1fr;
+        gap: 30px;
+    }
+
+    .artwork-details-artist-image {
+        width: 200px;
+        height: 200px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 750px
+========================================================= */
 
 @media (max-width: 750px) {
 
@@ -6971,7 +5915,280 @@ body {
 }
 
 
+/* =========================================================
+   RESPONSIVE — 600px
+========================================================= */
+
 @media (max-width: 600px) {
+
+    /* Artist page */
+
+    .artist-layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .artist-image {
+        width: 240px;
+        height: 240px;
+    }
+
+    .artist-name h3 {
+        font-size: 23px;
+    }
+
+    /* Rent page */
+
+    .rent-hero {
+        min-height: 500px;
+        padding: 50px 25px;
+    }
+
+    .rent-hero-content h2 {
+        font-size: 40px;
+    }
+
+    .space-section {
+        flex-direction: column;
+        padding: 60px 25px;
+    }
+
+    .space-image,
+    .space-content {
+        width: 100%;
+    }
+
+    .space-image {
+        height: 300px;
+    }
+
+    .host-section,
+    .package-section,
+    .preview-section,
+    .inquiry-section,
+    .process-section {
+        padding: 60px 25px;
+    }
+
+    .section-heading h2 {
+        font-size: 38px;
+    }
+
+    .host-container {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-image,
+    .preview-image.large {
+        height: 280px;
+    }
+
+    .availability-section {
+        flex-direction: column;
+        padding: 60px 25px;
+        gap: 40px;
+    }
+
+    .availability-content,
+    .availability-form {
+        width: 100%;
+    }
+
+    .availability-form {
+        padding: 25px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        width: 100%;
+    }
+
+    .process-container {
+        grid-template-columns: 1fr;
+    }
+
+    .guideline-section {
+        flex-direction: column;
+        padding: 60px 25px;
+        gap: 30px;
+    }
+
+    .guideline-content,
+    .guideline-list {
+        width: 100%;
+    }
+
+    .rent-cta {
+        padding: 70px 25px;
+    }
+
+    .rent-cta h2 {
+        font-size: 40px;
+    }
+
+    /* Dashboard */
+
+    .dashboard-hero {
+        min-height: 450px;
+        padding: 50px 25px;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 42px;
+    }
+
+    .dashboard-content {
+        padding: 50px 20px;
+    }
+
+    .inquiry-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+
+    .inquiry-card-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .inquiry-status {
+        text-align: left;
+    }
+
+    .inquiry-progress {
+        overflow-x: auto;
+    }
+
+    .account-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .rent-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .exhibition-meta-note {
+        max-width: none;
+        text-align: left;
+    }
+
+    /* Admin */
+
+    .admin-hero {
+        min-height: 420px;
+        padding: 50px 25px;
+    }
+
+    .admin-hero h1 {
+        font-size: 42px;
+    }
+
+    .admin-content {
+        padding: 50px 20px;
+    }
+
+    .admin-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-heading h2,
+    .admin-panel-heading h2 {
+        font-size: 32px;
+    }
+
+    .admin-stat {
+        padding: 25px;
+    }
+
+    .admin-list-item,
+    .admin-artwork-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-list-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .admin-account-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    /* Exhibition artists page */
+
+    .exhibition-artists-hero {
+        padding: 50px 0 35px;
+    }
+
+    .exhibition-artists-heading,
+    .add-artist-section,
+    .current-artists-section,
+    .artworks-next-section {
+        width: 90%;
+    }
+
+    .exhibition-artists-heading h1 {
+        font-size: 40px;
+    }
+
+    .add-artist-section {
+        padding: 30px 25px;
+    }
+
+    .add-artist-form {
+        display: block;
+    }
+
+    .add-artist-form select {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .orange-button {
+        width: 100%;
+    }
+
+    .exhibition-artist-card {
+        display: block;
+    }
+
+    .exhibition-artist-image {
+        width: 100%;
+        height: 220px;
+    }
+
+    .artworks-next-section {
+        padding: 35px 25px;
+    }
+
+    .exhibition-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .exhibition-action-button {
+        width: 100%;
+    }
+
+    /* Exhibition artworks page */
 
     .exhibition-artworks-heading,
     .artwork-message-section,
@@ -7010,555 +6227,19 @@ body {
         margin-bottom: 10px;
     }
 
-}
-
-
-.exhibition-success-message {
-    margin-bottom: 25px;
-    padding: 16px 20px;
-    border-left: 4px solid #ff7200;
-    background: #ffffff;
-    color: #111111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-
-.exhibition-error-message {
-    margin-bottom: 25px;
-    padding: 16px 20px;
-    border-left: 4px solid #111111;
-    background: #ffffff;
-    color: #111111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-
-.exhibition-artwork-progress {
-    margin-top: 12px;
-    color: #111111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-
-
-.ready-publish-form {
-    display: inline-block;
-    margin: 0;
-}
-
-
-.exhibition-ready-button {
-    cursor: pointer;
-    background: #ff7200;
-    border-color: #ff7200;
-    color: #ffffff;
-}
-
-
-.exhibition-ready-button:hover {
-    background: #111111;
-    border-color: #111111;
-    color: #ffffff;
-}
-
-
-.exhibition-action-disabled {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 20px;
-    border: 1px solid #cccccc;
-    background: #ffffff;
-    color: #777777;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-}
-
-/* =========================================================
-   EXHIBITION DETAILS PAGE
-   ========================================================= */
-
-
-/* =========================================================
-   NOT FOUND
-   ========================================================= */
-
-.exhibition-not-found {
-    min-height: 70vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 100px 8%;
-
-    background: #ffffff;
-    color: #111111;
-
-    text-align: center;
-}
-
-
-.exhibition-not-found-content {
-    max-width: 700px;
-}
-
-
-.exhibition-details-label,
-.exhibition-section-label {
-    margin-bottom: 15px;
-
-    color: #ff7200;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
-
-.exhibition-not-found h1 {
-    margin-bottom: 20px;
-
-    font-family: 'Lora', serif;
-    font-size: 48px;
-}
-
-
-.exhibition-not-found p {
-    margin-bottom: 30px;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    line-height: 1.8;
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.exhibition-details-hero {
-    position: relative;
-
-    min-height: 600px;
-
-    display: flex;
-    align-items: flex-end;
-
-    overflow: hidden;
-
-    background: #111111;
-}
-
-
-.exhibition-details-hero-image {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-}
-
-
-.exhibition-details-hero-image::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(0,0,0,0.85),
-            rgba(0,0,0,0.25)
-        );
-}
-
-
-.exhibition-details-hero-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-}
-
-
-.exhibition-details-hero-content {
-    position: relative;
-    z-index: 2;
-
-    width: 100%;
-
-    padding: 100px 8% 80px;
-
-    color: #ffffff;
-}
-
-
-.exhibition-details-hero-content h1 {
-    max-width: 900px;
-
-    margin: 0 0 20px;
-
-    font-family: 'Lora', serif;
-    font-size: clamp(45px, 6vw, 82px);
-    font-weight: 500;
-
-    line-height: 1.05;
-}
-
-
-.exhibition-details-date {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-
-    letter-spacing: 1px;
-}
-
-
-/* =========================================================
-   GENERAL CONTAINER
-   ========================================================= */
-
-.exhibition-details-container {
-    width: 84%;
-    max-width: 1300px;
-
-    margin: 0 auto;
-}
-
-
-/* =========================================================
-   BACK LINK
-   ========================================================= */
-
-.exhibition-back-link {
-    display: inline-flex;
-    align-items: center;
-
-    margin-bottom: 50px;
-
-    color: #111111;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-
-    letter-spacing: 1.5px;
-
-    text-decoration: none;
-    text-transform: uppercase;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-
-.exhibition-back-link:hover {
-    color: #ff7200;
-
-    transform: translateX(-4px);
-}
-
-
-/* =========================================================
-   DESCRIPTION
-   ========================================================= */
-
-.exhibition-details-section {
-    padding: 100px 0;
-
-    background: #ffffff;
-    color: #111111;
-}
-
-
-.exhibition-description-block {
-    max-width: 950px;
-}
-
-
-.exhibition-description-block h2 {
-    margin-bottom: 30px;
-
-    font-family: 'Lora', serif;
-    font-size: 42px;
-    font-weight: 500;
-}
-
-
-.exhibition-full-description {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    line-height: 2;
-
-    white-space: normal;
-}
-
-
-/* =========================================================
-   ARTISTS SECTION
-   ========================================================= */
-
-.exhibition-artists-section {
-    padding: 100px 0;
-
-    background: #111111;
-    color: #ffffff;
-}
-
-
-.exhibition-section-heading {
-    margin-bottom: 55px;
-}
-
-
-.exhibition-section-heading h2 {
-    margin: 0;
-
-    font-family: 'Lora', serif;
-    font-size: 46px;
-    font-weight: 500;
-}
-
-
-.exhibition-artists-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 35px;
-}
-
-
-.exhibition-artist-card {
-    overflow: hidden;
-
-    background: #ffffff;
-    color: #111111;
-}
-
-
-.exhibition-artist-image {
-    width: 100%;
-    height: 300px;
-
-    overflow: hidden;
-}
-
-
-.exhibition-artist-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition:
-        transform 0.4s ease;
-}
-
-
-.exhibition-artist-card:hover
-.exhibition-artist-image img {
-    transform: scale(1.04);
-}
-
-
-.exhibition-artist-info {
-    padding: 28px;
-}
-
-
-.exhibition-artist-info h3 {
-    margin: 0 0 15px;
-
-    font-family: 'Lora', serif;
-    font-size: 25px;
-    font-weight: 500;
-}
-
-
-.exhibition-artist-info p {
-    margin: 0;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-.exhibition-artworks-section {
-    padding: 100px 0;
-
-    background: #ffffff;
-    color: #111111;
-}
-
-
-.exhibition-artworks-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 35px;
-}
-
-
-.exhibition-artwork-card {
-    border: 1px solid #111111;
-
-    background: #ffffff;
-}
-
-
-.exhibition-artwork-image {
-    width: 182%;
-    height: 350px;
-
-    overflow: hidden;
-
-    background: #111111;
-}
-
-
-.exhibition-artwork-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition:
-        transform 0.4s ease;
-}
-
-
-.exhibition-artwork-card:hover
-.exhibition-artwork-image img {
-    transform: scale(1.03);
-}
-
-
-.exhibition-artwork-info {
-    padding: 28px;
-}
-
-
-.exhibition-artwork-artist {
-    margin: 0 0 8px;
-
-    color: #ff7200;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-
-
-.exhibition-artwork-info h3 {
-    margin: 0 0 20px;
-
-    font-family: 'Lora', serif;
-    font-size: 26px;
-    font-weight: 500;
-}
-
-
-.exhibition-artwork-info > p {
-    margin: 8px 0;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-
-.exhibition-artwork-description {
-    margin-top: 20px !important;
-
-    padding-top: 18px;
-
-    border-top: 1px solid #dddddd;
-}
-
-
-.exhibition-artwork-price {
-    margin-top: 22px !important;
-
-    color: #ff7200;
-
-    font-size: 13px !important;
-    font-weight: 700;
-
-    letter-spacing: 1px;
-}
-
-
-/* =========================================================
-   EMPTY SECTIONS
-   ========================================================= */
-
-.exhibition-empty-section {
-    padding: 40px 0;
-}
-
-
-.exhibition-empty-section p {
-    margin: 0;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .exhibition-artists-grid,
-    .exhibition-artworks-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-}
-
-
-@media (max-width: 600px) {
+    /* Exhibition details page */
 
     .exhibition-details-hero {
         min-height: 500px;
     }
 
-
     .exhibition-details-hero-content {
         padding: 80px 7% 60px;
     }
 
-
     .exhibition-details-container {
         width: 86%;
     }
-
 
     .exhibition-details-section,
     .exhibition-artists-section,
@@ -7566,526 +6247,21 @@ body {
         padding: 70px 0;
     }
 
-
     .exhibition-artists-grid,
     .exhibition-artworks-grid {
         grid-template-columns: 1fr;
     }
 
-
     .exhibition-details-hero-content h1 {
         font-size: 45px;
     }
-
 
     .exhibition-description-block h2,
     .exhibition-section-heading h2 {
         font-size: 35px;
     }
 
-}
-
-/* =========================================================
-   CLICKABLE EXHIBITION ARTWORK
-   ========================================================= */
-
-.exhibition-artwork-link {
-    display: block;
-
-    color: inherit;
-
-    text-decoration: none;
-}
-
-
-.exhibition-artwork-link:hover {
-    color: inherit;
-}
-
-
-.exhibition-artwork-view {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-
-    margin-top: 22px;
-
-    color: #111111;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-
-.exhibition-artwork-view span {
-    font-size: 15px;
-    line-height: 1;
-}
-
-
-.exhibition-artwork-card:hover
-.exhibition-artwork-view {
-    color: #ff7200;
-
-    transform: translateX(4px);
-}
-
-
-.exhibition-artwork-card {
-    cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.exhibition-artwork-card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.10);
-}
-
-/* =========================================================
-   ARTWORK DETAILS PAGE
-   ========================================================= */
-
-.exhibition-artwork-details-page {
-    background: #ffffff;
-    color: #111111;
-}
-
-
-/* =========================================================
-   ARTWORK HERO
-   ========================================================= */
-
-.artwork-details-hero {
-    position: relative;
-    min-height: 600px;
-    overflow: hidden;
-    background: #111111;
-}
-
-.artwork-details-hero-image {
-    position: absolute;
-    inset: 0;
-}
-
-.artwork-details-hero-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.artwork-details-hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.52);
-}
-
-.artwork-details-hero-content {
-    position: relative;
-    z-index: 2;
-
-    min-height: 600px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    padding: 80px 8%;
-    color: #ffffff;
-}
-
-.artwork-details-label,
-.artwork-details-section-label {
-    margin: 0 0 14px;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-
-    text-transform: uppercase;
-    color: #ff7200;
-}
-
-.artwork-details-hero-content h1 {
-    max-width: 900px;
-
-    margin: 0;
-
-    font-family: 'Lora', serif;
-    font-size: clamp(42px, 6vw, 78px);
-    font-weight: 400;
-    line-height: 1.05;
-}
-
-.artwork-details-artist {
-    margin: 22px 0 0;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 2px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   MAIN CONTAINER
-   ========================================================= */
-
-.artwork-details-container {
-    max-width: 1200px;
-    margin: 0 auto;
-
-    padding: 70px 40px 100px;
-}
-
-
-/* =========================================================
-   BACK LINK
-   ========================================================= */
-
-.artwork-details-container .exhibition-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-
-    margin-bottom: 60px;
-
-    color: #111111;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-
-    text-decoration: none;
-    text-transform: uppercase;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.artwork-details-container .exhibition-back-link:hover {
-    color: #ff7200;
-    transform: translateX(-4px);
-}
-
-
-/* =========================================================
-   ARTWORK INFORMATION
-   ========================================================= */
-
-.artwork-details-main {
-    padding-bottom: 80px;
-
-    border-bottom: 1px solid #dddddd;
-}
-
-.artwork-details-information {
-    max-width: 900px;
-}
-
-.artwork-details-information h2 {
-    margin: 0;
-
-    font-family: 'Lora', serif;
-    font-size: clamp(32px, 4vw, 52px);
-    font-weight: 400;
-    line-height: 1.15;
-}
-
-.artwork-details-byline {
-    margin: 16px 0 45px;
-
-    color: #555555;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-.artwork-details-byline strong {
-    color: #111111;
-}
-
-
-/* =========================================================
-   ARTWORK METADATA
-   ========================================================= */
-
-.artwork-details-meta {
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    border-top: 1px solid #111111;
-    border-bottom: 1px solid #dddddd;
-}
-
-.artwork-meta-item {
-    padding: 24px 25px;
-
-    border-bottom: 1px solid #dddddd;
-}
-
-.artwork-meta-item:nth-child(odd) {
-    border-right: 1px solid #dddddd;
-}
-
-.artwork-meta-item:nth-last-child(-n + 2) {
-    border-bottom: none;
-}
-
-.artwork-meta-item span {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #777777;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-
-    text-transform: uppercase;
-}
-
-.artwork-meta-item strong {
-    display: block;
-
-    color: #111111;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   DESCRIPTION
-   ========================================================= */
-
-.artwork-details-description {
-    margin-top: 55px;
-
-    max-width: 850px;
-}
-
-.artwork-details-description p:last-child {
-    margin: 0;
-
-    color: #444444;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-
-/* =========================================================
-   PRICE
-   ========================================================= */
-
-.artwork-details-price {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-top: 50px;
-    padding: 25px 0;
-
-    border-top: 1px solid #111111;
-    border-bottom: 1px solid #111111;
-}
-
-.artwork-details-price span {
-    color: #777777;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-
-    text-transform: uppercase;
-}
-
-.artwork-details-price strong {
-    color: #ff7200;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   ARTIST SECTION
-   ========================================================= */
-
-.artwork-details-artist-section {
-    padding-top: 80px;
-}
-
-.artwork-details-artist-card {
-    display: grid;
-
-    grid-template-columns: 260px 1fr;
-
-    gap: 45px;
-
-    margin-top: 25px;
-    padding: 35px;
-
-    background: #111111;
-    color: #ffffff;
-}
-
-.artwork-details-artist-image {
-    width: 260px;
-    height: 260px;
-
-    overflow: hidden;
-
-    background: #ffffff;
-}
-
-.artwork-details-artist-image img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-}
-
-.artwork-details-artist-information {
-    align-self: center;
-}
-
-.artwork-details-artist-information h2 {
-    margin: 0 0 20px;
-
-    color: #ffffff;
-
-    font-family: 'Lora', serif;
-    font-size: 36px;
-    font-weight: 400;
-}
-
-.artwork-details-artist-information p {
-    max-width: 700px;
-
-    margin: 0;
-
-    color: #cccccc;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    line-height: 1.9;
-}
-
-
-/* =========================================================
-   BOTTOM
-   ========================================================= */
-
-.artwork-details-bottom {
-    margin-top: 60px;
-}
-
-
-/* =========================================================
-   NOT FOUND
-   ========================================================= */
-
-.exhibition-not-found {
-    min-height: 70vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 80px 30px;
-
-    background: #ffffff;
-}
-
-.exhibition-not-found-content {
-    max-width: 650px;
-
-    text-align: center;
-}
-
-.exhibition-not-found h1 {
-    margin: 0 0 20px;
-
-    font-family: 'Lora', serif;
-    font-size: 48px;
-    font-weight: 400;
-}
-
-.exhibition-not-found p {
-    margin: 0 0 35px;
-
-    color: #555555;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.8;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .artwork-details-hero {
-        min-height: 500px;
-    }
-
-    .artwork-details-hero-content {
-        min-height: 500px;
-        padding: 60px 6%;
-    }
-
-    .artwork-details-container {
-        padding: 55px 30px 80px;
-    }
-
-    .artwork-details-artist-card {
-        grid-template-columns: 200px 1fr;
-        gap: 30px;
-    }
-
-    .artwork-details-artist-image {
-        width: 200px;
-        height: 200px;
-    }
-
-}
-
-
-@media (max-width: 600px) {
+    /* Artwork details page */
 
     .artwork-details-hero {
         min-height: 430px;
@@ -8142,6 +6318,493 @@ body {
 
     .artwork-details-artist-information h2 {
         font-size: 30px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .admin-stats-grid,
+    .admin-quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-list-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .inquiry-card-row {
+        flex-direction: column;
+    }
+
+    .inquiry-status {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+}
+
+/* =========================================================
+   UTILITY CLASSES — Replaces inline styles
+   Added to keep all styling inside stylesheets.
+========================================================= */
+
+
+/* =========================================================
+   DASHBOARD HERO VARIANTS
+   Each page that previously used an inline
+   style="background-image: ..." now uses one of these.
+========================================================= */
+
+.dashboard-hero--submit-inquiry {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.65)
+        ),
+        url('Images/background-1.jpg');
+}
+
+.dashboard-hero--inquiries {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.65)
+        ),
+        url('Images/background-4.jpg');
+}
+
+.dashboard-hero--exhibitions {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.65)
+        ),
+        url('Images/background-2.jpg');
+}
+
+
+/* =========================================================
+   DASHBOARD CONTENT — TOP SPACING VARIANT
+   Used by exhibition-edit.php
+========================================================= */
+
+.dashboard-content--top-spaced {
+    padding-top: 60px;
+}
+
+
+/* =========================================================
+   FORM ERRORS — NEUTRAL VARIANT
+   Grey instead of red. Used by exhibition-edit.php when
+   showing "this exhibition cannot be edited" message.
+========================================================= */
+
+.form-errors--neutral {
+    border-left-color: #888;
+    background-color: #f2f2f2;
+}
+
+.form-errors--neutral p {
+    color: #555;
+}
+
+
+/* =========================================================
+   DETAIL IMAGE — PREVIEW
+   Used by exhibition-edit.php for the current exhibition
+   image preview.
+========================================================= */
+
+.exhibition-edit-preview-img {
+    max-width: 220px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   USER PANEL — LINK SPACING
+   Used by dashboard.php for the "Learn More →" link.
+========================================================= */
+
+.user-panel-link--spaced {
+    display: inline-block;
+    margin-top: 18px;
+}
+
+
+/* =========================================================
+   USER PANEL — BLURB TEXT
+   Used by dashboard.php for the "About EDL" paragraph.
+========================================================= */
+
+.user-panel-blurb {
+    margin: 0;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   INTRO — JUSTIFIED
+   Used by index.php for the hero intro paragraph.
+========================================================= */
+
+.intro-justified {
+    text-align: justify;
+}
+
+/* =========================================================
+   CONTACT FORM — SUCCESS / ERROR BANNERS
+========================================================= */
+
+.contact-success {
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    border-left: 4px solid #268a4b;
+    background-color: #eafaf1;
+}
+
+.contact-success p {
+    margin: 0;
+    color: #1e7e42;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.contact-error {
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    border-left: 4px solid #c0392b;
+    background-color: #fdecea;
+}
+
+.contact-error p {
+    margin: 0;
+    color: #a93226;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   USER TABS — Status filter tabs
+   Used on my-exhibitions.php and any other user page
+   that filters a list by status.
+========================================================= */
+
+.user-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-tab {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    color: #555;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+
+.user-tab:hover {
+    border-color: #ff7a00;
+    color: #ff7a00;
+}
+
+.user-tab.active {
+    background: #111;
+    border-color: #111;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE — USER TABS
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .user-tabs {
+        gap: 6px;
+        margin-bottom: 30px;
+    }
+
+    .user-tab {
+        padding: 8px 14px;
+        font-size: 11px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .user-tabs {
+        gap: 6px;
+    }
+
+    .user-tab {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+
+}
+
+.field-help-spaced {
+    margin-top: 20px;
+}
+
+.outline-button-spaced {
+    margin-top: 15px;
+}
+
+.admin-view-button-spaced {
+    margin-left: 10px;
+}
+
+.admin-header-spaced {
+    margin-top: 50px;
+}
+
+.admin-heading-small {
+    font-size: 26px;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.artist-form-preview {
+    max-width: 150px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* =========================================================
+   MY ARTISTS PAGE
+   Local styles for user-side my-artists.php
+   (admin classes are not loaded on user pages)
+========================================================= */
+
+.admin-action-box {
+    margin-bottom: 50px;
+    padding: 35px 40px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.admin-action-box h4 {
+    margin: 0 0 25px;
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.admin-action-box .form-group {
+    margin-bottom: 22px;
+}
+
+.admin-action-box label {
+    display: block;
+    margin-bottom: 8px;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.admin-action-box input[type="text"],
+.admin-action-box textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.admin-action-box input[type="text"]:focus,
+.admin-action-box textarea:focus {
+    border-color: #ff7a00;
+}
+
+.admin-action-box textarea {
+    resize: vertical;
+}
+
+.approve-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 13px 28px;
+    border: none;
+    background: #ff7a00;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.approve-button:hover {
+    background: #111;
+}
+
+.reject-button {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.reject-button:hover {
+    background: #111;
+    color: #fff;
+}
+
+.admin-view-button {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.admin-view-button:hover {
+    background: #ff7a00;
+    border-color: #ff7a00;
+    color: #fff;
+}
+
+.admin-header {
+    margin-bottom: 20px;
+}
+
+.admin-label {
+    margin: 0 0 10px;
+    color: #ff7a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.admin-heading-small {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #111;
+}
+
+.admin-subtext {
+    margin: 12px 0 0;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.admin-list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 25px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.admin-list-row-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-list-row-main h3 {
+    margin: 0 0 8px;
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #111;
+}
+
+.admin-list-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.admin-view-button-spaced {
+    margin-left: 10px;
+}
+
+.admin-header-spaced {
+    margin-top: 50px;
+}
+
+.artist-form-preview {
+    max-width: 150px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.inline-form {
+    display: inline;
+}
+
+
+/* ---- responsive ---- */
+
+@media (max-width: 600px) {
+
+    .admin-action-box {
+        padding: 25px 20px;
+    }
+
+    .admin-list-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .admin-list-row-actions {
+        width: 100%;
     }
 
 }

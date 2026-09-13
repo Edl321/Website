@@ -1,9 +1,14 @@
 <?php
 
 $basePath = "";
+
+require_once "includes/function.php";
 require_once "database/config.php";
 
 
+// =========================================================
+// GET ARTWORK ID
+// =========================================================
 
 $artworkId = filter_input(
     INPUT_GET,
@@ -59,32 +64,49 @@ if ($artworkId) {
     $artwork = $query->fetch(PDO::FETCH_ASSOC);
 }
 
-
-
-function artworkImagePath($image)
-{
-    if (empty($image)) {
-        return "";
-    }
-
-    if (
-        str_starts_with($image, "Images/") ||
-        str_starts_with($image, "images/")
-    ) {
-        return $image;
-    }
-
-    if (
-        str_starts_with($image, "http://") ||
-        str_starts_with($image, "https://")
-    ) {
-        return $image;
-    }
-
-    return "Images/" . basename($image);
-}
-
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        <?php if ($artwork): ?>
+
+            <?php echo htmlspecialchars(
+                $artwork["title"],
+                ENT_QUOTES,
+                "UTF-8"
+            ); ?> |
+
+        <?php endif; ?>
+
+        EDL Gallery
+
+    </title>
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="Images/logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
 
 <?php require_once "includes/header.php"; ?>
 
@@ -122,8 +144,12 @@ function artworkImagePath($image)
 
 <?php else: ?>
 
-    <link rel="stylesheet" href="style.css">
     <main class="exhibition-artwork-details-page">
+
+
+        <!-- =========================================================
+             ARTWORK HERO
+        ========================================================= -->
 
         <section class="artwork-details-hero">
 
@@ -133,7 +159,7 @@ function artworkImagePath($image)
 
                     <img
                         src="<?php echo htmlspecialchars(
-                            artworkImagePath($artwork["image"]),
+                            edlImagePath($artwork["image"]),
                             ENT_QUOTES,
                             "UTF-8"
                         ); ?>"
@@ -178,6 +204,7 @@ function artworkImagePath($image)
             </div>
 
         </section>
+
 
         <div class="artwork-details-container">
 
@@ -229,6 +256,7 @@ function artworkImagePath($image)
                         </strong>
 
                     </p>
+
 
                     <div class="artwork-details-meta">
 
@@ -316,7 +344,6 @@ function artworkImagePath($image)
                     </div>
 
 
-
                     <?php if (!empty($artwork["description"])): ?>
 
                         <div class="artwork-details-description">
@@ -375,6 +402,7 @@ function artworkImagePath($image)
 
             </section>
 
+
             <section class="artwork-details-artist-section">
 
 
@@ -392,7 +420,7 @@ function artworkImagePath($image)
 
                             <img
                                 src="<?php echo htmlspecialchars(
-                                    artworkImagePath($artwork["artist_image"]),
+                                    edlImagePath($artwork["artist_image"]),
                                     ENT_QUOTES,
                                     "UTF-8"
                                 ); ?>"
@@ -445,6 +473,7 @@ function artworkImagePath($image)
 
             </section>
 
+
             <div class="artwork-details-bottom">
 
                 <a
@@ -466,3 +495,7 @@ function artworkImagePath($image)
 
 
 <?php require_once "includes/footer.php"; ?>
+
+</body>
+
+</html>

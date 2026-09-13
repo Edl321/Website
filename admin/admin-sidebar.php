@@ -26,10 +26,6 @@ $adminNavItems = [
         "label" => "Exhibitions",
         "href"  => "exhibitions.php",
     ],
-    "rental-applications" => [
-        "label" => "Rental Applications",
-        "href"  => "rental-application.php",
-    ],
     "inquiries" => [
         "label" => "Inquiries",
         "href"  => "inquiries.php",

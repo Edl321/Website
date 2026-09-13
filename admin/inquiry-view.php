@@ -102,6 +102,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 // 2. If approved, create the exhibition record for the organizer
                 if ($action === "approve") {
 
+                    // Guard against empty / null values that would fail the NOT NULL columns
+                    $exhibitionDescription = trim((string)($current["description"] ?? ""));
+                    if ($exhibitionDescription === "") {
+                        $exhibitionDescription = "No description provided.";
+                    }
+
                     $exhibitionSql = "INSERT INTO exhibitions
                                     (inquiry_id, organizer_id, title, description,
                                         start_date, end_date, status, created_at)
@@ -113,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $exhibitionStmt->bindValue(":inquiry_id", $inquiryId, PDO::PARAM_INT);
                     $exhibitionStmt->bindValue(":organizer_id", $current["user_id"], PDO::PARAM_INT);
                     $exhibitionStmt->bindValue(":title", $current["exhibition_title"]);
-                    $exhibitionStmt->bindValue(":description", $current["description"]);
+                    $exhibitionStmt->bindValue(":description", $exhibitionDescription);
                     $exhibitionStmt->bindValue(":start_date", $current["proposed_start_date"]);
                     $exhibitionStmt->bindValue(":end_date", $current["proposed_end_date"]);
                     $exhibitionStmt->execute();
@@ -153,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 $pdo->rollBack();
 
-                $errors[] = "Something went wrong while saving your decision. Please try again.";
+                $errors[] = "DEBUG: " . $e->getMessage();
 
             }
 

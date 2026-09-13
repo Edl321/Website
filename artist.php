@@ -1,5 +1,6 @@
 <?php
 $basePath = "";
+require_once "includes/function.php";
 require_once "database/config.php";
 require_once "security/authorize.php";
 
@@ -24,7 +25,7 @@ $artists = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists | EDL Gallery</title>
-    <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -81,8 +82,16 @@ $artists = $stmt->fetchAll();
                     <?php if (!empty($artist["image"])): ?>
 
                         <img
-                            src="Images/<?php echo htmlspecialchars($artist["image"]); ?>"
-                            alt="<?php echo htmlspecialchars($artist["name"]); ?>"
+                            src="<?php echo htmlspecialchars(
+                                edlImagePath($artist["image"]),
+                                ENT_QUOTES,
+                                "UTF-8"
+                            ); ?>"
+                            alt="<?php echo htmlspecialchars(
+                                $artist["name"],
+                                ENT_QUOTES,
+                                "UTF-8"
+                            ); ?>"
                         >
 
                     <?php endif; ?>
@@ -91,20 +100,20 @@ $artists = $stmt->fetchAll();
                     <div class="artist-info">
 
                         <h2>
-                            <?php
-                            echo htmlspecialchars(
-                                $artist["name"]
-                            );
-                            ?>
+                            <?php echo htmlspecialchars(
+                                $artist["name"],
+                                ENT_QUOTES,
+                                "UTF-8"
+                            ); ?>
                         </h2>
 
 
                         <p>
-                            <?php
-                            echo htmlspecialchars(
-                                $artist["biography"]
-                            );
-                            ?>
+                            <?php echo htmlspecialchars(
+                                $artist["biography"],
+                                ENT_QUOTES,
+                                "UTF-8"
+                            ); ?>
                         </p>
 
                     </div>

@@ -9,7 +9,7 @@ require_once "security/shield.php";
 
 
 // Only logged-in users may submit an inquiry.
-if (!isLoggedIn()) {
+if (!isUser()) {
 
     header("Location: login.php");
     exit;
@@ -191,9 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
      PAGE HERO
 ========================================= -->
 
-<section class="dashboard-hero" style="background-image:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-    url('image/background-1.jpg');">
+<section class="dashboard-hero dashboard-hero--submit-inquiry">
 
     <div class="dashboard-hero-content">
 
