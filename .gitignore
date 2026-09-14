@@ -1,2 +1,62 @@
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 
+# ---------------------------------------------------------
+# Editor / IDE
+# ---------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# ---------------------------------------------------------
+# Logs and runtime files
+# ---------------------------------------------------------
+*.log
+logs/
+Website/logs/
+tmp/
+temp/
+
+# ---------------------------------------------------------
+# Sensitive config — DO NOT COMMIT
+# ---------------------------------------------------------
 database/config.php
+Website/database/config.php
+
+# ---------------------------------------------------------
+# PHP / Composer
+# ---------------------------------------------------------
+vendor/
+composer.lock
+
+# ---------------------------------------------------------
+# Node (future-proofing)
+# ---------------------------------------------------------
+node_modules/
+package-lock.json
+
+# ---------------------------------------------------------
+# Build artifacts / backups
+# ---------------------------------------------------------
+dist/
+build/
+*.bak
+*.backup
+*.old
+*.orig
+*.zip
+*.sql.gz
+tracked.txt
