@@ -16,11 +16,6 @@ if (!isUser()) {
 
 $userId = $_SESSION["user_id"];
 
-
-// =========================================================
-// CONSTANTS
-// =========================================================
-
 const ARTIST_NAME_MAX_LENGTH      = 150;
 const ARTIST_BIOGRAPHY_MAX_LENGTH = 5000;
 
@@ -34,15 +29,6 @@ const ARTIST_ALLOWED_IMAGE_TYPES = [
 ];
 const ARTIST_MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
 
-
-// =========================================================
-// HELPERS
-// =========================================================
-
-/**
- * Fetch a single artist row, but only if the current user owns it
- * OR it's a shared/admin-owned artist (user_id IS NULL).
- */
 function getVisibleArtist(PDO $pdo, int $artistId, int $userId): ?array
 {
     $stmt = $pdo->prepare(
@@ -59,10 +45,6 @@ function getVisibleArtist(PDO $pdo, int $artistId, int $userId): ?array
     return $row ?: null;
 }
 
-
-/**
- * Only delete files this module created.
- */
 function deleteManagedArtistImage(string $imagePath): void
 {
     if ($imagePath === "") {
@@ -87,10 +69,6 @@ function deleteManagedArtistImage(string $imagePath): void
 }
 
 
-// =========================================================
-// STATE
-// =========================================================
-
 $errors   = [];
 $feedback = "";
 
@@ -98,11 +76,6 @@ $editingId = "";
 $name      = "";
 $biography = "";
 $image     = "";
-
-
-// =========================================================
-// EDIT MODE
-// =========================================================
 
 if (isset($_GET["edit"]) && ctype_digit((string)$_GET["edit"])) {
 
@@ -128,10 +101,6 @@ if (isset($_GET["edit"]) && ctype_digit((string)$_GET["edit"])) {
 }
 
 
-// =========================================================
-// POST HANDLING
-// =========================================================
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -142,8 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $action = $_POST["action"] ?? "";
 
-
-        // ---- DELETE ----
 
         if ($action === "delete") {
 
@@ -204,9 +171,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         }
 
-
-        // ---- CREATE OR UPDATE ----
-
         elseif ($action === "create" || $action === "update") {
 
             $rawId     = $_POST["artist_id"] ?? "";
@@ -251,9 +215,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $editingId = "";
             }
 
-
-            // ---- FIELD VALIDATION ----
-
             if ($name === "") {
                 $errors[] = "Artist name is required.";
             } elseif (mb_strlen($name) > ARTIST_NAME_MAX_LENGTH) {
@@ -265,9 +226,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } elseif (mb_strlen($biography) > ARTIST_BIOGRAPHY_MAX_LENGTH) {
                 $errors[] = "Artist biography must be " . ARTIST_BIOGRAPHY_MAX_LENGTH . " characters or fewer.";
             }
-
-
-            // ---- OPTIONAL IMAGE UPLOAD ----
 
             $newImagePath = null;
 
@@ -332,9 +290,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $image = $newImagePath;
             }
 
-
-            // ---- SAVE ----
-
             if (empty($errors)) {
 
                 if ($action === "create") {
@@ -391,15 +346,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 }
 
-
-// =========================================================
-// FETCH ARTIST LISTS
-// =========================================================
-
 $myStmt = $pdo->prepare(
     "SELECT * FROM artists
-     WHERE user_id = :user_id
-     ORDER BY name ASC"
+    WHERE user_id = :user_id
+    ORDER BY name ASC"
 );
 $myStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
 $myStmt->execute();
@@ -409,8 +359,8 @@ $myArtists = $myStmt->fetchAll();
 
 $sharedStmt = $pdo->prepare(
     "SELECT * FROM artists
-     WHERE user_id IS NULL
-     ORDER BY name ASC"
+    WHERE user_id IS NULL
+    ORDER BY name ASC"
 );
 $sharedStmt->execute();
 
@@ -449,8 +399,6 @@ require_once "includes/header.php";
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
-    <!-- ADD / EDIT FORM -->
 
     <div class="admin-action-box">
 
@@ -522,9 +470,6 @@ require_once "includes/header.php";
 
     </div>
 
-
-    <!-- MY ARTISTS -->
-
     <div class="admin-header admin-header-spaced">
         <p class="admin-label">YOUR DIRECTORY</p>
         <h1 class="admin-heading-small">Artists You Added (<?php echo count($myArtists); ?>)</h1>
@@ -580,9 +525,6 @@ require_once "includes/header.php";
         <?php endforeach; ?>
 
     <?php endif; ?>
-
-
-    <!-- SHARED ARTISTS -->
 
     <?php if (!empty($sharedArtists)): ?>
 

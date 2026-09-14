@@ -17,8 +17,6 @@ if (!isUser()) {
 $userId = $_SESSION["user_id"];
 
 
-// ---- GET THE EXHIBITION ID FROM THE URL ----
-
 $exhibitionId = $_GET["id"] ?? "";
 
 if (!ctype_digit((string)$exhibitionId)) {
@@ -30,10 +28,6 @@ if (!ctype_digit((string)$exhibitionId)) {
 
 $exhibitionId = (int)$exhibitionId;
 
-
-// ---- LOAD THE EXHIBITION, MAKE SURE IT BELONGS TO THIS USER ----
-// (We check organizer_id = the logged-in user's session ID so nobody
-// can edit someone else's exhibition just by changing the URL.)
 
 $sql = "SELECT * FROM exhibitions
         WHERE id = :id AND organizer_id = :organizer_id";
@@ -52,16 +46,12 @@ if (!$exhibition) {
 
 }
 
-
-// Once an exhibition is published, completed, or cancelled,
-// the organizer should no longer edit the core details.
 $isEditable = in_array($exhibition["status"], ["draft", "artwork_submission"], true);
 
 
 $errors   = [];
 $feedback = "";
 
-// Pre-fill values from the current exhibition record.
 $title       = $exhibition["title"];
 $description = $exhibition["description"];
 $start_date  = $exhibition["start_date"];
@@ -78,9 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     $description = trim($_POST["description"] ?? "");
     $start_date  = trim($_POST["start_date"] ?? "");
     $end_date    = trim($_POST["end_date"] ?? "");
-
-
-    // ---- VALIDATION ----
 
     if (empty($title)) {
         $errors[] = "Exhibition title is required.";
@@ -107,9 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     }
 
 
-    // ---- OPTIONAL IMAGE UPLOAD ----
 
-    $imagePath = $exhibition["image"]; // keep the existing image unless replaced
+    $imagePath = $exhibition["image"];
     $newImageUploaded = false;
 
     if (!empty($_FILES["image"]["name"])) {
@@ -143,8 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
             $destination = $uploadDir . $newFileName;
 
             if (move_uploaded_file($fileTmpPath, $destination)) {
-                // Stored relative to /Images/, matching how the public
-                // exhibition pages read this column.
+
                 $imagePath = "Images/exhibitions/" . $newFileName;
                 $newImageUploaded = true;
             } else {
@@ -155,14 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
     }
 
-
-    // ---- SAVE ----
-
     if (empty($errors)) {
 
-        // Completing the details for the first time moves the
-        // exhibition from "draft" into "artwork_submission", so the
-        // organizer's next step is adding artists and artworks.
         $newStatus = ($exhibition["status"] === "draft")
             ? "artwork_submission"
             : $exhibition["status"];
@@ -187,9 +166,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
         $updateStmt->bindValue(":organizer_id", $userId, PDO::PARAM_INT);
         $updateStmt->execute();
 
-        // If a NEW image replaced an OLD one, remove the old file from
-        // disk now that the DB row points elsewhere. Only delete files
-        // this site created itself (prefix guard).
         if ($newImageUploaded) {
 
             $oldImage = (string)$exhibition["image"];
@@ -215,7 +191,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
         }
 
-        // Refresh $exhibition so the page below shows the saved data.
         $exhibition["title"]       = $title;
         $exhibition["description"] = $description;
         $exhibition["start_date"]  = $start_date;
@@ -238,7 +213,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Manage Exhibition | EDL Gallery</title>
     <link rel="icon" type="image/x-icon" href="Images/logo.png">
     <link rel="stylesheet" href="style.css">
@@ -341,8 +315,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
                 id="description"
                 name="description"
                 rows="6"
-                <?php echo $isEditable ? "required" : "disabled"; ?>
-            ><?php echo htmlspecialchars($description); ?></textarea>
+                <?php echo $isEditable ? "required" : "disabled"; ?>>
+                <?php echo htmlspecialchars($description); ?>
+            </textarea>
         </div>
 
         <div class="form-group">
@@ -351,11 +326,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
             <?php if (!empty($exhibition["image"])): ?>
 
-                <img
-                    src="<?php echo htmlspecialchars($exhibition['image']); ?>"
-                    alt="Current exhibition image"
-                    class="exhibition-edit-preview-img"
-                >
+                <img src="<?php echo htmlspecialchars($exhibition['image']); ?>" alt="Current exhibition image" class="exhibition-edit-preview-img">
 
             <?php endif; ?>
 
@@ -367,13 +338,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
         </div>
 
-
         <?php if ($isEditable): ?>
-
-            <button type="submit" class="submit-button">
-                SAVE EXHIBITION DETAILS
-            </button>
-
+            <button type="submit" class="submit-button"> SAVE EXHIBITION DETAILS </button>
         <?php endif; ?>
 
     </form>
@@ -381,7 +347,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 </section>
 
 
-<?php require_once "includes/footer.php"; ?>
+        <?php require_once "includes/footer.php"; ?>
 
-</body>
+    </body>
 </html>

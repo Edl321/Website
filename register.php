@@ -10,12 +10,10 @@ $success = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Check CSRF token
     if (!verify_csrf_token()) {
         $errors[] = "Invalid security token. Please try again.";
     }
 
-    // Get form values
     $first_name = trim($_POST["first_name"] ?? "");
     $last_name = trim($_POST["last_name"] ?? "");
     $email = trim($_POST["email"] ?? "");
@@ -23,15 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $confirm_password = $_POST["confirm_password"] ?? "";
 
 
-    // Validate first name
     if (empty($first_name)) {
 
         $errors[] = "First name is required.";
 
     }
 
-
-    // Validate last name
     if (empty($last_name)) {
 
         $errors[] = "Last name is required.";
@@ -39,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    // Validate email
     if (empty($email)) {
 
         $errors[] = "Email is required.";
@@ -51,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    // Validate password
     if (empty($password)) {
 
         $errors[] = "Password is required.";
@@ -62,8 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     }
 
-
-    // Confirm password
     if (empty($confirm_password)) {
 
         $errors[] = "Please confirm your password.";
@@ -74,11 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     }
 
-
-    // Continue only if there are no errors
     if (empty($errors)) {
 
-        // Check if email already exists
         $sql = "SELECT id
                 FROM users
                 WHERE email = :email";
@@ -98,14 +86,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } else {
 
-            // Hash password
             $hashedpassword = password_hash(
                 $password,
                 PASSWORD_DEFAULT
             );
 
 
-            // Insert new user
             $sql = "INSERT INTO users
                     (first_name, last_name, email, password, role)
                     VALUES
@@ -120,8 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $stmt->execute();
 
-
-            // Registration successful
             $success = "Account created successfully! You can now log in.";
         }
     }
@@ -129,17 +113,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 ?>
 
-
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Register | EDL Gallery</title>
     <Link rel="icon"type="image/x-icon"href="Images/logo.png">
     <link rel="stylesheet" href="register.css">
@@ -149,12 +129,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
 
     <section class="register-header">
+
         <img src="Images/logo.png" alt="EDL Gallery">
+
     </section>
+
     <h1>Create an Account</h1>
-
-
-    <!-- ERROR MESSAGES -->
 
     <?php if (!empty($errors)): ?>
 
@@ -172,9 +152,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <?php endif; ?>
 
-
-    <!-- SUCCESS MESSAGE -->
-
     <?php if (!empty($success)): ?>
 
         <div>
@@ -184,135 +161,88 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </p>
 
             <p>
-                <a href="login.php">
-                    Go to Login
-                </a>
+                <a href="login.php">Go to Login</a>
             </p>
 
         </div>
 
     <?php endif; ?>
 
-    <!-- REGISTRATION FORM -->
-
     <?php if (empty($success)): ?>
 
-        <form method="POST" action="register.php">
 
+<form method="POST" action="register.php">
 
-            <!-- CSRF SECURITY TOKEN -->
+    <?php echo csrf_field(); ?>
 
-            <?php echo csrf_field(); ?>
+        <label for="first_name">First Name</label>
 
-
-            <!-- FIRST NAME -->
-
-            <label for="first_name">
-                First Name
-            </label>
-
-            <input
-                type="text"
-                id="first_name"
-                name="first_name"
-                value="<?php echo htmlspecialchars($first_name ?? ""); ?>"
-                required
-            >
-
+        <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            value="<?php echo htmlspecialchars($first_name ?? ""); ?>"
+            required
+        >
 
             <br><br>
 
+        <label for="last_name">Last Name</label>
 
-            <!-- LAST NAME -->
-
-            <label for="last_name">
-                Last Name
-            </label>
-
-            <input
-                type="text"
-                id="last_name"
-                name="last_name"
-                value="<?php echo htmlspecialchars($last_name ?? ""); ?>"
-                required
-            >
-
+        <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            value="<?php echo htmlspecialchars($last_name ?? ""); ?>"
+            required
+        >
 
             <br><br>
 
+        <label for="email">Email</label>
 
-            <!-- EMAIL -->
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                name="email"
-                value="<?php echo htmlspecialchars($email ?? ""); ?>"
-                required
-            >
-
+        <input
+            type="email"
+            id="email"
+            name="email"
+            value="<?php echo htmlspecialchars($email ?? ""); ?>"
+            required
+        >
 
             <br><br>
 
+            <label for="password">Password</label>
 
-            <!-- PASSWORD -->
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                name="password"
-                required
-            >
-
+        <input
+            type="password"
+            id="password"
+            name="password"
+            required
+        >
 
             <br><br>
 
+        <label for="confirm_password">Confirm Password</label>
 
-            <!-- CONFIRM PASSWORD -->
-
-            <label for="confirm_password">
-                Confirm Password
-            </label>
-
-            <input
-                type="password"
-                id="confirm_password"
-                name="confirm_password"
-                required
-            >
-
+        <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            required
+        >
 
             <br><br>
 
+    <button type="submit">Create Account</button>
 
-            <!-- REGISTER BUTTON -->
-
-            <button type="submit">
-                Create Account
-            </button>
-
-
-        </form>
+</form>
 
     <?php endif; ?>
 
 
     <p>
-
         Already have an account?
-
-        <a href="login.php">
-            Login
-        </a>
-
+        <a href="login.php">Login</a>
     </p>
 
 

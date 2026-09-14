@@ -16,11 +16,6 @@ if (!isUser()) {
 
 $userId = $_SESSION["user_id"];
 
-
-// =========================================================
-// INQUIRY COUNTS
-// =========================================================
-
 $inquiryCountStmt = $pdo->prepare("
     SELECT COUNT(*)
     FROM exhibition_inquiries
@@ -31,11 +26,6 @@ $inquiryCountStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
 $inquiryCountStmt->execute();
 
 $inquiryCount = (int)$inquiryCountStmt->fetchColumn();
-
-
-// =========================================================
-// LATEST INQUIRY
-// =========================================================
 
 $latestInquiryStmt = $pdo->prepare("
     SELECT id, exhibition_title, status, created_at
@@ -54,11 +44,6 @@ $latestInquiryStatus = $latestInquiry
     ? $latestInquiry["status"]
     : "Not Applied";
 
-
-// =========================================================
-// RECENT INQUIRIES (for the panel)
-// =========================================================
-
 $recentInquiriesStmt = $pdo->prepare("
     SELECT id, exhibition_title, exhibition_type, status, created_at
     FROM exhibition_inquiries
@@ -71,11 +56,6 @@ $recentInquiriesStmt->bindValue(":user_id", $userId, PDO::PARAM_INT);
 $recentInquiriesStmt->execute();
 
 $recentInquiries = $recentInquiriesStmt->fetchAll();
-
-
-// =========================================================
-// NOTIFICATIONS
-// =========================================================
 
 $notificationStmt = $pdo->prepare("
     SELECT id, title, message, is_read, created_at
@@ -103,11 +83,6 @@ $unreadStmt->execute();
 
 $unreadCount = (int)$unreadStmt->fetchColumn();
 
-
-// =========================================================
-// GALLERY STATS + UPCOMING EXHIBITION
-// =========================================================
-
 $exhibitionCountStmt = $pdo->query("
     SELECT COUNT(*)
     FROM exhibitions
@@ -132,14 +107,16 @@ $upcomingExhibition = $upcomingStmt->fetch();
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard | EDL Gallery</title>
-
     <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="user-dashboard.css">
+
 </head>
+
 <body>
 
 <?php require_once "includes/header.php"; ?>
@@ -147,6 +124,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
 <main class="user-dashboard">
 
     <section class="user-dashboard-hero">
+
         <div>
             <p class="user-dashboard-label">EDL GALLERY / USER AREA</p>
             <h1>Welcome back, <span><?php echo htmlspecialchars($_SESSION["first_name"]); ?></span></h1>
@@ -159,6 +137,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
             <strong><?php echo date("F j, Y"); ?></strong>
             <?php echo date("l"); ?>
         </div>
+
     </section>
 
     <section class="user-dashboard-stats">
@@ -173,9 +152,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
             <div class="user-stat-icon">✓</div>
             <p>Latest Inquiry</p>
             <h2>
-                <?php echo htmlspecialchars(
-                    ucwords(str_replace("_", " ", $latestInquiryStatus))
-                ); ?>
+                <?php echo htmlspecialchars(ucwords(str_replace("_", " ", $latestInquiryStatus))); ?>
             </h2>
         </div>
 
@@ -192,6 +169,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
         <div>
 
             <section class="rent-cta">
+
                 <div class="rent-cta-content">
                     <p>Rent Our Space</p>
                     <h2>Turn Your Vision Into an Exhibition.</h2>
@@ -201,25 +179,25 @@ $upcomingExhibition = $upcomingStmt->fetch();
                     </span>
                     <a href="rent-space.php" class="rent-button">Learn About the Space →</a>
                 </div>
+
                 <div class="rent-cta-image"></div>
             </section>
 
 
             <section class="user-panel">
 
-                <!-- NOTIFICATIONS -->
-
                 <div class="user-panel-title">
+
                     <div>
                         <p>UPDATES</p>
                         <h2>Notifications</h2>
-
                         <?php if ($unreadCount > 0): ?>
                             <a href="notification.php" class="unread-count">
                                 <?php echo $unreadCount; ?> UNREAD
                             </a>
                         <?php endif; ?>
-                    </div>
+                        </div>
+
                 </div>
 
                 <?php if (empty($notifications)): ?>
@@ -245,12 +223,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
                                     </p>
 
                                     <small>
-                                        <?php
-                                        echo date(
-                                            "F d, Y h:i A",
-                                            strtotime($notification["created_at"])
-                                        );
-                                        ?>
+                                        <?php echo date("F d, Y h:i A",strtotime($notification["created_at"]));?>
                                     </small>
 
                                     <?php if ($notification["is_read"] == 0): ?>
@@ -273,14 +246,13 @@ $upcomingExhibition = $upcomingStmt->fetch();
 
                 <?php endif; ?>
 
-
-                <!-- MY INQUIRIES -->
-
                 <div class="user-panel-title my-applications-title">
+
                     <div>
                         <p>INQUIRIES</p>
                         <h2>My Inquiries</h2>
                     </div>
+
                 </div>
 
                 <?php if (empty($recentInquiries)): ?>
@@ -310,12 +282,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
 
                                     <p>
                                         <strong>Submitted:</strong>
-                                        <?php
-                                        echo date(
-                                            "F d, Y",
-                                            strtotime($inquiry["created_at"])
-                                        );
-                                        ?>
+                                        <?php echo date("F d, Y",strtotime($inquiry["created_at"]));?>
                                     </p>
 
                                 </div>
@@ -340,6 +307,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
 
 
             <div class="rental-steps">
+
                 <div class="rental-step">
                     <span class="rental-step-number">01</span>
                     <h3>Submit an Inquiry</h3>
@@ -357,22 +325,28 @@ $upcomingExhibition = $upcomingStmt->fetch();
                     <h3>Exhibition Setup</h3>
                     <p>Once approved, add your artists and artworks and prepare your show.</p>
                 </div>
+
             </div>
 
         </div>
 
         <aside>
 
+
             <section class="user-panel">
+
                 <div class="user-panel-title">
+
                     <div>
                         <p>UPCOMING</p>
                         <h2>Gallery Schedule</h2>
                     </div>
+
                     <a href="exhibition.php" class="user-panel-link">View Exhibitions →</a>
                 </div>
 
                 <?php if ($upcomingExhibition): ?>
+
                     <div class="application-status">
                         <strong><?php echo htmlspecialchars($upcomingExhibition["title"]); ?></strong>
                         <p>
@@ -382,49 +356,65 @@ $upcomingExhibition = $upcomingStmt->fetch();
                         </p>
                         <span class="status-badge">Upcoming Exhibition</span>
                     </div>
+
                 <?php else: ?>
+
                     <div class="application-status">
                         <strong>No Upcoming Exhibition</strong>
                         <p>The gallery currently has no scheduled upcoming exhibition.</p>
                     </div>
+
                 <?php endif; ?>
             </section>
 
 
             <section class="user-panel">
+
                 <div class="user-panel-title">
+
                     <div>
+
                         <p>MANAGE</p>
                         <h2>Quick Actions</h2>
                     </div>
+
                 </div>
 
                 <div class="user-actions">
 
                     <a href="rent-space.php" class="user-action">
+
                         <div class="user-action-icon">+</div>
+
                         <div class="user-action-content">
                             <h3>Rent Our Space</h3>
                             <p>Learn about the gallery and how to exhibit.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="submit-inquiry.php" class="user-action">
+
                         <div class="user-action-icon">✎</div>
+
                         <div class="user-action-content">
                             <h3>Submit an Inquiry</h3>
                             <p>Propose a new exhibition to EDL Gallery.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="notification.php" class="user-action">
+
                         <div class="user-action-icon">🔔</div>
+
                         <div class="user-action-content">
                             <h3>Notifications</h3>
                             <p>View your latest updates and notifications.</p>
                         </div>
+
                         <?php if ($unreadCount > 0): ?>
                             <span class="user-action-badge">
                                 <?php echo $unreadCount; ?>
@@ -434,100 +424,131 @@ $upcomingExhibition = $upcomingStmt->fetch();
                     </a>
 
                     <a href="my-inquiries.php" class="user-action">
+
                         <div class="user-action-icon">◎</div>
+
                         <div class="user-action-content">
                             <h3>My Inquiries</h3>
                             <p>Track the status of your exhibition inquiries.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="my-artists.php" class="user-action">
+
                         <div class="user-action-icon">✦</div>
+
                         <div class="user-action-content">
                             <h3>My Artists</h3>
                             <p>Add and manage the artists you work with.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="my-exhibitions.php" class="user-action">
+
                         <div class="user-action-icon">▣</div>
+
                         <div class="user-action-content">
                             <h3>My Exhibitions</h3>
                             <p>Manage the exhibitions you've been approved for.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="exhibition.php" class="user-action">
+
                         <div class="user-action-icon">□</div>
+
                         <div class="user-action-content">
                             <h3>View Exhibitions</h3>
                             <p>Check current and upcoming exhibitions.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="artist.php" class="user-action">
+
                         <div class="user-action-icon">○</div>
+
                         <div class="user-action-content">
                             <h3>Meet Our Artists</h3>
                             <p>Explore artists featured by EDL Gallery.</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                     <a href="contact.php" class="user-action">
+
                         <div class="user-action-icon">@</div>
+
                         <div class="user-action-content">
                             <h3>Contact Gallery</h3>
                             <p>Have a question about exhibiting?</p>
                         </div>
+
                         <span class="user-action-arrow">→</span>
                     </a>
 
                 </div>
+
             </section>
 
 
             <section class="user-panel profile-panel">
+
                 <div class="user-panel-title">
+
                     <div>
                         <p>YOUR PROFILE</p>
                         <h2>Account</h2>
                     </div>
+
                 </div>
 
                 <div class="user-account-list">
+
                     <div class="user-account-row">
                         <span>FIRST NAME</span>
                         <strong><?php echo htmlspecialchars($_SESSION["first_name"]); ?></strong>
                     </div>
+
                     <div class="user-account-row">
                         <span>LAST NAME</span>
                         <strong><?php echo htmlspecialchars($_SESSION["last_name"]); ?></strong>
                     </div>
+
                     <div class="user-account-row">
                         <span>EMAIL</span>
                         <strong><?php echo htmlspecialchars($_SESSION["email"]); ?></strong>
                     </div>
+
                 </div>
+
             </section>
 
 
             <section class="user-panel">
+
                 <div class="user-panel-title">
                     <div>
                         <p>GALLERY</p>
                         <h2>About EDL</h2>
                     </div>
                 </div>
+
                 <p class="user-panel-blurb">
                     EDL Gallery provides a space for artists and groups to present
                     creative work through meaningful exhibitions and experiences.
                 </p>
+
                 <a href="about-us.php" class="user-panel-link user-panel-link--spaced">Learn More →</a>
+
             </section>
 
         </aside>

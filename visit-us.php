@@ -16,13 +16,11 @@
 
 </head>
 
-
 <body>
 
     <?php require_once "includes/header.php"; ?>
 
-    <section class="visit-hero">
-
+<section class="visit-hero">
 
         <div class="visit-hero-text">
 
@@ -38,24 +36,18 @@
                 culture, and artistic expression come together.
             </p>
 
-            
-
         </div>
-
-
 
         <div class="visit-hero-image">
 
-            <img src="Images/rent-1.jpg"
-                alt="Inside EDL Gallery">
+            <img src="Images/rent-1.jpg" alt="Inside EDL Gallery">
 
         </div>
 
+</section>
 
-    </section>
 
-    <section class="plan-visit"
-            id="plan-visit">
+<section class="plan-visit" id="plan-visit">
 
 
         <div class="section-heading">
@@ -69,21 +61,15 @@
 
         </div>
 
+    <div class="visit-info-container">
 
+        <div class="visit-info-card">
 
-        <div class="visit-info-container">
+            <div class="visit-icon">
 
+                <img src="Images/gps-logo.jpg" alt="Location">
 
-            <!-- LOCATION -->
-
-            <div class="visit-info-card">
-
-                <div class="visit-icon">
-
-                    <img src="Images/gps-logo.jpg"
-                        alt="Location">
-
-                </div>
+            </div>
 
                 <h3>LOCATION</h3>
 
@@ -92,20 +78,15 @@
                     Philippines
                 </p>
 
+        </div>
+
+        <div class="visit-info-card">
+
+            <div class="visit-icon">
+
+                <img src="Images/clock-icon.jpg" alt="Opening Hours">
+
             </div>
-
-
-
-            <!-- HOURS -->
-
-            <div class="visit-info-card">
-
-                <div class="visit-icon">
-
-                    <img src="Images/clock-icon.jpg"
-                        alt="Opening Hours">
-
-                </div>
 
                 <h3>OPENING HOURS</h3>
 
@@ -114,24 +95,17 @@
                     10:00 AM – 6:00 PM
                 </p>
 
-                <small>
-                    Closed on Mondays
-                </small>
+            <small>Closed on Mondays</small>
+
+        </div>
+
+        <div class="visit-info-card">
+
+            <div class="visit-icon">
+
+                <img src="Images/phone-icon.jpg" alt="Phone">
 
             </div>
-
-
-
-            <!-- CONTACT -->
-
-            <div class="visit-info-card">
-
-                <div class="visit-icon">
-
-                    <img src="Images/phone-icon.jpg"
-                        alt="Phone">
-
-                </div>
 
                 <h3>CONTACT</h3>
 
@@ -140,49 +114,45 @@
                     info@edlgallery.com
                 </p>
 
-            </div>
-
-
         </div>
 
-    </section>
+    </div>
 
-    <section class="gallery-visit">
-
-
-        <div class="gallery-visit-text">
-
-            <h4>OUR GALLERY</h4>
-
-            <h2>
-                A Space for<br>
-                <span>Art & Expression.</span>
-            </h2>
-
-            <p>
-                Explore our exhibitions and discover
-                artworks created by talented artists.
-                Every visit offers a new experience.
-            </p>
-
-        </div>
+</section>
 
 
+<section class="gallery-visit">
 
-        <div class="gallery-visit-image">
+    <div class="gallery-visit-text">
 
-            <img src="Images/gallery-outside.png"
-                alt="EDL Gallery">
+        <h4>OUR GALLERY</h4>
 
-        </div>
+        <h2>
+            A Space for<br>
+            <span>Art & Expression.</span>
+        </h2>
+
+        <p>
+            Explore our exhibitions and discover
+            artworks created by talented artists.
+            Every visit offers a new experience.
+        </p>
+
+    </div>
 
 
-    </section>
+    <div class="gallery-visit-image">
 
-    <section class="find-us">
+        <img src="Images/gallery-outside.png" alt="EDL Gallery">
+
+    </div>
+
+</section>
 
 
-        <div class="find-us-heading">
+<section class="find-us">
+
+    <div class="find-us-heading">
 
             <h4>FIND US</h4>
 
@@ -197,35 +167,23 @@
                 our gallery.
             </p>
 
-        </div>
+    </div>
+
+    <div class="map-area">
+
+            <img src="Images/gallery-map.png" alt="EDL Gallery Map">
+
+    </div>
+
+</section>
 
 
-
-        <div class="map-area">
-
-            <!--
-                Temporary map image.
-
-                Later you can replace this with
-                Google Maps or another map API.
-            -->
-
-            <img src="Images/gallery-map.png"
-                alt="EDL Gallery Map">
-
-        </div>
-
-    </section>
-
-
-    <section class="visit-cta">
-
+<section class="visit-cta">
 
         <h2>
             We Look Forward<br>
             <span>to Seeing You.</span>
         </h2>
-
 
         <p>
             Whether you're visiting an exhibition,
@@ -234,26 +192,17 @@
             at EDL Gallery.
         </p>
 
+    <div class="cta-buttons">
 
-        <div class="cta-buttons">
+            <a href="contact.php"class="cta-contact">CONTACT US</a>
+            <a href="exhibition.php" class="cta-exhibition">VIEW EXHIBITIONS</a>
 
-            <a href="contact.php"
-                class="cta-contact">
+    </div>
 
-                CONTACT US
-
-            </a>
-
-
-            <a href="exhibition.php"
-                class="cta-exhibition">
-                VIEW EXHIBITIONS
-            </a>
-        </div>
-    </section>
+</section>
 
     <?php require_once "includes/footer.php"; ?>
 
-</body>
+    </body>
 
 </html>

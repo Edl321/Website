@@ -7,16 +7,6 @@ require_once "database/config.php";
 $basePath = "";
 
 
-/*
-|--------------------------------------------------------------------------
-| GET CURRENT / UPCOMING PUBLISHED EXHIBITION
-|--------------------------------------------------------------------------
-|
-| The homepage displays the nearest published exhibition
-| that has not yet ended.
-|
-*/
-
 $featuredExhibition = null;
 
 $exhibitionStmt = $pdo->prepare("
@@ -29,7 +19,7 @@ $exhibitionStmt = $pdo->prepare("
         image
     FROM exhibitions
     WHERE status = 'published'
-      AND end_date >= CURDATE()
+    AND end_date >= CURDATE()
     ORDER BY
         start_date ASC,
         id ASC
@@ -41,12 +31,6 @@ $exhibitionStmt->execute();
 $featuredExhibition = $exhibitionStmt->fetch(PDO::FETCH_ASSOC);
 
 
-/*
-|--------------------------------------------------------------------------
-| GET ALL PUBLISHED / UPCOMING EXHIBITIONS
-|--------------------------------------------------------------------------
-*/
-
 $upcomingExhibitionsStmt = $pdo->prepare("
     SELECT
         id,
@@ -57,7 +41,7 @@ $upcomingExhibitionsStmt = $pdo->prepare("
         image
     FROM exhibitions
     WHERE status = 'published'
-      AND end_date >= CURDATE()
+    AND end_date >= CURDATE()
     ORDER BY
         start_date ASC,
         id ASC
@@ -65,27 +49,8 @@ $upcomingExhibitionsStmt = $pdo->prepare("
 
 $upcomingExhibitionsStmt->execute();
 
-$upcomingExhibitions =
-    $upcomingExhibitionsStmt->fetchAll(PDO::FETCH_ASSOC);
+$upcomingExhibitions = $upcomingExhibitionsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-/*
-|--------------------------------------------------------------------------
-| GET ARTISTS FOR THE FEATURED EXHIBITION
-|--------------------------------------------------------------------------
-|
-| Artists are taken through:
-|
-| exhibitions
-|      ↓
-| exhibition_artists
-|      ↓
-| artists
-|
-| Only artists actually assigned to the published exhibition
-| will appear.
-|
-*/
 
 $featuredArtists = [];
 
@@ -115,8 +80,7 @@ if ($featuredExhibition) {
 
     $artistStmt->execute();
 
-    $featuredArtists =
-        $artistStmt->fetchAll(PDO::FETCH_ASSOC);
+    $featuredArtists = $artistStmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
@@ -126,38 +90,16 @@ if ($featuredExhibition) {
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDL Gallery</title>
-
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="Images/logo.png"
-    >
-
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="style.css"
-    >
+    <link rel="icon"type="image/x-icon"href="Images/logo.png">
+    <link rel="stylesheet"type="text/css" href="style.css">
 
 </head>
 
-
 <body>
 
-
 <?php require_once "includes/header.php"; ?>
-
-
-<!-- =========================================================
-     HOME HERO
-========================================================= -->
 
 <section class="home">
 
@@ -173,15 +115,12 @@ if ($featuredExhibition) {
         </span>
     </p>
 
-
     <div class="intro">
 
         <p class="intro-justified">
-
             EDL Gallery is an contemporary art space
             that is dedicated in showcasing exceptional artworks,
             support artists, and creating a meaning cultural experience.
-
         </p>
 
     </div>
@@ -189,114 +128,40 @@ if ($featuredExhibition) {
 </section>
 
 
-
-<!-- =========================================================
-     UPCOMING / FEATURED EXHIBITION
-========================================================= -->
-
-<section
-    class="upcoming"
-    id="exhibition-id"
->
+<section class="upcoming" id="exhibition-id">
 
     <h2>
         UPCOMING EXHIBITION
     </h2>
 
-
     <?php if ($featuredExhibition): ?>
 
-
         <div class="exhibition-layout">
-
-
-            <!-- =================================================
-                 EXHIBITION INFORMATION
-            ================================================== -->
 
             <div class="exhibition-info">
 
                 <h1>
-
-                    <?php
-                    echo nl2br(
-                        htmlspecialchars(
-                            $featuredExhibition["title"],
-                            ENT_QUOTES,
-                            "UTF-8"
-                        )
-                    );
-                    ?>
-
+                    <?php echo nl2br(htmlspecialchars($featuredExhibition["title"],ENT_QUOTES,"UTF-8"));?>
                 </h1>
 
-
                 <p>
-
-                    <?php
-
-                    echo date(
-                        "F j, Y",
-                        strtotime(
-                            $featuredExhibition["start_date"]
-                        )
-                    );
-
-                    ?>
-
+                    <?php echo date("F j, Y",strtotime($featuredExhibition["start_date"]));?>
                     -
-
-                    <?php
-
-                    echo date(
-                        "F j, Y",
-                        strtotime(
-                            $featuredExhibition["end_date"]
-                        )
-                    );
-
-                    ?>
-
+                    <?php echo date("F j, Y",strtotime($featuredExhibition["end_date"]));?>
                 </p>
 
-
-                <a
-                    href="exhibition-details.php?id=<?php echo (int)$featuredExhibition["id"]; ?>"
-                    class="exhibition-details"
-                >
+                <a href="exhibition-details.php?id=<?php echo (int)$featuredExhibition["id"]; ?>" class="exhibition-details">
                     View Exhibition Details
                 </a>
 
-            </div>
-
-
-
-            <!-- =================================================
-                 EXHIBITION IMAGE
-            ================================================== -->
+        </div>
 
             <div class="exhibition-image">
 
                 <?php if (!empty($featuredExhibition["image"])): ?>
 
-                    <img
-                        src="<?php
-                            echo htmlspecialchars(
-                                edlImagePath(
-                                    $featuredExhibition["image"]
-                                ),
-                                ENT_QUOTES,
-                                "UTF-8"
-                            );
-                        ?>"
-                        alt="<?php
-                            echo htmlspecialchars(
-                                $featuredExhibition["title"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            );
-                        ?>"
-                    >
+                <img src="<?php echo htmlspecialchars(edlImagePath($featuredExhibition["image"]),ENT_QUOTES,"UTF-8");?>"
+                    alt="<?php echo htmlspecialchars($featuredExhibition["title"],ENT_QUOTES,"UTF-8");?>">
 
                 <?php else: ?>
 
@@ -308,9 +173,7 @@ if ($featuredExhibition) {
 
             </div>
 
-
         </div>
-
 
     <?php else: ?>
 
@@ -323,49 +186,28 @@ if ($featuredExhibition) {
                 Exhibitions Yet
             </h1>
 
-            <p>
-                Please check back soon for our next exhibition.
-            </p>
+            <p>Please check back soon for our next exhibition.</p>
 
-            <a
-                href="exhibition.php"
-                class="exhibition-details"
-            >
-                View Exhibitions
-            </a>
+            <a href="exhibition.php" class="exhibition-details">View Exhibitions</a>
 
         </div>
 
     </div>
 
-<?php endif; ?>
+        <?php endif; ?>
 
 </section>
 
 
+<section class="rent" id="rent-space-id">
 
-<!-- =========================================================
-     RENT OUR SPACE
-========================================================= -->
-
-<section
-    class="rent"
-    id="rent-space-id"
->
-
-    <h2>
-        RENT OUR SPACE
-    </h2>
-
+    <h2>RENT OUR SPACE</h2>
 
     <div class="rent-layout">
 
         <div class="rent-image">
 
-            <img
-                src="Images/background-3.jpg"
-                alt="EDL Gallery exhibition space"
-            >
+            <img src="Images/background-3.jpg" alt="EDL Gallery exhibition space">
 
         </div>
 
@@ -386,13 +228,7 @@ if ($featuredExhibition) {
 
             </p>
 
-
-            <a
-                href="rent-space.php"
-                class="learn-more"
-            >
-                Learn More
-            </a>
+            <a href="rent-space.php" class="learn-more">Learn More</a>
 
         </div>
 
@@ -401,296 +237,155 @@ if ($featuredExhibition) {
 </section>
 
 
+<section class="artist" id="art-id">
 
-<!-- =========================================================
-     FEATURED ARTISTS
-========================================================= -->
+    <h2>FEATURED ARTISTS</h2>
 
-<section
-    class="artist"
-    id="art-id"
->
+        <div class="artist-layout">
 
-    <h2>
-        FEATURED ARTISTS
-    </h2>
+            <?php if (!empty($featuredArtists)): ?>
+                <?php foreach ($featuredArtists as $artist): ?>
 
 
-    <div class="artist-layout">
+    <article class="artist-info">
+
+        <div class="artist-image">
+            <?php if (!empty($artist["image"])): ?>
+
+                <img src="<?php echo htmlspecialchars(edlImagePath($artist["image"]),ENT_QUOTES,"UTF-8");?>"
+                    alt="<?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8");?>">
+
+                <?php else: ?>
+
+                    <div class="artist-no-image">NO IMAGE</div>
+
+                <?php endif; ?>
+
+        </div>
 
 
-        <?php if (!empty($featuredArtists)): ?>
+        <div class="artist-name">
+            <h3><?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8");?></h3>
+        </div>
+
+    </article>
 
 
-            <?php foreach ($featuredArtists as $artist): ?>
+        <?php endforeach; ?>
 
+            <?php else: ?>
 
-                <article class="artist-info">
+        <div class="artist-no-data">
 
-
-                    <!-- =========================================
-                         ARTIST IMAGE
-                    ========================================== -->
-
-                    <div class="artist-image">
-
-                        <?php if (!empty($artist["image"])): ?>
-
-                            <img
-                                src="<?php
-                                    echo htmlspecialchars(
-                                        edlImagePath(
-                                            $artist["image"]
-                                        ),
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    );
-                                ?>"
-                                alt="<?php
-                                    echo htmlspecialchars(
-                                        $artist["name"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    );
-                                ?>"
-                            >
-
-                        <?php else: ?>
-
-                            <div class="artist-no-image">
-                                NO IMAGE
-                            </div>
-
-                        <?php endif; ?>
-
-                    </div>
-
-
-
-                    <!-- =========================================
-                         ARTIST INFORMATION
-                    ========================================== -->
-
-                    <div class="artist-name">
-
-                        <h3>
-
-                            <?php
-                            echo htmlspecialchars(
-                                $artist["name"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            );
-                            ?>
-
-                        </h3>
-
-
-                        <?php if (!empty($artist["biography"])): ?>
-
-                            <p>
-
-                                <?php
-                                echo htmlspecialchars(
-                                    $artist["biography"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                );
-                                ?>
-
-                            </p>
-
-                        <?php else: ?>
-
-                            <p>
-                                Artist
-                            </p>
-
-                        <?php endif; ?>
-
-                    </div>
-
-
-                </article>
-
-
-            <?php endforeach; ?>
-
-
-        <?php else: ?>
-
-
-            <!-- =================================================
-                 NO ARTISTS
-            ================================================== -->
-
-            <div class="artist-no-data">
-
-                <h3>
-                    No Featured Artists
-                </h3>
+            <h3>No Featured Artists</h3>
 
                 <p>
                     Artist information will appear here
                     once artists are assigned to a published exhibition.
                 </p>
 
+        </div>
+
+            <?php endif; ?>
+
+
+    </div>
+
+</section>
+
+    <section class="about" id="about-us-id">
+
+        <div class="about-layout">
+
+            <div class="about-image">
+                <img src="Images/background-4.jpg" alt="EDL Gallery">
+            </div>
+
+            <div class="about-info">
+                <h2>ABOUT US</h2>
+
+                <h1>
+                    A Space for Art.<br>
+                    A Home for Artists.
+                </h1>
+
+                <a
+                    href="about-us.php" class="learn-more">
+                    Learn More
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+<section class="info" id="info-id">
+
+    <h2>VISIT OUR GALLERY</h2>
+
+        <div class="info-layout">
+
+            <div class="location">
+                <img src="Images/gps-logo.jpg" alt="GPS icon">
+
+                <h3>LOCATION:</h3>
+    
+                <p>
+                Banilad, Dumaguete City,<br>
+                Philippines
+                </p>
             </div>
 
 
-        <?php endif; ?>
+            <div class="time">
+
+                <img src="Images/clock-icon.jpg" alt="Clock icon">
+
+                <h3>OPENING HOURS:</h3>
+
+                <p>
+                    Tuesday-Friday<br>
+                    10:00 am - 8:00 pm
+                </p>
+
+            </div>
 
 
-    </div>
 
-</section>
+            <div class="email">
 
+                <img src="Images/mail-icon.jpg" alt="Email icon">
 
+                <h3>
+                    EMAIL:
+                </h3>
 
-<!-- =========================================================
-     ABOUT
-========================================================= -->
+                <p>
+                    info@edlgallery.com
+                </p>
 
-<section
-    class="about"
-    id="about-us-id"
->
-
-    <div class="about-layout">
+            </div>
 
 
-        <div class="about-image">
 
-            <img
-                src="Images/background-4.jpg"
-                alt="EDL Gallery"
-            >
+            <div class="contact">
+
+                <img src="Images/phone-icon.jpg" alt="Phone icon">
+
+                <h3>
+                    CONTACT US:
+                </h3>
+
+                <p>
+                    +63 456 7890
+                </p>
+
+            </div>
+
 
         </div>
-
-
-        <div class="about-info">
-
-            <h2>
-                ABOUT US
-            </h2>
-
-            <h1>
-                A Space for Art.<br>
-                A Home for Artists.
-            </h1>
-
-            <a
-                href="about-us.php"
-                class="learn-more"
-            >
-                Learn More
-            </a>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     VISIT OUR GALLERY
-========================================================= -->
-
-<section
-    class="info"
-    id="info-id"
->
-
-    <h2>
-        VISIT OUR GALLERY
-    </h2>
-
-
-    <div class="info-layout">
-
-
-        <div class="location">
-
-            <img
-                src="Images/gps-logo.jpg"
-                alt="GPS icon"
-            >
-
-            <h3>
-                LOCATION:
-            </h3>
-
-            <p>
-                Banilad, Dumaguete City,<br>
-                Philippines
-            </p>
-
-        </div>
-
-
-
-        <div class="time">
-
-            <img
-                src="Images/clock-icon.jpg"
-                alt="Clock icon"
-            >
-
-            <h3>
-                OPENING HOURS:
-            </h3>
-
-            <p>
-                Tuesday-Friday<br>
-                10:00 am - 8:00 pm
-            </p>
-
-        </div>
-
-
-
-        <div class="email">
-
-            <img
-                src="Images/mail-icon.jpg"
-                alt="Email icon"
-            >
-
-            <h3>
-                EMAIL:
-            </h3>
-
-            <p>
-                info@edlgallery.com
-            </p>
-
-        </div>
-
-
-
-        <div class="contact">
-
-            <img
-                src="Images/phone-icon.jpg"
-                alt="Phone icon"
-            >
-
-            <h3>
-                CONTACT US:
-            </h3>
-
-            <p>
-                +63 456 7890
-            </p>
-
-        </div>
-
-
-    </div>
 
 </section>
 

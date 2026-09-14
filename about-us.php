@@ -5,13 +5,18 @@
 <!DOCTYPE html>
 <html>
     <head>
+
         <title>EDL Gallery</title>
         <link rel = "icon" type="image/x-icon" href = "Images/logo.png">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
+
     </head>
+
     <body>
+
         <?php require_once "includes/header.php"; ?>
 <main>
+
 
     <section class="about-hero">
 
@@ -31,7 +36,6 @@
 
         </div>
 
-
         <div class="about-hero-image">
 
             <img src="Images/about.png" alt="EDL Gallery">
@@ -42,16 +46,13 @@
 
 
 
-
     <section class="about-story">
 
         <div class="story-image">
 
-            <img src="Images/rent-6.jpg"
-                alt="EDL Gallery Exhibition">
+            <img src="Images/rent-6.jpg" alt="EDL Gallery Exhibition">
 
         </div>
-
 
         <div class="story-text">
 
@@ -92,9 +93,7 @@
 
         </div>
 
-
         <div class="belief-container">
-
 
             <div class="belief-card">
 
@@ -109,7 +108,6 @@
 
             </div>
 
-
             <div class="belief-card">
 
                 <span>02</span>
@@ -122,7 +120,6 @@
                 </p>
 
             </div>
-
 
             <div class="belief-card">
 
@@ -141,6 +138,7 @@
 
     </section>
 
+
     <section class="mission-section">
 
         <div class="mission-image">
@@ -149,7 +147,6 @@
                 alt="Artwork at EDL Gallery">
 
         </div>
-
 
         <div class="mission-text">
 
@@ -170,7 +167,6 @@
         </div>
 
     </section>
-
 
 
     <section class="vision-section">
@@ -196,8 +192,7 @@
 
         <div class="vision-image">
 
-            <img src="Images/vision.png"
-                alt="Artwork inside EDL Gallery">
+            <img src="Images/vision.png" alt="Artwork inside EDL Gallery">
 
         </div>
 
@@ -221,7 +216,10 @@
         </a>
 
     </section>
+
+
     <?php require_once "includes/footer.php"; ?>
+
 </main>
     </body>
     </html>

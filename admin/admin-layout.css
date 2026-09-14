@@ -42,7 +42,7 @@ html, body.admin-body {
     font-family: 'Lora', Georgia, serif;
     font-size: 32px;
     font-weight: 600;
-    color: #ff7a00;
+    color: #ff7200;
     letter-spacing: 1px;
 }
 
@@ -80,7 +80,7 @@ html, body.admin-body {
 
 .admin-nav-link.active {
     background: rgba(255, 122, 0, 0.12);
-    border-left-color: #ff7a00;
+    border-left-color: #ff7200;
     color: #fff;
 }
 
@@ -95,13 +95,8 @@ html, body.admin-body {
 
 .admin-nav-logout:hover {
     background: rgba(255, 122, 0, 0.12);
-    color: #ff7a00;
+    color: #ff7200;
 }
-
-
-/* -------------------------------- */
-/* MAIN CONTENT AREA                */
-/* -------------------------------- */
 
 .admin-main {
     display: block;
@@ -110,11 +105,6 @@ html, body.admin-body {
     background: #f2f2f2;
 }
 
-
-/* -------------------------------- */
-/* PAGE WRAPPER                     */
-/* -------------------------------- */
-
 .admin-page,
 .admin-dashboard {
     width: 100%;
@@ -122,11 +112,6 @@ html, body.admin-body {
     margin: 0 auto;
     padding: 60px 40px;
 }
-
-
-/* -------------------------------- */
-/* RESPONSIVE                       */
-/* -------------------------------- */
 
 @media (max-width: 900px) {
 
@@ -164,7 +149,7 @@ html, body.admin-body {
 
     .admin-nav-link.active {
         border-left-color: transparent;
-        border-bottom-color: #ff7a00;
+        border-bottom-color: #ff7200;
     }
 
     .admin-sidebar-footer {

@@ -313,9 +313,6 @@ foreach ($assignedArtists as $artist) {
 <link rel="stylesheet" href="style.css">
 <main class="exhibition-artists-page">
 
-    <!-- =========================================================
-         PAGE HEADER
-    ========================================================== -->
 
     <section class="exhibition-artists-hero">
 
@@ -350,10 +347,6 @@ foreach ($assignedArtists as $artist) {
 
     </section>
 
-
-    <!-- =========================================================
-         ADD ARTISTS
-    ========================================================== -->
 
     <section class="add-artist-section">
 
@@ -474,10 +467,6 @@ foreach ($assignedArtists as $artist) {
     </section>
 
 
-    <!-- =========================================================
-         CURRENT ARTISTS
-    ========================================================== -->
-
     <section class="current-artists-section">
 
         <div class="artist-section-heading">
@@ -515,27 +504,13 @@ foreach ($assignedArtists as $artist) {
 
                     <article class="exhibition-artist-card">
 
-                        <!-- ARTIST IMAGE -->
-
                         <div class="exhibition-artist-image">
 
                             <?php if (!empty($artist["image"])): ?>
 
                                 <img
-                                    src="<?php
-                                    echo htmlspecialchars(
-                                        edlImagePath($artist["image"]),
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    );
-                                    ?>"
-                                    alt="<?php
-                                    echo htmlspecialchars(
-                                        $artist["name"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    );
-                                    ?>"
+                                    src="<?php echo htmlspecialchars(edlImagePath($artist["image"]),ENT_QUOTES,"UTF-8");?>"
+                                    alt="<?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8");?>"
                                 >
 
                             <?php else: ?>
@@ -548,38 +523,19 @@ foreach ($assignedArtists as $artist) {
 
                         </div>
 
-
-                        <!-- ARTIST INFORMATION -->
-
                         <div class="exhibition-artist-info">
 
                             <h3>
-                                <?php
-                                echo htmlspecialchars(
-                                    $artist["name"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                );
-                                ?>
+                                <?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8");?>
                             </h3>
-
 
                             <?php if (!empty($artist["biography"])): ?>
 
                                 <p>
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $artist["biography"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    );
-                                    ?>
+                                    <?php echo htmlspecialchars($artist["biography"],ENT_QUOTES,"UTF-8");?>
                                 </p>
 
                             <?php endif; ?>
-
-
-                            <!-- REMOVE ARTIST -->
 
                             <form
                                 method="POST"
@@ -625,9 +581,6 @@ foreach ($assignedArtists as $artist) {
     </section>
 
 
-    <!-- =========================================================
-         NEXT STEP - ARTWORKS
-    ========================================================== -->
 
     <section class="artworks-next-section">
 

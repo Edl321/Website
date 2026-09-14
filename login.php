@@ -9,28 +9,14 @@ $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // ==========================================
-    // CHECK CSRF TOKEN
-    // ==========================================
-
     if (!verify_csrf_token()) {
 
         $errors[] = "Invalid security token. Please try again.";
 
     }
 
-
-    // ==========================================
-    // GET FORM VALUES
-    // ==========================================
-
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
-
-
-    // ==========================================
-    // VALIDATE EMAIL
-    // ==========================================
 
     if (empty($email)) {
 
@@ -42,21 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     }
 
-
-    // ==========================================
-    // VALIDATE PASSWORD
-    // ==========================================
-
     if (empty($password)) {
 
         $errors[] = "Password is required.";
 
     }
-
-
-    // ==========================================
-    // LOGIN
-    // ==========================================
 
     if (empty($errors)) {
 
@@ -72,20 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $user = $stmt->fetch();
 
-
-        // ==========================================
-        // CHECK EMAIL AND PASSWORD
-        // ==========================================
-
         if ($user && password_verify($password, $user["password"])) {
 
             // Prevent session fixation
             session_regenerate_id(true);
-
-
-            // ==========================================
-            // STORE USER INFORMATION
-            // ==========================================
 
             $_SESSION["user_id"] = $user["id"];
 
@@ -113,11 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ]
         );
 
-
-            // ==========================================
-            // REDIRECT BASED ON ROLE
-            // ==========================================
-
             if ($user["role"] === "admin") {
 
                 header("Location: admin/admin-dashboard.php");
@@ -139,10 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-// ==========================================
-// PREVENT THE BROWSER FROM CACHING THE LOGIN PAGE
-// ==========================================
-
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
@@ -157,40 +114,11 @@ header('Expires: 0');
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | EDL Gallery</title>
-
-
-    <!-- FAVICON -->
-
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="Images/logo.png"
-    >
-
-
-    <!-- MAIN CSS -->
-
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="style.css"
-    >
-
-
-    <!-- LOGIN CSS -->
-
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="login.css"
-    >
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" type="text/css"href="style.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
 
 </head>
 
@@ -200,35 +128,16 @@ header('Expires: 0');
 
 <section class="login-page">
 
-
     <div class="login-container">
-
-
-        <!-- ==========================================
-             LOGIN HEADER
-        =========================================== -->
 
         <div class="login-header">
 
-            <img
-                src="Images/logo.png"
-                alt="EDL Gallery Logo"
-            >
-
-            <h1>
-                Welcome Back
-            </h1>
-
-            <p>
-                Sign in to your EDL Gallery account.
-            </p>
+            <img src="Images/logo.png" alt="EDL Gallery Logo">
+            <h1> Welcome Back </h1>
+            <p> Sign in to your EDL Gallery account. </p>
 
         </div>
 
-
-        <!-- ==========================================
-             ERROR MESSAGES
-        =========================================== -->
 
         <?php if (!empty($errors)): ?>
 
@@ -246,26 +155,14 @@ header('Expires: 0');
 
         <?php endif; ?>
 
-
-        <!-- ==========================================
-             LOGIN FORM
-        =========================================== -->
-
         <form
             class="login-form"
             method="POST"
             action="login.php"
         >
 
-
-            <!-- CSRF SECURITY TOKEN -->
-
             <?php echo csrf_field(); ?>
 
-
-            <!-- ======================================
-                 EMAIL
-            ======================================= -->
 
             <div class="login-form-group">
 
@@ -284,11 +181,6 @@ header('Expires: 0');
 
             </div>
 
-
-            <!-- ======================================
-                 PASSWORD
-            ======================================= -->
-
             <div class="login-form-group">
 
                 <label for="password">
@@ -305,43 +197,16 @@ header('Expires: 0');
 
             </div>
 
-
-            <!-- ======================================
-                 LOGIN BUTTON
-            ======================================= -->
-
-            <button
-                type="submit"
-                class="login-button"
-            >
-                LOGIN
-            </button>
-
+            <button type="submit" class="login-button"> LOGIN </button>
 
         </form>
 
-
-        <!-- ==========================================
-             REGISTER LINK
-        =========================================== -->
-
         <p class="login-register">
-
             Don't have an account?
-
-            <a href="register.php">
-                Create an account
-            </a>
-
+            <a href="register.php"> Create an account </a>
         </p>
 
-        <a
-            href="index.php"
-            class="back-home"
-        >
-            ← Back to EDL Gallery
-        </a>
-
+        <a href="index.php" class="back-home"> ← Back to EDL Gallery</a>
 
     </div>
 

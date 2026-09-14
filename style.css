@@ -1,23 +1,10 @@
-/* =========================================================
-   FONTS
-========================================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
-
-
-/* =========================================================
-   ROOT VARIABLES
-========================================================= */
 
 :root {
     --background-1: url('Images/background-1.jpg');
     --exhibit: url('Images/background-2.jpg');
 }
 
-
-/* =========================================================
-   GLOBAL RESET
-========================================================= */
 
 * {
     margin: 0;
@@ -32,11 +19,6 @@ body {
     width: 100%;
     overflow-x: hidden;
 }
-
-
-/* =========================================================
-   HOME PAGE — HERO
-========================================================= */
 
 .home {
     width: 100%;
@@ -80,11 +62,6 @@ body {
 .intro p {
     margin: 0;
 }
-
-
-/* =========================================================
-   HEADER / NAV
-========================================================= */
 
 .logo {
     display: flex;
@@ -172,11 +149,6 @@ body {
 .visit-us:hover {
     color: black;
 }
-
-
-/* =========================================================
-   UPCOMING EXHIBITION SECTION (HOME)
-========================================================= */
 
 .upcoming {
     padding: 32px 32px 50px;
@@ -300,10 +272,6 @@ body {
 }
 
 
-/* =========================================================
-   RENT SECTION (HOME)
-========================================================= */
-
 .rent {
     padding: 32px 45px 50px;
     background-color: black;
@@ -383,11 +351,6 @@ body {
 .learn-more:hover {
     color: black;
 }
-
-
-/* =========================================================
-   FEATURED ARTISTS (HOME)
-========================================================= */
 
 .artist {
     padding: 40px 70px 60px;
@@ -492,11 +455,6 @@ body {
     font-size: 14px;
 }
 
-
-/* =========================================================
-   ABOUT SECTION (HOME)
-========================================================= */
-
 .about {
     display: flex;
     flex-direction: row;
@@ -548,11 +506,6 @@ body {
     object-position: left;
     display: block;
 }
-
-
-/* =========================================================
-   INFO SECTION (HOME)
-========================================================= */
 
 .info {
     padding: 20px 70px 60px;
@@ -618,11 +571,6 @@ body {
     font-weight: 400;
     text-align: center;
 }
-
-
-/* =========================================================
-   EXHIBITION PAGE — HERO
-========================================================= */
 
 .ex-page-layout {
     display: flex;
@@ -713,11 +661,6 @@ body {
     height: 500px;
     object-fit: cover;
 }
-
-
-/* =========================================================
-   EXHIBITION PAGE — UPCOMING CARDS
-========================================================= */
 
 .upcoming-exhibition-layout {
     display: flex;
@@ -821,11 +764,6 @@ body {
     font-size: 16px;
     line-height: 1.7;
 }
-
-
-/* =========================================================
-   ARTIST PAGE — HERO
-========================================================= */
 
 .art-page-layout {
     width: 100%;
@@ -971,11 +909,6 @@ body {
     font-size: 17px;
 }
 
-
-/* =========================================================
-   RENT PAGE
-========================================================= */
-
 .rent-hero {
     position: relative;
     min-height: 600px;
@@ -1053,11 +986,6 @@ body {
     color: black;
 }
 
-
-/* =========================================================
-   RENT PAGE — SPACE SECTION
-========================================================= */
-
 .space-section {
     width: 100%;
     display: flex;
@@ -1118,11 +1046,6 @@ body {
     line-height: 1.7;
 }
 
-
-/* =========================================================
-   OUTLINE BUTTON (SHARED)
-========================================================= */
-
 .outline-button {
     display: inline-block;
     margin-top: 15px;
@@ -1140,11 +1063,6 @@ body {
     background-color: #ff7200;
     color: white;
 }
-
-
-/* =========================================================
-   SECTION HEADING (SHARED)
-========================================================= */
 
 .section-heading {
     text-align: center;
@@ -1166,11 +1084,6 @@ body {
     font-size: 16px;
     line-height: 1.6;
 }
-
-
-/* =========================================================
-   RENT PAGE — HOST SECTION
-========================================================= */
 
 .host-section {
     padding: 90px 100px;
@@ -1222,11 +1135,6 @@ body {
     font-size: 15px;
     line-height: 1.6;
 }
-
-
-/* =========================================================
-   RENT PAGE — PACKAGE SECTION
-========================================================= */
 
 .package-section {
     padding: 90px 100px;
@@ -1333,11 +1241,6 @@ body {
     letter-spacing: 1px;
 }
 
-
-/* =========================================================
-   RENT PAGE — PREVIEW
-========================================================= */
-
 .preview-section {
     padding: 90px 100px;
     background-color: white;
@@ -1371,11 +1274,6 @@ body {
 .preview-image:hover img {
     transform: scale(1.05);
 }
-
-
-/* =========================================================
-   RENT PAGE — AVAILABILITY
-========================================================= */
 
 .availability-section {
     position: relative;
@@ -1418,11 +1316,6 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
 }
-
-
-/* =========================================================
-   FORM GROUPS (SHARED)
-========================================================= */
 
 .form-group {
     display: flex;
@@ -1474,11 +1367,6 @@ body {
     width: 50%;
 }
 
-
-/* =========================================================
-   BUTTONS (SHARED)
-========================================================= */
-
 .check-button,
 .submit-button {
     padding: 14px 25px;
@@ -1500,11 +1388,6 @@ body {
 .submit-button {
     margin-top: 10px;
 }
-
-
-/* =========================================================
-   RENT PAGE — INQUIRY / PROCESS / GUIDELINE
-========================================================= */
 
 .inquiry-section {
     padding: 90px 100px;
@@ -1588,11 +1471,6 @@ body {
     font-size: 15px;
 }
 
-
-/* =========================================================
-   RENT — CTA
-========================================================= */
-
 .rent-cta {
     padding: 90px 30px;
     text-align: center;
@@ -1662,11 +1540,6 @@ body {
     color: white;
 }
 
-
-/* =========================================================
-   ABOUT PAGE — HERO
-========================================================= */
-
 .about-hero {
     width: 100%;
     min-height: 600px;
@@ -1726,11 +1599,6 @@ body {
     display: block;
 }
 
-
-/* =========================================================
-   ABOUT PAGE — STORY
-========================================================= */
-
 .about-story {
     width: 100%;
     display: flex;
@@ -1786,11 +1654,6 @@ body {
     font-size: 16px;
     line-height: 1.7;
 }
-
-
-/* =========================================================
-   ABOUT PAGE — BELIEF
-========================================================= */
 
 .belief-section {
     padding: 90px 100px;
@@ -1871,11 +1734,6 @@ body {
     font-size: 15px;
     line-height: 1.7;
 }
-
-
-/* =========================================================
-   ABOUT PAGE — MISSION / VISION
-========================================================= */
 
 .mission-section {
     width: 100%;
@@ -1993,11 +1851,6 @@ body {
     display: block;
 }
 
-
-/* =========================================================
-   ABOUT — CTA
-========================================================= */
-
 .about-cta {
     padding: 100px 30px;
     text-align: center;
@@ -2043,11 +1896,6 @@ body {
     background-color: white;
     color: black;
 }
-
-
-/* =========================================================
-   CONTACT PAGE
-========================================================= */
 
 .contact-hero {
     width: 100%;
@@ -2349,11 +2197,6 @@ body {
     color: black;
 }
 
-
-/* =========================================================
-   VISIT PAGE
-========================================================= */
-
 .visit-hero {
     display: flex;
     align-items: center;
@@ -2637,10 +2480,6 @@ body {
 }
 
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
 .footer {
     display: flex;
     flex-wrap: wrap;
@@ -2730,11 +2569,6 @@ body {
     font-size: 14px;
 }
 
-
-/* =========================================================
-   DASHBOARD (LEGACY — user-dashboard.php replacement)
-========================================================= */
-
 .dashboard {
     min-height: 600px;
     background-color: white;
@@ -2806,12 +2640,6 @@ body {
     color: black;
 }
 
-
-/* =========================================================
-   DASHBOARD HERO (SHARED — dashboard.php, my-inquiries.php,
-   submit-inquiry.php, my-inquiry-view.php)
-========================================================= */
-
 .dashboard-hero {
     width: 100%;
     min-height: 480px;
@@ -2878,11 +2706,6 @@ body {
     color: black;
 }
 
-
-/* =========================================================
-   DASHBOARD CONTENT
-========================================================= */
-
 .dashboard-content {
     width: 100%;
     max-width: 1250px;
@@ -2911,11 +2734,6 @@ body {
     font-size: 38px;
     font-weight: 400;
 }
-
-
-/* =========================================================
-   DASHBOARD STATS
-========================================================= */
 
 .dashboard-stats {
     display: grid;
@@ -2968,11 +2786,6 @@ body {
 .dashboard-panel {
     margin-bottom: 80px;
 }
-
-
-/* =========================================================
-   INQUIRY CARD (SHARED)
-========================================================= */
 
 .inquiry-card {
     display: block;
@@ -3049,11 +2862,6 @@ body {
     letter-spacing: 1px;
 }
 
-
-/* =========================================================
-   INQUIRY STATUS COLORS
-========================================================= */
-
 .status-pending {
     color: #d88a00;
 }
@@ -3065,11 +2873,6 @@ body {
 .status-rejected {
     color: #c0392b;
 }
-
-
-/* =========================================================
-   INQUIRY NOTES
-========================================================= */
 
 .inquiry-note {
     margin-top: 20px;
@@ -3101,10 +2904,6 @@ body {
     line-height: 1.6;
 }
 
-
-/* =========================================================
-   PROGRESS BAR (DASHBOARD)
-========================================================= */
 
 .inquiry-progress {
     display: flex;
@@ -3156,11 +2955,6 @@ body {
     background-color: #ddd;
     margin: 0 10px 25px;
 }
-
-
-/* =========================================================
-   DASHBOARD QUICK ACTIONS
-========================================================= */
 
 .dashboard-actions {
     display: grid;
@@ -3221,11 +3015,6 @@ body {
     font-weight: 400;
 }
 
-
-/* =========================================================
-   DASHBOARD ACCOUNT
-========================================================= */
-
 .dashboard-account {
     padding-top: 20px;
     border-top: 1px solid #ddd;
@@ -3256,11 +3045,6 @@ body {
     font-size: 14px;
     font-weight: 500;
 }
-
-
-/* =========================================================
-   EMPTY STATE
-========================================================= */
 
 .empty-dashboard {
     padding: 60px 30px;
@@ -3301,10 +3085,6 @@ body {
 }
 
 
-/* =========================================================
-   FORM ERRORS
-========================================================= */
-
 .form-errors {
     max-width: 900px;
     margin: 0 auto 30px;
@@ -3323,11 +3103,6 @@ body {
 .form-errors p:last-child {
     margin-bottom: 0;
 }
-
-
-/* =========================================================
-   EXHIBITION LIFECYCLE STATUS COLORS
-========================================================= */
 
 .status-draft {
     color: #888;
@@ -3353,10 +3128,6 @@ body {
     color: #c0392b;
 }
 
-
-/* =========================================================
-   ADMIN DASHBOARD
-========================================================= */
 
 .admin-dashboard {
     width: 100%;
@@ -3426,11 +3197,6 @@ body {
     font-size: 38px;
     font-weight: 400;
 }
-
-
-/* =========================================================
-   ADMIN STATS
-========================================================= */
 
 .admin-stats {
     display: grid;
@@ -3738,11 +3504,6 @@ body {
     color: #ff7200 !important;
 }
 
-
-/* =========================================================
-   RENT SPACE PAGE
-========================================================= */
-
 .rent-space-page {
     width: 100%;
     background: #fff;
@@ -3938,11 +3699,6 @@ body {
     color: #000;
 }
 
-
-/* =========================================================
-   NOTIFICATION PAGE
-========================================================= */
-
 .notification-page {
     width: 100%;
     min-height: 70vh;
@@ -4130,11 +3886,6 @@ body {
     color: #ffffff;
 }
 
-
-/* =========================================================
-   EXHIBITION ARTISTS PAGE
-========================================================= */
-
 .exhibition-artists-page {
     background: #ffffff;
     color: #111111;
@@ -4259,11 +4010,6 @@ body {
     border-color: #ff7200;
 }
 
-
-/* =========================================================
-   ORANGE BUTTON (SHARED — art pages)
-========================================================= */
-
 .orange-button {
     height: 52px;
     padding: 0 28px;
@@ -4283,11 +4029,6 @@ body {
     background: #111111;
     border-color: #111111;
 }
-
-
-/* =========================================================
-   NO ARTISTS MESSAGE
-========================================================= */
 
 .no-artists-message {
     padding: 40px;
@@ -4310,11 +4051,6 @@ body {
     line-height: 1.6;
     color: #777777;
 }
-
-
-/* =========================================================
-   CURRENT ARTISTS SECTION
-========================================================= */
 
 .current-artists-section {
     width: 78%;
@@ -4420,11 +4156,6 @@ body {
     color: #ffffff;
 }
 
-
-/* =========================================================
-   ARTWORKS NEXT SECTION
-========================================================= */
-
 .artworks-next-section {
     width: 78%;
     max-width: 1200px;
@@ -4450,11 +4181,6 @@ body {
     line-height: 1.7;
     color: #777777;
 }
-
-
-/* =========================================================
-   EXHIBITION ACTION BUTTONS
-========================================================= */
 
 .exhibition-actions {
     display: flex;
@@ -4530,10 +4256,6 @@ body {
 }
 
 
-/* =========================================================
-   EXHIBITION ARTWORKS PAGE
-========================================================= */
-
 .exhibition-artworks-page {
     background: #ffffff;
     color: #111111;
@@ -4582,10 +4304,6 @@ body {
 }
 
 
-/* =========================================================
-   ARTWORK MESSAGES
-========================================================= */
-
 .artwork-message-section {
     width: 78%;
     max-width: 1200px;
@@ -4619,10 +4337,6 @@ body {
     line-height: 1.5;
 }
 
-
-/* =========================================================
-   ADD ARTWORK SECTION
-========================================================= */
 
 .add-artwork-section {
     width: 78%;
@@ -4757,11 +4471,6 @@ body {
     padding-top: 10px;
 }
 
-
-/* =========================================================
-   NO ARTWORKS MESSAGE
-========================================================= */
-
 .no-artworks-message {
     padding: 45px;
     border: 1px solid #111111;
@@ -4785,11 +4494,6 @@ body {
     font-size: 14px;
     line-height: 1.7;
 }
-
-
-/* =========================================================
-   CURRENT ARTWORKS
-========================================================= */
 
 .current-artworks-section {
     width: 78%;
@@ -4978,21 +4682,11 @@ body {
     color: #ffffff;
 }
 
-
-/* =========================================================
-   ARTWORK NAVIGATION BUTTONS
-========================================================= */
-
 .artwork-navigation-buttons {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
 }
-
-
-/* =========================================================
-   EXHIBITION SUCCESS / ERROR MESSAGES
-========================================================= */
 
 .exhibition-success-message {
     margin-bottom: 25px;
@@ -5056,11 +4750,6 @@ body {
     text-transform: uppercase;
 }
 
-
-/* =========================================================
-   EXHIBITION META NOTES
-========================================================= */
-
 .exhibition-meta-note {
     max-width: 280px;
     margin: 12px 0 0;
@@ -5074,11 +4763,6 @@ body {
 .exhibition-meta-note-cancelled {
     color: #a93226;
 }
-
-
-/* =========================================================
-   EXHIBITION DETAILS PAGE
-========================================================= */
 
 .exhibition-not-found {
     min-height: 70vh;
@@ -5221,11 +4905,6 @@ body {
     white-space: normal;
 }
 
-
-/* =========================================================
-   EXHIBITION ARTISTS SECTION (DETAILS PAGE)
-========================================================= */
-
 .exhibition-artists-section {
     padding: 100px 0;
     background: #111111;
@@ -5291,11 +4970,6 @@ body {
     font-size: 12px;
     line-height: 1.8;
 }
-
-
-/* =========================================================
-   EXHIBITION ARTWORKS SECTION (DETAILS PAGE)
-========================================================= */
 
 .exhibition-artworks-section {
     padding: 100px 0;
@@ -5416,11 +5090,6 @@ body {
     transform: translateX(4px);
 }
 
-
-/* =========================================================
-   EXHIBITION EMPTY SECTION
-========================================================= */
-
 .exhibition-empty-section {
     padding: 40px 0;
 }
@@ -5430,11 +5099,6 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
 }
-
-
-/* =========================================================
-   ARTWORK DETAILS PAGE
-========================================================= */
 
 .exhibition-artwork-details-page {
     background: #ffffff;
@@ -5693,11 +5357,6 @@ body {
     margin-top: 60px;
 }
 
-
-/* =========================================================
-   RESPONSIVE — 1100px
-========================================================= */
-
 @media (max-width: 1100px) {
 
     .artist-layout {
@@ -5710,11 +5369,6 @@ body {
     }
 
 }
-
-
-/* =========================================================
-   RESPONSIVE — 1050px
-========================================================= */
 
 @media (max-width: 1050px) {
 
@@ -5731,11 +5385,6 @@ body {
     }
 
 }
-
-
-/* =========================================================
-   RESPONSIVE — 1000px
-========================================================= */
 
 @media (max-width: 1000px) {
 
@@ -5757,11 +5406,6 @@ body {
     }
 
 }
-
-
-/* =========================================================
-   RESPONSIVE — 900px
-========================================================= */
 
 @media (max-width: 900px) {
 
@@ -5866,11 +5510,6 @@ body {
 
 }
 
-
-/* =========================================================
-   RESPONSIVE — 750px
-========================================================= */
-
 @media (max-width: 750px) {
 
     .exhibition-artworks-hero {
@@ -5909,11 +5548,6 @@ body {
 
 }
 
-
-/* =========================================================
-   RESPONSIVE — 600px
-========================================================= */
-
 @media (max-width: 600px) {
 
     /* Artist page */
@@ -5931,8 +5565,6 @@ body {
     .artist-name h3 {
         font-size: 23px;
     }
-
-    /* Rent page */
 
     .rent-hero {
         min-height: 500px;
@@ -6029,8 +5661,6 @@ body {
         font-size: 40px;
     }
 
-    /* Dashboard */
-
     .dashboard-hero {
         min-height: 450px;
         padding: 50px 25px;
@@ -6080,8 +5710,6 @@ body {
         text-align: left;
     }
 
-    /* Admin */
-
     .admin-hero {
         min-height: 420px;
         padding: 50px 25px;
@@ -6124,8 +5752,6 @@ body {
         align-items: flex-start;
         gap: 8px;
     }
-
-    /* Exhibition artists page */
 
     .exhibition-artists-hero {
         padding: 50px 0 35px;
@@ -6183,8 +5809,6 @@ body {
         width: 100%;
     }
 
-    /* Exhibition artworks page */
-
     .exhibition-artworks-heading,
     .artwork-message-section,
     .add-artwork-section,
@@ -6222,8 +5846,6 @@ body {
         margin-bottom: 10px;
     }
 
-    /* Exhibition details page */
-
     .exhibition-details-hero {
         min-height: 500px;
     }
@@ -6255,8 +5877,6 @@ body {
     .exhibition-section-heading h2 {
         font-size: 35px;
     }
-
-    /* Artwork details page */
 
     .artwork-details-hero {
         min-height: 430px;
@@ -6341,18 +5961,6 @@ body {
 
 }
 
-/* =========================================================
-   UTILITY CLASSES — Replaces inline styles
-   Added to keep all styling inside stylesheets.
-========================================================= */
-
-
-/* =========================================================
-   DASHBOARD HERO VARIANTS
-   Each page that previously used an inline
-   style="background-image: ..." now uses one of these.
-========================================================= */
-
 .dashboard-hero--submit-inquiry {
     background-image:
         linear-gradient(
@@ -6380,22 +5988,9 @@ body {
         url('Images/background-2.jpg');
 }
 
-
-/* =========================================================
-   DASHBOARD CONTENT — TOP SPACING VARIANT
-   Used by exhibition-edit.php
-========================================================= */
-
 .dashboard-content--top-spaced {
     padding-top: 60px;
 }
-
-
-/* =========================================================
-   FORM ERRORS — NEUTRAL VARIANT
-   Grey instead of red. Used by exhibition-edit.php when
-   showing "this exhibition cannot be edited" message.
-========================================================= */
 
 .form-errors--neutral {
     border-left-color: #888;
@@ -6406,35 +6001,16 @@ body {
     color: #555;
 }
 
-
-/* =========================================================
-   DETAIL IMAGE — PREVIEW
-   Used by exhibition-edit.php for the current exhibition
-   image preview.
-========================================================= */
-
 .exhibition-edit-preview-img {
     max-width: 220px;
     display: block;
     margin-bottom: 12px;
 }
 
-
-/* =========================================================
-   USER PANEL — LINK SPACING
-   Used by dashboard.php for the "Learn More →" link.
-========================================================= */
-
 .user-panel-link--spaced {
     display: inline-block;
     margin-top: 18px;
 }
-
-
-/* =========================================================
-   USER PANEL — BLURB TEXT
-   Used by dashboard.php for the "About EDL" paragraph.
-========================================================= */
 
 .user-panel-blurb {
     margin: 0;
@@ -6444,19 +6020,9 @@ body {
     line-height: 1.7;
 }
 
-
-/* =========================================================
-   INTRO — JUSTIFIED
-   Used by index.php for the hero intro paragraph.
-========================================================= */
-
 .intro-justified {
     text-align: justify;
 }
-
-/* =========================================================
-   CONTACT FORM — SUCCESS / ERROR BANNERS
-========================================================= */
 
 .contact-success {
     margin-bottom: 25px;
@@ -6487,12 +6053,6 @@ body {
     font-size: 14px;
     line-height: 1.6;
 }
-
-/* =========================================================
-   USER TABS — Status filter tabs
-   Used on my-exhibitions.php and any other user page
-   that filters a list by status.
-========================================================= */
 
 .user-tabs {
     display: flex;
@@ -6528,11 +6088,6 @@ body {
     border-color: #111;
     color: #ffffff;
 }
-
-
-/* =========================================================
-   RESPONSIVE — USER TABS
-========================================================= */
 
 @media (max-width: 900px) {
 
@@ -6591,11 +6146,6 @@ body {
     margin-bottom: 12px;
 }
 
-/* =========================================================
-   MY ARTISTS PAGE
-   Local styles for user-side my-artists.php
-   (admin classes are not loaded on user pages)
-========================================================= */
 
 .admin-action-box {
     margin-bottom: 50px;
@@ -6783,8 +6333,6 @@ body {
     display: inline;
 }
 
-
-/* ---- responsive ---- */
 
 @media (max-width: 600px) {
 

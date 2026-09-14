@@ -5,11 +5,6 @@ $basePath = "";
 require_once "includes/function.php";
 require_once "database/config.php";
 
-
-// =========================================================
-// GET ARTWORK ID
-// =========================================================
-
 $artworkId = filter_input(
     INPUT_GET,
     "id",
@@ -71,21 +66,13 @@ if ($artworkId) {
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <metaname="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
 
         <?php if ($artwork): ?>
 
-            <?php echo htmlspecialchars(
-                $artwork["title"],
-                ENT_QUOTES,
-                "UTF-8"
-            ); ?> |
+        <?php echo htmlspecialchars($artwork["title"],ENT_QUOTES,"UTF-8"); ?> |
 
         <?php endif; ?>
 
@@ -93,16 +80,8 @@ if ($artworkId) {
 
     </title>
 
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="Images/logo.png"
-    >
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -130,10 +109,7 @@ if ($artworkId) {
                 approved for public viewing.
             </p>
 
-            <a
-                href="exhibition.php"
-                class="exhibition-back-link"
-            >
+            <a href="exhibition.php" class="exhibition-back-link">
                 &larr; BACK TO EXHIBITIONS
             </a>
 
@@ -147,10 +123,6 @@ if ($artworkId) {
     <main class="exhibition-artwork-details-page">
 
 
-        <!-- =========================================================
-             ARTWORK HERO
-        ========================================================= -->
-
         <section class="artwork-details-hero">
 
             <?php if (!empty($artwork["image"])): ?>
@@ -158,25 +130,15 @@ if ($artworkId) {
                 <div class="artwork-details-hero-image">
 
                     <img
-                        src="<?php echo htmlspecialchars(
-                            edlImagePath($artwork["image"]),
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
-                        alt="<?php echo htmlspecialchars(
-                            $artwork["title"],
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
+                        src="<?php echo htmlspecialchars(edlImagePath($artwork["image"]),ENT_QUOTES,"UTF-8"); ?>"
+                        alt="<?php echo htmlspecialchars($artwork["title"],ENT_QUOTES,"UTF-8"); ?>"
                     >
 
                 </div>
 
             <?php endif; ?>
 
-
             <div class="artwork-details-hero-overlay"></div>
-
 
             <div class="artwork-details-hero-content">
 
@@ -185,20 +147,12 @@ if ($artworkId) {
                 </p>
 
                 <h1>
-                    <?php echo htmlspecialchars(
-                        $artwork["title"],
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?>
+                    <?php echo htmlspecialchars($artwork["title"],ENT_QUOTES,"UTF-8"); ?>
                 </h1>
 
                 <p class="artwork-details-artist">
                     BY
-                    <?php echo htmlspecialchars(
-                        $artwork["artist_name"],
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?>
+                    <?php echo htmlspecialchars($artwork["artist_name"],ENT_QUOTES,"UTF-8"); ?>
                 </p>
 
             </div>
@@ -208,20 +162,13 @@ if ($artworkId) {
 
         <div class="artwork-details-container">
 
-
-            <!-- BACK TO EXHIBITION -->
-
             <a
                 href="exhibition-details.php?id=<?php echo (int)$artwork["exhibition_id"]; ?>"
                 class="exhibition-back-link"
             >
                 &larr;
                 BACK TO
-                <?php echo htmlspecialchars(
-                    $artwork["exhibition_title"],
-                    ENT_QUOTES,
-                    "UTF-8"
-                ); ?>
+                <?php echo htmlspecialchars($artwork["exhibition_title"],ENT_QUOTES,"UTF-8"); ?>
             </a>
 
 
@@ -229,120 +176,78 @@ if ($artworkId) {
 
                 <div class="artwork-details-information">
 
-
                     <p class="artwork-details-section-label">
                         ARTWORK INFORMATION
                     </p>
 
-
                     <h2>
-                        <?php echo htmlspecialchars(
-                            $artwork["title"],
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>
+                        <?php echo htmlspecialchars($artwork["title"],ENT_QUOTES,"UTF-8"); ?>
                     </h2>
-
 
                     <p class="artwork-details-byline">
 
                         By
                         <strong>
-                            <?php echo htmlspecialchars(
-                                $artwork["artist_name"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            ); ?>
+                            <?php echo htmlspecialchars($artwork["artist_name"],ENT_QUOTES,"UTF-8"); ?>
                         </strong>
 
                     </p>
 
-
                     <div class="artwork-details-meta">
-
 
                         <?php if (!empty($artwork["medium"])): ?>
 
                             <div class="artwork-meta-item">
 
-                                <span>
-                                    MEDIUM
-                                </span>
+                                <span> MEDIUM </span>
 
                                 <strong>
-                                    <?php echo htmlspecialchars(
-                                        $artwork["medium"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    ); ?>
+                                    <?php echo htmlspecialchars($artwork["medium"],ENT_QUOTES,"UTF-8"); ?>
                                 </strong>
 
                             </div>
 
                         <?php endif; ?>
-
 
                         <?php if (!empty($artwork["year_created"])): ?>
 
                             <div class="artwork-meta-item">
 
-                                <span>
-                                    YEAR
-                                </span>
+                                <span> YEAR </span>
 
                                 <strong>
-                                    <?php echo htmlspecialchars(
-                                        $artwork["year_created"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    ); ?>
+                                    <?php echo htmlspecialchars($artwork["year_created"],ENT_QUOTES,"UTF-8"); ?>
                                 </strong>
 
                             </div>
 
                         <?php endif; ?>
-
 
                         <?php if (!empty($artwork["dimensions"])): ?>
 
                             <div class="artwork-meta-item">
 
-                                <span>
-                                    DIMENSIONS
-                                </span>
+                                <span> DIMENSIONS </span>
 
                                 <strong>
-                                    <?php echo htmlspecialchars(
-                                        $artwork["dimensions"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    ); ?>
+                                    <?php echo htmlspecialchars($artwork["dimensions"],ENT_QUOTES,"UTF-8"); ?>
                                 </strong>
 
                             </div>
 
                         <?php endif; ?>
 
-
                         <div class="artwork-meta-item">
 
-                            <span>
-                                EXHIBITION
-                            </span>
+                            <span> EXHIBITION </span>
 
-                            <strong>
-                                <?php echo htmlspecialchars(
-                                    $artwork["exhibition_title"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
+                            <strong> 
+                                <?php echo htmlspecialchars($artwork["exhibition_title"],ENT_QUOTES,"UTF-8"); ?>
                             </strong>
 
                         </div>
 
-
                     </div>
-
 
                     <?php if (!empty($artwork["description"])): ?>
 
@@ -353,50 +258,31 @@ if ($artworkId) {
                             </p>
 
                             <p>
-                                <?php echo nl2br(
-                                    htmlspecialchars(
-                                        $artwork["description"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    )
-                                ); ?>
+                                <?php echo nl2br(htmlspecialchars($artwork["description"],ENT_QUOTES,"UTF-8")); ?>
                             </p>
 
                         </div>
 
                     <?php endif; ?>
 
-
-                    <!-- PRICE -->
-
                     <div class="artwork-details-price">
 
-                        <span>
-                            PRICE
-                        </span>
+                        <span> PRICE </span>
 
                         <?php if (
                             $artwork["price"] !== null &&
                             $artwork["price"] !== ""
                         ): ?>
 
-                            <strong>
-                                ₱<?php echo number_format(
-                                    (float)$artwork["price"],
-                                    2
-                                ); ?>
-                            </strong>
+                            <strong> ₱<?php echo number_format((float)$artwork["price"],2); ?> </strong>
 
                         <?php else: ?>
 
-                            <strong>
-                                PRICE ON REQUEST
-                            </strong>
+                            <strong> PRICE ON REQUEST </strong>
 
                         <?php endif; ?>
 
                     </div>
-
 
                 </div>
 
@@ -405,30 +291,19 @@ if ($artworkId) {
 
             <section class="artwork-details-artist-section">
 
-
                 <p class="artwork-details-section-label">
                     THE ARTIST
                 </p>
 
-
                 <div class="artwork-details-artist-card">
-
 
                     <?php if (!empty($artwork["artist_image"])): ?>
 
                         <div class="artwork-details-artist-image">
 
                             <img
-                                src="<?php echo htmlspecialchars(
-                                    edlImagePath($artwork["artist_image"]),
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>"
-                                alt="<?php echo htmlspecialchars(
-                                    $artwork["artist_name"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>"
+                                src="<?php echo htmlspecialchars(edlImagePath($artwork["artist_image"]),ENT_QUOTES,"UTF-8"); ?>"
+                                alt="<?php echo htmlspecialchars($artwork["artist_name"],ENT_QUOTES,"UTF-8"); ?>"
                             >
 
                         </div>
@@ -439,24 +314,14 @@ if ($artworkId) {
                     <div class="artwork-details-artist-information">
 
                         <h2>
-                            <?php echo htmlspecialchars(
-                                $artwork["artist_name"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            ); ?>
+                            <?php echo htmlspecialchars($artwork["artist_name"],ENT_QUOTES,"UTF-8"); ?>
                         </h2>
 
 
                         <?php if (!empty($artwork["artist_biography"])): ?>
 
                             <p>
-                                <?php echo nl2br(
-                                    htmlspecialchars(
-                                        $artwork["artist_biography"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    )
-                                ); ?>
+                                <?php echo nl2br(htmlspecialchars($artwork["artist_biography"],ENT_QUOTES,"UTF-8")); ?>
                             </p>
 
                         <?php else: ?>
@@ -476,12 +341,8 @@ if ($artworkId) {
 
             <div class="artwork-details-bottom">
 
-                <a
-                    href="exhibition-details.php?id=<?php echo (int)$artwork["exhibition_id"]; ?>"
-                    class="exhibition-back-link"
-                >
-                    &larr;
-                    BACK TO EXHIBITION
+                <a href="exhibition-details.php?id=<?php echo (int)$artwork["exhibition_id"]; ?>"class="exhibition-back-link">
+                    &larr; BACK TO EXHIBITION
                 </a>
 
             </div>

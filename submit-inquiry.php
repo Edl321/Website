@@ -8,7 +8,6 @@ require_once "security/authorize.php";
 require_once "security/shield.php";
 
 
-// Only logged-in users may submit an inquiry.
 if (!isUser()) {
 
     header("Location: login.php");
@@ -17,13 +16,12 @@ if (!isUser()) {
 }
 
 
-// The user's identity always comes from the session, never from the form.
 $userId = $_SESSION["user_id"];
 
 
 $errors = [];
 
-// Values used to re-fill the form if validation fails.
+
 $organization_name    = "";
 $phone                = "";
 $exhibition_title     = "";
@@ -46,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    // Get and trim form values
     $organization_name    = trim($_POST["organization_name"] ?? "");
     $phone                = trim($_POST["phone"] ?? "");
     $exhibition_title     = trim($_POST["exhibition_title"] ?? "");
@@ -60,8 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $special_requirements = trim($_POST["special_requirements"] ?? "");
     $additional_notes     = trim($_POST["additional_notes"] ?? "");
 
-
-    // ---- VALIDATION ----
 
     if (empty($organization_name)) {
         $errors[] = "Organization / Artist name is required.";
@@ -87,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Proposed end date is required.";
     }
 
-    // Only compare dates if both were actually provided
     if (
         !empty($proposed_start_date) &&
         !empty($proposed_end_date) &&
@@ -100,7 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Exhibition description is required.";
     }
 
-    // Numbers must be whole numbers of at least 1
     if (
         $artist_count === "" ||
         !ctype_digit($artist_count) ||
@@ -125,8 +118,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Please enter a valid expected number of visitors.";
     }
 
-
-    // ---- SAVE TO DATABASE ----
 
     if (empty($errors)) {
 
@@ -161,7 +152,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $stmt->execute();
 
-        // Send the user to their inquiries list
         header("Location: my-inquiries.php");
         exit;
 
@@ -187,10 +177,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php require_once "includes/header.php"; ?>
 
 
-<!-- =========================================
-     PAGE HERO
-========================================= -->
-
 <section class="dashboard-hero dashboard-hero--submit-inquiry">
 
     <div class="dashboard-hero-content">
@@ -211,10 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </section>
 
 
-<!-- =========================================
-     INQUIRY FORM
-========================================= -->
-
 <section class="dashboard-content">
 
     <div class="dashboard-heading">
@@ -223,225 +205,217 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 
 
-    <!-- ERROR MESSAGES -->
 
     <?php if (!empty($errors)): ?>
 
-        <div class="form-errors">
+<div class="form-errors">
 
-            <?php foreach ($errors as $error): ?>
+    <?php foreach ($errors as $error): ?>
 
-                <p><?php echo htmlspecialchars($error); ?></p>
+        <p><?php echo htmlspecialchars($error); ?></p>
 
-            <?php endforeach; ?>
+    <?php endforeach; ?>
 
-        </div>
+</div>
 
     <?php endif; ?>
 
 
-    <form class="inquiry-form" method="POST" action="submit-inquiry.php">
+<form class="inquiry-form" method="POST" action="submit-inquiry.php">
 
-        <!-- CSRF SECURITY TOKEN -->
-        <?php echo csrf_field(); ?>
-
-
-        <div class="form-row">
-
-            <div class="form-group">
-
-                <label for="organization_name">
-                    ORGANIZATION / ARTIST NAME
-                </label>
-
-                <input
-                    type="text"
-                    id="organization_name"
-                    name="organization_name"
-                    value="<?php echo htmlspecialchars($organization_name); ?>"
-                    placeholder="e.g. Juan Dela Cruz / ABC Art Collective"
-                    required
-                >
-
-            </div>
+    <?php echo csrf_field(); ?>
 
 
-            <div class="form-group">
+<div class="form-row">
 
-                <label for="phone">
-                    PHONE NUMBER
-                </label>
+    <div class="form-group">
 
-                <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value="<?php echo htmlspecialchars($phone); ?>"
-                    placeholder="Your phone number"
-                    required
-                >
+        <label for="organization_name">
+            ORGANIZATION / ARTIST NAME
+        </label>
 
-            </div>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="exhibition_title">
-                EXHIBITION TITLE
-            </label>
-
-            <input
-                type="text"
-                id="exhibition_title"
-                name="exhibition_title"
-                value="<?php echo htmlspecialchars($exhibition_title); ?>"
-                placeholder="Title of your proposed exhibition"
-                required
+        <input
+            type="text"
+            id="organization_name"
+            name="organization_name"
+            value="<?php echo htmlspecialchars($organization_name); ?>"
+            placeholder="e.g. Juan Dela Cruz / ABC Art Collective"
+            required
             >
 
-        </div>
+    </div>
 
 
-        <div class="form-row">
+    <div class="form-group">
 
-            <div class="form-group">
+        <label for="phone">
+            PHONE NUMBER
+        </label>
 
-                <label for="exhibition_type">
-                    EXHIBITION TYPE
-                </label>
+        <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value="<?php echo htmlspecialchars($phone); ?>"
+            placeholder="Your phone number"
+            required
+        >
 
-                <select id="exhibition_type" name="exhibition_type" required>
+    </div>
 
-                    <option value="">Select exhibition type</option>
-
-                    <?php
-                    $types = [
-                        "Solo Exhibition",
-                        "Group Exhibition",
-                        "Community Exhibition",
-                        "Corporate / Brand Exhibition",
-                        "Other"
-                    ];
-
-                    foreach ($types as $type):
-                        $selected = ($exhibition_type === $type) ? "selected" : "";
-                    ?>
-
-                        <option value="<?php echo htmlspecialchars($type); ?>" <?php echo $selected; ?>>
-                            <?php echo htmlspecialchars($type); ?>
-                        </option>
-
-                    <?php endforeach; ?>
-
-                </select>
-
-            </div>
+</div>
 
 
-            <div class="form-group">
+<div class="form-group">
 
-                <label for="expected_visitors">
-                    EXPECTED VISITORS
-                </label>
+    <label for="exhibition_title">
+        EXHIBITION TITLE
+    </label>
 
-                <input
-                    type="number"
-                    id="expected_visitors"
-                    name="expected_visitors"
-                    min="1"
-                    value="<?php echo htmlspecialchars($expected_visitors); ?>"
-                    placeholder="e.g. 100"
-                    required
-                >
+    <input
+    type="text"
+    id="exhibition_title"
+    name="exhibition_title"
+    value="<?php echo htmlspecialchars($exhibition_title); ?>"
+    placeholder="Title of your proposed exhibition"
+    required
+    >
 
-            </div>
-
-        </div>
+</div>
 
 
-        <div class="form-row">
+<div class="form-row">
 
-            <div class="form-group">
+    <div class="form-group">
 
-                <label for="proposed_start_date">
-                    PROPOSED START DATE
-                </label>
+        <label for="exhibition_type">
+            EXHIBITION TYPE
+        </label>
 
-                <input
-                    type="date"
-                    id="proposed_start_date"
-                    name="proposed_start_date"
-                    min="<?php echo date('Y-m-d'); ?>"
-                    value="<?php echo htmlspecialchars($proposed_start_date); ?>"
-                    required
-                >
+        <select id="exhibition_type" name="exhibition_type" required>
 
-            </div>
+        <option value="">Select exhibition type</option>
 
+        <?php
+            $types = [
+            "Solo Exhibition",
+            "Group Exhibition",
+            "Community Exhibition",
+            "Corporate / Brand Exhibition",
+            "Other"
+            ];
 
-            <div class="form-group">
+        foreach ($types as $type):
+            $selected = ($exhibition_type === $type) ? "selected" : "";
+        ?>
 
-                <label for="proposed_end_date">
-                    PROPOSED END DATE
-                </label>
+        <option value="<?php echo htmlspecialchars($type); ?>" <?php echo $selected; ?>>
+            <?php echo htmlspecialchars($type); ?>
+        </option>
 
-                <input
-                    type="date"
-                    id="proposed_end_date"
-                    name="proposed_end_date"
-                    min="<?php echo date('Y-m-d'); ?>"
-                    value="<?php echo htmlspecialchars($proposed_end_date); ?>"
-                    required
-                >
+            <?php endforeach; ?>
 
-            </div>
+        </select>
 
-        </div>
+    </div>
 
+    <div class="form-group">
 
-        <div class="form-row">
+        <label for="expected_visitors">
+            EXPECTED VISITORS
+        </label>
 
-            <div class="form-group">
+        <input
+            type="number"
+            id="expected_visitors"
+            name="expected_visitors"
+            min="1"
+            value="<?php echo htmlspecialchars($expected_visitors); ?>"
+            placeholder="e.g. 100"
+            required
+        >
 
-                <label for="artist_count">
-                    NUMBER OF ARTISTS
-                </label>
+    </div>
 
-                <input
-                    type="number"
-                    id="artist_count"
-                    name="artist_count"
-                    min="1"
-                    value="<?php echo htmlspecialchars($artist_count); ?>"
-                    placeholder="e.g. 5"
-                    required
-                >
-
-            </div>
+</div>
 
 
-            <div class="form-group">
+<div class="form-row">
 
-                <label for="artwork_count">
-                    EXPECTED NUMBER OF ARTWORKS
-                </label>
+    <div class="form-group">
 
-                <input
-                    type="number"
-                    id="artwork_count"
-                    name="artwork_count"
-                    min="1"
-                    value="<?php echo htmlspecialchars($artwork_count); ?>"
-                    placeholder="e.g. 20"
-                    required
-                >
+        <label for="proposed_start_date">
+            PROPOSED START DATE
+        </label>
 
-            </div>
+        <input
+            type="date"
+            id="proposed_start_date"
+            name="proposed_start_date"
+            min="<?php echo date('Y-m-d'); ?>"
+            value="<?php echo htmlspecialchars($proposed_start_date); ?>"
+            required
+        >
 
-        </div>
+    </div>
 
+    <div class="form-group">
+
+        <label for="proposed_end_date">
+            PROPOSED END DATE
+        </label>
+
+        <input
+            type="date"
+            id="proposed_end_date"
+            name="proposed_end_date"
+            min="<?php echo date('Y-m-d'); ?>"
+            value="<?php echo htmlspecialchars($proposed_end_date); ?>"
+            required
+        >
+
+    </div>
+
+</div>
+
+
+<div class="form-row">
+
+    <div class="form-group">
+
+        <label for="artist_count">
+            NUMBER OF ARTISTS
+        </label>
+
+        <input
+            type="number"
+            id="artist_count"
+            name="artist_count"
+            min="1"
+            value="<?php echo htmlspecialchars($artist_count); ?>"
+            placeholder="e.g. 5" required
+            >
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="artwork_count">
+            EXPECTED NUMBER OF ARTWORKS
+        </label>
+
+            <input
+            type="number"
+            id="artwork_count"
+            name="artwork_count"
+            min="1"
+            value="<?php echo htmlspecialchars($artwork_count); ?>"
+            placeholder="e.g. 20" required
+            >
+
+    </div>
+
+</div>
 
         <div class="form-group">
 
@@ -454,11 +428,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 name="description"
                 rows="6"
                 placeholder="Describe your exhibition concept..."
-                required
-            ><?php echo htmlspecialchars($description); ?></textarea>
+                required>
+                <?php echo htmlspecialchars($description); ?>
+            </textarea>
 
         </div>
-
 
         <div class="form-group">
 
@@ -470,11 +444,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 id="special_requirements"
                 name="special_requirements"
                 rows="4"
-                placeholder="e.g. specific lighting, extra tables, sound equipment..."
-            ><?php echo htmlspecialchars($special_requirements); ?></textarea>
+                placeholder="e.g. specific lighting, extra tables, sound equipment...">
+                <?php echo htmlspecialchars($special_requirements); ?>
+            </textarea>
 
         </div>
-
 
         <div class="form-group">
 
@@ -482,15 +456,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ADDITIONAL NOTES (OPTIONAL)
             </label>
 
-            <textarea
-                id="additional_notes"
-                name="additional_notes"
-                rows="4"
-                placeholder="Anything else you'd like us to know..."
-            ><?php echo htmlspecialchars($additional_notes); ?></textarea>
+            <textarea id="additional_notes" name="additional_notes" rows="4"placeholder="Anything else you'd like us to know...">
+                <?php echo htmlspecialchars($additional_notes); ?>
+            </textarea>
 
         </div>
-
 
         <button type="submit" class="submit-button">
             SUBMIT INQUIRY
@@ -503,5 +473,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <?php require_once "includes/footer.php"; ?>
 
-</body>
+    </body>
 </html>

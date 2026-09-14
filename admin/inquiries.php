@@ -17,9 +17,6 @@ if (!isLoggedIn() || !isAdmin()) {
 
 }
 
-
-// ---- STATUS FILTER (tabs) ----
-
 $allowedStatuses = ["all", "pending", "approved", "rejected"];
 
 $statusFilter = $_GET["status"] ?? "all";
@@ -27,9 +24,6 @@ $statusFilter = $_GET["status"] ?? "all";
 if (!in_array($statusFilter, $allowedStatuses, true)) {
     $statusFilter = "all";
 }
-
-
-// ---- FETCH INQUIRIES ----
 
 if ($statusFilter === "all") {
 
@@ -56,9 +50,6 @@ if ($statusFilter === "all") {
 }
 
 $inquiries = $stmt->fetchAll();
-
-
-// ---- COUNTS FOR TABS ----
 
 $countStmt = $pdo->query(
     "SELECT status, COUNT(*) AS total
@@ -102,9 +93,6 @@ require_once "admin-head.php";
 
     </div>
 
-
-    <!-- STATUS TABS -->
-
     <div class="admin-tabs">
 
         <a
@@ -136,9 +124,6 @@ require_once "admin-head.php";
         </a>
 
     </div>
-
-
-    <!-- INQUIRIES LIST -->
 
     <?php if (empty($inquiries)): ?>
 

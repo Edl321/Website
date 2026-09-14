@@ -1,5 +1,4 @@
 <?php
-// Sliding session lifetime: refresh the cookie on each request
 if (isset($_SESSION["user_id"])) {
 
     $cookieLifetime = 60 * 60 * 24 * 30; // 30 days

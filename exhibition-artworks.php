@@ -9,11 +9,7 @@ require_once "security/shield.php";
 require_once "security/authorize.php";
 require_once "includes/function.php";
 
-/*
-|--------------------------------------------------------------------------
-| USER ACCESS ONLY
-|--------------------------------------------------------------------------
-*/
+
 
 if (!isUser()) {
     header("Location: login.php");
@@ -27,11 +23,6 @@ if (!$userId) {
     exit;
 }
 
-/*
-|--------------------------------------------------------------------------
-| GET EXHIBITION ID
-|--------------------------------------------------------------------------
-*/
 
 $exhibitionId = filter_input(
     INPUT_GET,
@@ -43,11 +34,6 @@ if (!$exhibitionId) {
     die("Invalid Exhibition ID.");
 }
 
-/*
-|--------------------------------------------------------------------------
-| VERIFY EXHIBITION OWNERSHIP
-|--------------------------------------------------------------------------
-*/
 
 $stmt = $pdo->prepare("
     SELECT
@@ -141,12 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | VERIFY ARTIST BELONGS TO THIS EXHIBITION
-        |--------------------------------------------------------------------------
-        */
-
         if (!$errors) {
 
             $artistCheck = $pdo->prepare("
@@ -225,16 +205,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         $extension = $allowedMimeTypes[$mimeType];
 
-                        // Store the path AS THE BROWSER SEES IT (relative to /Website/)
-                        // so the DB value works from any page — user side or admin side.
                         $uploadedImageName =
                             "Images/artwork_" .
                             bin2hex(random_bytes(16)) .
                             "." .
                             $extension;
 
-                        // Full disk path for move_uploaded_file — use basename to strip
-                        // the "Images/" prefix off, since $imageDirectory already ends in "/Images"
                         $imageDestination =
                             $imageDirectory .
                             "/" .
@@ -484,11 +460,7 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="exhibition-artworks-heading">
 
             <p class="section-label">
-                <?php echo htmlspecialchars(
-                    $exhibition["title"],
-                    ENT_QUOTES,
-                    "UTF-8"
-                ); ?>
+                <?php echo htmlspecialchars($exhibition["title"],ENT_QUOTES,"UTF-8"); ?>
             </p>
 
             <h1>
@@ -513,11 +485,9 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if ($successMessage): ?>
 
                 <div class="artwork-success">
-                    <?php echo htmlspecialchars(
-                        $successMessage,
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?>
+
+                    <?php echo htmlspecialchars($successMessage,ENT_QUOTES,"UTF-8"); ?>
+
                 </div>
 
             <?php endif; ?>
@@ -529,11 +499,7 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="artwork-error">
 
-                        <?php echo htmlspecialchars(
-                            $error,
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>
+                        <?php echo htmlspecialchars($error,ENT_QUOTES,"UTF-8"); ?>
 
                     </div>
 
@@ -598,14 +564,9 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                     value="add_artwork"
                 >
 
-
-                <!-- TITLE -->
-
                 <div class="artwork-form-group">
 
-                    <label for="title">
-                        Artwork Title
-                    </label>
+                    <label for="title"> Artwork Title </label>
 
                     <input
                         type="text"
@@ -613,23 +574,14 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         name="title"
                         maxlength="255"
                         required
-                        value="<?php echo htmlspecialchars(
-                            $_POST["title"] ?? "",
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
+                        value="<?php echo htmlspecialchars($_POST["title"] ?? "",ENT_QUOTES,"UTF-8"); ?>"
                     >
 
                 </div>
 
-
-                <!-- ARTIST -->
-
                 <div class="artwork-form-group">
 
-                    <label for="artist_id">
-                        Artist
-                    </label>
+                    <label for="artist_id"> Artist </label>
 
                     <select
                         id="artist_id"
@@ -637,9 +589,7 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         required
                     >
 
-                        <option value="">
-                            Select Artist
-                        </option>
+                        <option value=""> Select Artist </option>
 
                         <?php foreach ($assignedArtists as $artist): ?>
 
@@ -655,11 +605,7 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                                 ?>
                             >
 
-                                <?php echo htmlspecialchars(
-                                    $artist["name"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
+                                <?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8"); ?>
 
                             </option>
 
@@ -671,9 +617,7 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="artwork-form-group">
 
-                    <label for="medium">
-                        Medium
-                    </label>
+                    <label for="medium"> Medium </label>
 
                     <input
                         type="text"
@@ -682,22 +626,14 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         maxlength="255"
                         placeholder="e.g. Oil on canvas"
                         required
-                        value="<?php echo htmlspecialchars(
-                            $_POST["medium"] ?? "",
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
+                        value="<?php echo htmlspecialchars($_POST["medium"] ?? "",ENT_QUOTES,"UTF-8"); ?>"
                     >
 
                 </div>
 
-
-
                 <div class="artwork-form-group">
 
-                    <label for="year_created">
-                        Year Created
-                    </label>
+                    <label for="year_created"> Year Created </label>
 
                     <input
                         type="text"
@@ -707,22 +643,14 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         pattern="\d{4}"
                         placeholder="e.g. 2026"
                         required
-                        value="<?php echo htmlspecialchars(
-                            $_POST["year_created"] ?? "",
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
+                        value="<?php echo htmlspecialchars($_POST["year_created"] ?? "",ENT_QUOTES,"UTF-8"); ?>"
                     >
 
                 </div>
 
-
-
                 <div class="artwork-form-group">
 
-                    <label for="dimensions">
-                        Dimensions
-                    </label>
+                    <label for="dimensions"> Dimensions </label>
 
                     <input
                         type="text"
@@ -731,23 +659,14 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         maxlength="255"
                         placeholder="e.g. 24 × 36 inches"
                         required
-                        value="<?php echo htmlspecialchars(
-                            $_POST["dimensions"] ?? "",
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
+                        value="<?php echo htmlspecialchars($_POST["dimensions"] ?? "",ENT_QUOTES,"UTF-8"); ?>"
                     >
 
                 </div>
 
-
-                <!-- PRICE -->
-
                 <div class="artwork-form-group">
 
-                    <label for="price">
-                        Price
-                    </label>
+                    <label for="price"> Price </label>
 
                     <input
                         type="number"
@@ -756,47 +675,31 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         min="0"
                         step="0.01"
                         placeholder="Optional"
-                        value="<?php echo htmlspecialchars(
-                            $_POST["price"] ?? "",
-                            ENT_QUOTES,
-                            "UTF-8"
-                        ); ?>"
+                        value="<?php echo htmlspecialchars($_POST["price"] ?? "",ENT_QUOTES,"UTF-8"); ?>"
                     >
 
-                    <small>
-                        Leave blank if the artwork is not for sale.
-                    </small>
+                    <small> Leave blank if the artwork is not for sale. </small>
 
                 </div>
 
-
                 <div class="artwork-form-group artwork-full-width">
 
-                    <label for="description">
-                        Description
-                    </label>
+                    <label for="description"> Description </label>
 
                     <textarea
                         id="description"
                         name="description"
                         rows="6"
                         required
-                    ><?php echo htmlspecialchars(
-                        $_POST["description"] ?? "",
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?></textarea>
+                        >
+                        <?php echo htmlspecialchars($_POST["description"] ?? "",ENT_QUOTES,"UTF-8"); ?>
+                    </textarea>
 
                 </div>
 
-
-                <!-- IMAGE -->
-
                 <div class="artwork-form-group artwork-full-width">
 
-                    <label for="image">
-                        Artwork Image
-                    </label>
+                    <label for="image"> Artwork Image </label>
 
                     <input
                         type="file"
@@ -805,23 +708,13 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                         accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
                     >
 
-                    <small>
-                        JPG, PNG, or WEBP. Maximum file size: 5MB.
-                    </small>
+                    <small> JPG, PNG, or WEBP. Maximum file size: 5MB. </small>
 
                 </div>
 
-
-                <!-- SUBMIT -->
-
                 <div class="artwork-form-submit">
 
-                    <button
-                        type="submit"
-                        class="orange-button"
-                    >
-                        Add Artwork
-                    </button>
+                    <button type="submit" class="orange-button"> Add Artwork </button>
 
                 </div>
 
@@ -868,25 +761,13 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <article class="exhibition-artwork-card">
 
-
-                        <!-- IMAGE -->
-
                         <div class="exhibition-artwork-image">
 
                             <?php if (!empty($artwork["image"])): ?>
 
                             <img
-                                src="<?php echo htmlspecialchars(
-                                edlImagePath($artwork["image"]),
-                                ENT_QUOTES,
-                                "UTF-8"
-                                ); ?>"
-
-                                alt="<?php echo htmlspecialchars(
-                                $artwork["title"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                                ); ?>"
+                                src="<?php echo htmlspecialchars(edlImagePath($artwork["image"]),ENT_QUOTES,"UTF-8"); ?>"
+                                alt="<?php echo htmlspecialchars($artwork["title"],ENT_QUOTES,"UTF-8"); ?>"
                             >
 
                             <?php else: ?>
@@ -899,100 +780,48 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                         </div>
 
-
-                        <!-- INFO -->
-
                         <div class="exhibition-artwork-info">
 
                             <p class="artwork-artist-name">
 
-                                <?php echo htmlspecialchars(
-                                    $artwork["artist_name"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
-
+                                <?php echo htmlspecialchars($artwork["artist_name"],ENT_QUOTES,"UTF-8"); ?>
                             </p>
 
-
                             <h3>
-
-                                <?php echo htmlspecialchars(
-                                    $artwork["title"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
-
+                                <?php echo htmlspecialchars($artwork["title"],ENT_QUOTES,"UTF-8"); ?>
                             </h3>
-
 
                             <p>
                                 <strong>Medium:</strong>
-
-                                <?php echo htmlspecialchars(
-                                    $artwork["medium"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
-
+                                <?php echo htmlspecialchars($artwork["medium"],ENT_QUOTES,"UTF-8"); ?>
                             </p>
-
 
                             <p>
                                 <strong>Year:</strong>
-
-                                <?php echo htmlspecialchars(
-                                    $artwork["year_created"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
-
+                                <?php echo htmlspecialchars($artwork["year_created"],ENT_QUOTES,"UTF-8"); ?>
                             </p>
-
 
                             <p>
                                 <strong>Dimensions:</strong>
-
-                                <?php echo htmlspecialchars(
-                                    $artwork["dimensions"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
+                                <?php echo htmlspecialchars($artwork["dimensions"],ENT_QUOTES,"UTF-8"); ?>
 
                             </p>
 
-
-                            <?php if (
-                                $artwork["price"] !== null &&
-                                $artwork["price"] !== ""
-                            ): ?>
+                            <?php if ($artwork["price"] !== null && $artwork["price"] !== ""): ?>
 
                                 <p>
 
                                     <strong>Price:</strong>
 
-                                    ₱<?php echo number_format(
-                                        (float)$artwork["price"],
-                                        2
-                                    ); ?>
+                                    ₱<?php echo number_format((float)$artwork["price"],2); ?>
 
                                 </p>
 
                             <?php endif; ?>
 
-
                             <p class="artwork-description">
-
-                                <?php echo htmlspecialchars(
-                                    $artwork["description"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                ); ?>
-
+                                <?php echo htmlspecialchars($artwork["description"],ENT_QUOTES,"UTF-8"); ?>
                             </p>
-
-
-                            <!-- STATUS -->
 
                             <div class="artwork-status">
 
@@ -1018,9 +847,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
 
                             </div>
 
-
-                            <!-- ADMIN NOTE -->
-
                             <?php if (!empty($artwork["admin_note"])): ?>
 
                                 <p class="artwork-admin-note">
@@ -1038,9 +864,6 @@ $artworks = $artworkStmt->fetchAll(PDO::FETCH_ASSOC);
                                 </p>
 
                             <?php endif; ?>
-
-
-                            <!-- REMOVE -->
 
                             <form
                                 method="POST"

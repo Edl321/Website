@@ -48,10 +48,6 @@ $inquiries = $stmt->fetchAll();
 <?php require_once "includes/header.php"; ?>
 
 
-<!-- =========================================
-     PAGE HERO
-========================================= -->
-
 <section class="dashboard-hero dashboard-hero--inquiries">
 
     <div class="dashboard-hero-content">
@@ -76,10 +72,6 @@ $inquiries = $stmt->fetchAll();
 </section>
 
 
-<!-- =========================================
-     INQUIRIES LIST
-========================================= -->
-
 <section class="dashboard-content">
 
     <div class="dashboard-heading">
@@ -87,10 +79,7 @@ $inquiries = $stmt->fetchAll();
         <h2>Exhibition Inquiries</h2>
     </div>
 
-
     <?php if (empty($inquiries)): ?>
-
-        <!-- EMPTY STATE -->
 
         <div class="empty-dashboard">
 
@@ -164,9 +153,6 @@ $inquiries = $stmt->fetchAll();
 
                 </div>
 
-
-                <!-- APPROVED MESSAGE -->
-
                 <?php if ($inquiry["status"] === "approved"): ?>
 
                     <div class="inquiry-success-note">
@@ -181,8 +167,6 @@ $inquiries = $stmt->fetchAll();
 
                 <?php endif; ?>
 
-
-                <!-- REJECTED MESSAGE + ADMIN NOTE -->
 
                 <?php if ($inquiry["status"] === "rejected"): ?>
 
@@ -221,5 +205,5 @@ $inquiries = $stmt->fetchAll();
 
 <?php require_once "includes/footer.php"; ?>
 
-</body>
+    </body>
 </html>

@@ -20,28 +20,16 @@ if (!isLoggedIn() || !isAdmin()) {
 
 $errors   = [];
 $feedback = "";
-
-// Values used to pre-fill the form (either from a failed submit,
-// or from an artist we're editing).
 $editingId = "";
 $name      = "";
 $biography = "";
 $image     = "";
 
-// Field length limits (kept in one place so the form + validation agree).
 const ARTIST_NAME_MAX_LENGTH      = 150;
 const ARTIST_BIOGRAPHY_MAX_LENGTH = 5000;
 
-// Where artist photos live. The PUBLIC artist.php page renders photos as
-// "Images/<image column>", so anything we save here has to resolve
-// correctly against that "Images/" prefix - hence the "artists/" subfolder
-// rather than a top-level "uploads/" folder.
 const ARTIST_UPLOAD_SUBDIR = "artists/"; // relative to /Images/
 
-
-// Only these MIME types are accepted, and the extension used on disk is
-// ALWAYS derived from this map - never from the client-supplied filename.
-// This closes off double-extension / polyglot-file upload tricks.
 const ARTIST_ALLOWED_IMAGE_TYPES = [
     "image/jpeg" => "jpg",
     "image/png"  => "png",
@@ -49,9 +37,6 @@ const ARTIST_ALLOWED_IMAGE_TYPES = [
 ];
 const ARTIST_MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
 
-
-
-// ---- IF WE'RE EDITING, LOAD THE ARTIST INTO THE FORM ----
 
 if (isset($_GET["edit"]) && ctype_digit((string)$_GET["edit"])) {
 
@@ -69,8 +54,6 @@ if (isset($_GET["edit"]) && ctype_digit((string)$_GET["edit"])) {
 }
 
 
-// ---- HANDLE ADD / UPDATE / DELETE ----
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -80,9 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
 
         $action = $_POST["action"] ?? "";
-
-
-        // ---- DELETE ----
 
         if ($action === "delete") {
 
@@ -111,8 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     } catch (PDOException $e) {
 
-                        // Most likely a foreign key error because this artist
-                        // is still attached to an exhibition or an artwork.
                         $errors[] = "This artist could not be deleted because they are still attached to an exhibition or artwork.";
 
                     }
@@ -127,20 +105,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         }
 
-
-        // ---- ADD OR UPDATE ----
-
         elseif ($action === "create" || $action === "update") {
 
             $rawId     = $_POST["artist_id"] ?? "";
             $name      = trim($_POST["name"] ?? "");
             $biography = trim($_POST["biography"] ?? "");
-
-            // The artist's CURRENT image (source of truth), used unless a
-            // new file is uploaded below. We deliberately do NOT trust any
-            // client-submitted "existing image" value - it's re-fetched
-            // from the database instead, so a tampered hidden field can
-            // never redirect this record at an arbitrary path.
             $image    = "";
             $oldImage = "";
 
@@ -170,9 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $editingId = "";
             }
 
-
-            // ---- FIELD VALIDATION ----
-
             if ($name === "") {
                 $errors[] = "Artist name is required.";
             } elseif (mb_strlen($name) > ARTIST_NAME_MAX_LENGTH) {
@@ -185,7 +151,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $errors[] = "Artist biography must be " . ARTIST_BIOGRAPHY_MAX_LENGTH . " characters or fewer.";
             }
 
-            // For "update", stop here if we couldn't resolve a real record.
             if ($action === "update" && $editingId === "" && empty($errors)) {
                 $errors[] = "Unable to update this artist.";
             }
@@ -223,7 +188,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     $feedback = "Artist added.";
 
-                    // Clear the form for the next entry.
                     $editingId = "";
                     $name = "";
                     $biography = "";
@@ -242,8 +206,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $updateStmt->bindValue(":id", (int)$editingId, PDO::PARAM_INT);
                     $updateStmt->execute();
 
-                    // If a new photo replaced an old one, remove the old
-                    // file from disk now that the DB row points elsewhere.
                     if ($oldImage !== "" && $oldImage !== $image) {
                         deleteManagedImage($oldImage, "artists/artist_");
                     }
@@ -254,8 +216,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 } elseif ($newImagePath !== null) {
 
-                // Validation failed elsewhere after we already saved a new
-                // file to disk - don't leave it orphaned.
                 deleteManagedImage($newImagePath, "artists/artist_");
                 $image = $oldImage;
                 }
@@ -263,8 +223,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-
-// ---- FETCH ALL ARTISTS FOR THE LIST ----
 
 $artists = $pdo->query(
     "SELECT * FROM artists ORDER BY name ASC"
@@ -303,8 +261,6 @@ require_once "admin-head.php";
         </div>
     <?php endif; ?>
 
-
-    <!-- ADD / EDIT FORM -->
 
     <div class="admin-action-box">
 
@@ -375,9 +331,6 @@ require_once "admin-head.php";
         </form>
 
     </div>
-
-
-    <!-- ARTIST LIST -->
 
     <div class="admin-header" style="margin-top:50px;">
         <p class="admin-label">DIRECTORY</p>

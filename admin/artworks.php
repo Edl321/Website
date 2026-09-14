@@ -17,9 +17,6 @@ if (!isLoggedIn() || !isAdmin()) {
 
 }
 
-
-// ---- STATUS FILTER (tabs) ----
-
 $allowedStatuses = ["all", "pending", "approved", "rejected"];
 
 $statusFilter = $_GET["status"] ?? "all";
@@ -27,9 +24,6 @@ $statusFilter = $_GET["status"] ?? "all";
 if (!in_array($statusFilter, $allowedStatuses, true)) {
     $statusFilter = "all";
 }
-
-
-// ---- FETCH ARTWORKS ----
 
 $baseSql = "SELECT aw.*, e.title AS exhibition_title, a.name AS artist_name
             FROM artworks aw
@@ -51,8 +45,6 @@ if ($statusFilter === "all") {
 
 $artworks = $stmt->fetchAll();
 
-
-// ---- COUNTS FOR TABS ----
 
 $countStmt = $pdo->query(
     "SELECT status, COUNT(*) AS total FROM artworks GROUP BY status"

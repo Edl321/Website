@@ -6,8 +6,6 @@ require_once "database/config.php";
 require_once "security/authorize.php";
 require_once "security/shield.php";
 
-
-// Only logged-in USERS may view this page.
 if (!isUser()) {
 
     header("Location: login.php");
@@ -15,12 +13,7 @@ if (!isUser()) {
 
 }
 
-
-// The user's identity always comes from the session.
 $userId = $_SESSION["user_id"];
-
-
-// ---- GET THE INQUIRY ID FROM THE URL ----
 
 $inquiryId = $_GET["id"] ?? "";
 
@@ -33,13 +26,10 @@ if (!ctype_digit((string)$inquiryId)) {
 
 $inquiryId = (int)$inquiryId;
 
-
-// ---- FETCH THE INQUIRY, BUT ONLY IF IT BELONGS TO THIS USER ----
-
 $sql = "SELECT *
         FROM exhibition_inquiries
         WHERE id = :id
-          AND user_id = :user_id
+        AND user_id = :user_id
         LIMIT 1";
 
 $stmt = $pdo->prepare($sql);

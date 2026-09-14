@@ -18,11 +18,7 @@ if (!isLoggedIn() || !isAdmin()) {
 
 }
 
-
 $adminId = $_SESSION["user_id"];
-
-
-// ---- GET THE INQUIRY ID FROM THE URL ----
 
 $inquiryId = $_GET["id"] ?? "";
 
@@ -39,9 +35,6 @@ $inquiryId = (int)$inquiryId;
 $feedback = "";
 $errors   = [];
 
-
-// ---- HANDLE APPROVE / REJECT SUBMISSION ----
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -53,8 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $action    = $_POST["action"] ?? "";
         $adminNote = trim($_POST["admin_note"] ?? "");
 
-        // Re-fetch the inquiry fresh, so we always act on current data
-        // (protects against a duplicate/replayed form submission).
         $sql = "SELECT * FROM exhibition_inquiries WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(":id", $inquiryId, PDO::PARAM_INT);
@@ -126,8 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 }
 
-
-                // 3. Notify the user of the decision
                 $notifTitle = ($action === "approve")
                     ? "Your exhibition inquiry was approved"
                     : "Your exhibition inquiry was not approved";
@@ -172,9 +161,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 }
-
-
-// ---- FETCH CURRENT INQUIRY FOR DISPLAY ----
 
 $sql = "SELECT ei.*, u.first_name, u.last_name, u.email
         FROM exhibition_inquiries ei
@@ -223,9 +209,6 @@ require_once "admin-head.php";
 
     </div>
 
-
-    <!-- FEEDBACK / ERROR MESSAGES -->
-
     <?php if (!empty($feedback)): ?>
 
         <div class="inquiry-success-note">
@@ -246,21 +229,16 @@ require_once "admin-head.php";
 
     <?php endif; ?>
 
-
-    <!-- INQUIRY DETAILS -->
-
     <div class="account-information">
 
         <div class="account-row">
             <span>REQUESTED BY</span>
+
             <strong>
-                <?php
-                echo htmlspecialchars(
-                    $inquiry["first_name"] . " " . $inquiry["last_name"]
-                );
-                ?>
+                <?php echo htmlspecialchars($inquiry["first_name"] . " " . $inquiry["last_name"]);?>
                 (<?php echo htmlspecialchars($inquiry["email"]); ?>)
             </strong>
+
         </div>
 
         <div class="account-row">
@@ -320,9 +298,6 @@ require_once "admin-head.php";
 
     </div>
 
-
-    <!-- LONG TEXT FIELDS -->
-
     <div class="admin-text-block">
         <h4>DESCRIPTION</h4>
         <p><?php echo nl2br(htmlspecialchars($inquiry["description"])); ?></p>
@@ -354,9 +329,6 @@ require_once "admin-head.php";
         </div>
 
     <?php endif; ?>
-
-
-    <!-- APPROVE / REJECT ACTIONS -->
 
     <?php if ($inquiry["status"] === "pending" && !$isOwnInquiry): ?>
 

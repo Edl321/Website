@@ -59,7 +59,6 @@
     font-size: 18px;
 }
 
-
 .user-dashboard-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -133,7 +132,6 @@
     border: 1px solid #e5e5e5;
     padding: 30px;
     margin-bottom: 25px;
-
     transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
 
@@ -504,7 +502,7 @@
 
 .user-panel > p {
     margin: 0;
-    color: #666;
+    color: black;
     font-size: 14px;
     line-height: 1.6;
 }
@@ -627,8 +625,8 @@
 }
 
 .mark-read-button:hover {
-    background: #ff7a00;
-    border-color: #ff7a00;
+    background: #ff7200;
+    border-color: #ff7200;
 }
 
 .unread-count {
@@ -636,7 +634,7 @@
     margin-top: 8px;
     margin-left: 0;
     padding: 5px 10px;
-    background: #ff7a00;
+    background: #ff7200;
     color: #fff;
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 11px;
@@ -664,13 +662,10 @@
     width: 100%;
     padding: 18px;
     box-sizing: border-box;
-
     border: 1px solid #dddddd;
     background: #ffffff;
-
     color: #111111;
     text-decoration: none;
-
     transition: 0.3s ease;
 }
 
@@ -683,14 +678,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 54px;
     height: 54px;
     flex-shrink: 0;
-
     background: #111111;
     color: #ffffff;
-
     font-size: 20px;
 }
 
@@ -701,7 +693,6 @@
 
 .user-action-content h3 {
     margin: 0 0 5px;
-
     color: #111111;
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 18px;
@@ -710,7 +701,6 @@
 
 .user-action-content p {
     margin: 0;
-
     color: #666666;
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 12px;
@@ -719,7 +709,6 @@
 
 .user-action-arrow {
     margin-left: 15px;
-
     color: #ff7a00;
     font-family: Arial, sans-serif;
     font-size: 22px;
@@ -729,20 +718,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     min-width: 24px;
     height: 24px;
     padding: 0 7px;
-
     margin-left: 10px;
-
     background: #ff7a00;
     color: #ffffff;
-
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 10px;
     font-weight: 700;
-
     border-radius: 50%;
 }
 

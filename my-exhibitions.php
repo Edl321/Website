@@ -16,18 +16,9 @@ if (!isUser()) {
 
 $userId = $_SESSION["user_id"];
 
-
-// =========================================================
-// SUCCESS / ERROR MESSAGE
-// =========================================================
-
 $successMessage = "";
 $errorMessage   = "";
 
-
-// =========================================================
-// READY TO PUBLISH ACTION
-// =========================================================
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -156,10 +147,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 
-// =========================================================
-// STATUS FILTER
-// =========================================================
-
 $allowedFilters = [
     "all",
     "active",
@@ -176,11 +163,6 @@ $statusFilter = $_GET["status"] ?? "all";
 if (!in_array($statusFilter, $allowedFilters, true)) {
     $statusFilter = "all";
 }
-
-
-// =========================================================
-// FETCH EXHIBITIONS WITH ARTWORK COUNTS
-// =========================================================
 
 $baseSql = "
     SELECT
@@ -233,11 +215,6 @@ $stmt->execute();
 
 $exhibitions = $stmt->fetchAll();
 
-
-// =========================================================
-// COUNTS FOR TABS
-// =========================================================
-
 $countStmt = $pdo->prepare("
     SELECT status, COUNT(*) AS total
     FROM exhibitions
@@ -268,11 +245,6 @@ $activeCount =
     $counts["artwork_submission"] +
     $counts["ready_to_publish"];
 
-
-// =========================================================
-// STATUS LABEL
-// =========================================================
-
 function formatStatusLabel($status)
 {
     $labels = [
@@ -295,39 +267,18 @@ function formatStatusLabel($status)
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        My Exhibitions | EDL Gallery
-    </title>
-
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="Images/logo.png"
-    >
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> My Exhibitions | EDL Gallery </title>
+    <link rel="icon" type="image/x-icon" href="Images/logo.png">
+    <link rel="stylesheet" href="style.css">
 
 </head>
-
 
 <body>
 
 
 <?php require_once "includes/header.php"; ?>
 
-
-<!-- =========================================================
-     HERO
-========================================================= -->
 
 <section class="dashboard-hero dashboard-hero--exhibitions">
 
@@ -350,10 +301,6 @@ function formatStatusLabel($status)
 
 </section>
 
-
-<!-- =========================================================
-     EXHIBITIONS
-========================================================= -->
 
 <section class="dashboard-content">
 
@@ -390,11 +337,6 @@ function formatStatusLabel($status)
         </div>
 
     <?php endif; ?>
-
-
-        <!-- =====================================================
-         STATUS FILTER TABS
-    ===================================================== -->
 
     <div class="user-tabs">
 
@@ -457,9 +399,6 @@ function formatStatusLabel($status)
     </div>
 
 
-    <!-- =====================================================
-         LIST
-    ===================================================== -->
 
     <?php if (empty($exhibitions)): ?>
 
@@ -691,6 +630,6 @@ function formatStatusLabel($status)
 <?php require_once "includes/footer.php"; ?>
 
 
-</body>
+    </body>
 
 </html>

@@ -19,8 +19,6 @@ if (!isLoggedIn() || !isAdmin()) {
 }
 
 
-// ---- GET THE EXHIBITION ID FROM THE URL ----
-
 $exhibitionId = $_GET["id"] ?? "";
 
 if (!ctype_digit((string)$exhibitionId)) {
@@ -31,9 +29,6 @@ if (!ctype_digit((string)$exhibitionId)) {
 $exhibitionId = (int)$exhibitionId;
 
 
-// Which status changes are allowed FROM each current status.
-// This keeps the lifecycle honest: an exhibition can only move
-// forward (or be cancelled), never skip around at random.
 $allowedTransitions = [
     "draft"              => ["artwork_submission", "cancelled"],
     "artwork_submission" => ["ready_to_publish", "cancelled"],
@@ -45,9 +40,6 @@ $allowedTransitions = [
 $errors   = [];
 $feedback = "";
 
-
-// ---- HANDLE A STATUS CHANGE ----
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -58,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $newStatus = $_POST["new_status"] ?? "";
 
-        // Re-fetch fresh, so we always check against the real current status.
         $stmt = $pdo->prepare("SELECT * FROM exhibitions WHERE id = :id");
         $stmt->bindValue(":id", $exhibitionId, PDO::PARAM_INT);
         $stmt->execute();
@@ -98,14 +89,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $updateStmt->bindValue(":id", $exhibitionId, PDO::PARAM_INT);
                 $updateStmt->execute();
 
-
-                // Let the organizer know their exhibition status changed.
                 $notifTitle = "Your exhibition status was updated";
                 $notifMessage = "\"" . $current["title"] . "\" is now: " . strtoupper($newStatus) . ".";
 
                 $notifStmt = $pdo->prepare(
                     "INSERT INTO notifications (user_id, title, message, is_read, created_at)
-                     VALUES (:user_id, :title, :message, 0, NOW())"
+                    VALUES (:user_id, :title, :message, 0, NOW())"
                 );
                 $notifStmt->bindValue(":user_id", $current["organizer_id"], PDO::PARAM_INT);
                 $notifStmt->bindValue(":title", $notifTitle);
@@ -121,9 +110,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 }
-
-
-// ---- FETCH THE EXHIBITION FOR DISPLAY ----
 
 $sql = "SELECT e.*, u.first_name, u.last_name, u.email
         FROM exhibitions e
@@ -141,21 +127,15 @@ if (!$exhibition) {
     exit;
 }
 
-
-// ---- ARTISTS ATTACHED TO THIS EXHIBITION ----
-
 $artistStmt = $pdo->prepare(
     "SELECT a.*
-     FROM exhibition_artists ea
-     JOIN artists a ON a.id = ea.artist_id
-     WHERE ea.exhibition_id = :exhibition_id"
+    FROM exhibition_artists ea
+    JOIN artists a ON a.id = ea.artist_id
+    WHERE ea.exhibition_id = :exhibition_id"
 );
 $artistStmt->bindValue(":exhibition_id", $exhibitionId, PDO::PARAM_INT);
 $artistStmt->execute();
 $artists = $artistStmt->fetchAll();
-
-
-// ---- ARTWORKS SUBMITTED FOR THIS EXHIBITION ----
 
 $artworkStmt = $pdo->prepare(
     "SELECT * FROM artworks WHERE exhibition_id = :exhibition_id ORDER BY created_at DESC"
@@ -212,8 +192,6 @@ require_once "admin-head.php";
     <?php endif; ?>
 
 
-    <!-- EXHIBITION DETAILS -->
-
     <div class="account-information">
 
         <div class="account-row">
@@ -269,9 +247,6 @@ require_once "admin-head.php";
         <p><?php echo nl2br(htmlspecialchars($exhibition["description"])); ?></p>
     </div>
 
-
-    <!-- ARTISTS LIST -->
-
     <div class="admin-text-block">
 
         <h4>ARTISTS</h4>
@@ -289,9 +264,6 @@ require_once "admin-head.php";
         <?php endif; ?>
 
     </div>
-
-
-    <!-- ARTWORKS LIST -->
 
     <div class="admin-text-block">
 
@@ -316,9 +288,6 @@ require_once "admin-head.php";
         <?php endif; ?>
 
     </div>
-
-
-    <!-- STATUS ACTIONS -->
 
     <?php if (!empty($nextSteps)): ?>
 

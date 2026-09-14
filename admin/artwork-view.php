@@ -21,9 +21,6 @@ if (!isLoggedIn() || !isAdmin()) {
 
 $adminId = $_SESSION["user_id"];
 
-
-// ---- GET THE ARTWORK ID FROM THE URL ----
-
 $artworkId = $_GET["id"] ?? "";
 
 if (!ctype_digit((string)$artworkId)) {
@@ -38,8 +35,6 @@ $errors   = [];
 $feedback = "";
 
 
-// ---- HANDLE APPROVE / REJECT ----
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -51,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $action    = $_POST["action"] ?? "";
         $adminNote = trim($_POST["admin_note"] ?? "");
 
-        // Re-fetch fresh so we always act on the current status.
         $stmt = $pdo->prepare("SELECT * FROM artworks WHERE id = :id");
         $stmt->bindValue(":id", $artworkId, PDO::PARAM_INT);
         $stmt->execute();
@@ -75,21 +69,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $updateStmt = $pdo->prepare(
                 "UPDATE artworks
-                 SET status = :status, admin_note = :admin_note, reviewed_at = NOW()
-                 WHERE id = :id"
+                SET status = :status, admin_note = :admin_note, reviewed_at = NOW()
+                WHERE id = :id"
             );
             $updateStmt->bindValue(":status", $newStatus);
             $updateStmt->bindValue(":admin_note", $adminNote !== "" ? $adminNote : null);
             $updateStmt->bindValue(":id", $artworkId, PDO::PARAM_INT);
             $updateStmt->execute();
 
-
-            // Notify the exhibition organizer of the decision.
             $orgStmt = $pdo->prepare(
                 "SELECT e.organizer_id, e.title AS exhibition_title
-                 FROM exhibitions e
-                 JOIN artworks aw ON aw.exhibition_id = e.id
-                 WHERE aw.id = :id"
+                FROM exhibitions e
+                JOIN artworks aw ON aw.exhibition_id = e.id
+                WHERE aw.id = :id"
             );
             $orgStmt->bindValue(":id", $artworkId, PDO::PARAM_INT);
             $orgStmt->execute();
@@ -107,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 $notifStmt = $pdo->prepare(
                     "INSERT INTO notifications (user_id, title, message, is_read, created_at)
-                     VALUES (:user_id, :title, :message, 0, NOW())"
+                    VALUES (:user_id, :title, :message, 0, NOW())"
                 );
                 $notifStmt->bindValue(":user_id", $organizer["organizer_id"], PDO::PARAM_INT);
                 $notifStmt->bindValue(":title", $notifTitle);
@@ -127,9 +119,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 }
-
-
-// ---- FETCH ARTWORK FOR DISPLAY ----
 
 $sql = "SELECT aw.*, e.title AS exhibition_title, a.name AS artist_name
         FROM artworks aw
@@ -173,7 +162,6 @@ require_once "admin-head.php";
 
     </div>
 
-
     <?php if (!empty($feedback)): ?>
         <div class="inquiry-success-note">
             <p><?php echo htmlspecialchars($feedback); ?></p>
@@ -188,7 +176,6 @@ require_once "admin-head.php";
         </div>
     <?php endif; ?>
 
-
     <?php if (!empty($artwork["image"])): ?>
         <img
             src="../<?php echo htmlspecialchars($artwork['image']); ?>"
@@ -196,7 +183,6 @@ require_once "admin-head.php";
             style="max-width:320px; display:block; margin-bottom:30px;"
         >
     <?php endif; ?>
-
 
     <div class="account-information">
 
@@ -226,10 +212,12 @@ require_once "admin-head.php";
         </div>
 
         <?php if (!empty($artwork["price"])): ?>
+
             <div class="account-row">
                 <span>PRICE</span>
                 <strong><?php echo htmlspecialchars($artwork["price"]); ?></strong>
             </div>
+
         <?php endif; ?>
 
         <div class="account-row">
@@ -238,31 +226,34 @@ require_once "admin-head.php";
         </div>
 
         <?php if (!empty($artwork["reviewed_at"])): ?>
+
             <div class="account-row">
                 <span>REVIEWED ON</span>
                 <strong><?php echo date("F j, Y g:i A", strtotime($artwork["reviewed_at"])); ?></strong>
             </div>
+
         <?php endif; ?>
 
     </div>
 
 
     <?php if (!empty($artwork["description"])): ?>
+
         <div class="admin-text-block">
             <h4>DESCRIPTION</h4>
             <p><?php echo nl2br(htmlspecialchars($artwork["description"])); ?></p>
         </div>
+
     <?php endif; ?>
 
     <?php if (!empty($artwork["admin_note"])): ?>
+
         <div class="admin-text-block">
             <h4>ADMIN NOTE</h4>
             <p><?php echo nl2br(htmlspecialchars($artwork["admin_note"])); ?></p>
         </div>
+
     <?php endif; ?>
-
-
-    <!-- APPROVE / REJECT ACTIONS -->
 
     <?php if ($artwork["status"] === "pending"): ?>
 

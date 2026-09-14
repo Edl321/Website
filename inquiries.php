@@ -5,21 +5,12 @@ session_start();
 require_once "../database/config.php";
 require_once "../security/authorize.php";
 
-
-// Only logged-in ADMIN users may view this page.
-// NOTE: this assumes security/authorize.php provides an isAdmin()
-// function (matching your users.role column: 'user' / 'admin').
-// If your authorize.php uses a different function name, just
-// swap it in here.
 if (!isLoggedIn() || !isAdmin()) {
 
     header("Location: ../login.php");
     exit;
 
 }
-
-
-// ---- STATUS FILTER (tabs) ----
 
 $allowedStatuses = ["all", "pending", "approved", "rejected"];
 
@@ -29,8 +20,6 @@ if (!in_array($statusFilter, $allowedStatuses, true)) {
     $statusFilter = "all";
 }
 
-
-// ---- FETCH INQUIRIES ----
 
 if ($statusFilter === "all") {
 
@@ -59,12 +48,10 @@ if ($statusFilter === "all") {
 $inquiries = $stmt->fetchAll();
 
 
-// ---- COUNTS FOR TABS ----
-
 $countStmt = $pdo->query(
     "SELECT status, COUNT(*) AS total
-     FROM exhibition_inquiries
-     GROUP BY status"
+    FROM exhibition_inquiries
+    GROUP BY status"
 );
 
 $counts = [
@@ -86,7 +73,6 @@ $totalCount = array_sum($counts);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Exhibition Inquiries | EDL Gallery Admin</title>
     <link rel="icon" type="image/x-icon" href="../image/logo.png">
     <link rel="stylesheet" href="../style.css">
@@ -111,9 +97,6 @@ $totalCount = array_sum($counts);
         </p>
 
     </div>
-
-
-    <!-- STATUS TABS -->
 
     <div class="admin-tabs">
 
@@ -146,9 +129,6 @@ $totalCount = array_sum($counts);
         </a>
 
     </div>
-
-
-    <!-- INQUIRIES LIST -->
 
     <?php if (empty($inquiries)): ?>
 
@@ -230,8 +210,8 @@ $totalCount = array_sum($counts);
 
 </section>
 
-
 <?php require_once "../include/footer.php"; ?>
 
-</body>
+    </body>
+
 </html>

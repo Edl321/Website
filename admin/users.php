@@ -10,7 +10,6 @@ require_once "../security/authorize.php";
 require_once "../security/shield.php";
 require_once "admin-includes/helpers.php";
 
-
 if (!isLoggedIn() || !isAdmin()) {
 
     header("Location: ../login.php");
@@ -18,14 +17,10 @@ if (!isLoggedIn() || !isAdmin()) {
 
 }
 
-
 $adminId = $_SESSION["user_id"];
 
 $errors   = [];
 $feedback = "";
-
-
-// ---- HANDLE ROLE CHANGE ----
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -47,8 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } elseif ((int)$targetId === (int)$adminId) {
 
-            // An admin should never be able to demote/change their own
-            // role from this page - that could lock them out.
             $errors[] = "You cannot change your own role here.";
 
         } else {
@@ -68,9 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 }
 
-
-// ---- FETCH ALL USERS ----
-
 $users = $pdo->query(
     "SELECT id, first_name, last_name, email, role, created_at
     FROM users
@@ -81,6 +71,7 @@ $pageTitle  = "Users";
 $activePage = "users";
 require_once "admin-head.php";
 ?>
+
 
 <section class="admin-page">
 
@@ -100,7 +91,6 @@ require_once "admin-head.php";
 
     </div>
 
-
     <?php if (!empty($feedback)): ?>
         <div class="inquiry-success-note">
             <p><?php echo htmlspecialchars($feedback); ?></p>
@@ -114,7 +104,6 @@ require_once "admin-head.php";
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
 
     <?php foreach ($users as $user): ?>
 

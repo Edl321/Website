@@ -1,8 +1,4 @@
 <?php
-
-// Expects $activePage to be set by the including page (see admin-head.php).
-// Falls back to "" (nothing highlighted) if it wasn't provided.
-
 $activePage = $activePage ?? "";
 
 $adminNavItems = [

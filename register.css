@@ -51,7 +51,6 @@ form {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-
 form label {
     display: block;
     margin-bottom: 8px;
@@ -59,8 +58,6 @@ form label {
     font-size: 15px;
     font-weight: 600;
 }
-
-
 
 form input {
     width: 100%;
@@ -75,158 +72,87 @@ form input {
     transition: 0.3s ease;
 }
 
-
-/* Input focus */
-
 form input:focus {
-    border-color: #ff7a00;
-
+    border-color: #ff7200;
     box-shadow: 0 0 0 2px rgba(255, 122, 0, 0.15);
 }
 
-
-/* =========================================
-   REGISTER BUTTON
-   ========================================= */
-
 form button {
     width: 100%;
-
     padding: 15px 20px;
-
     margin-top: 5px;
-
     border: none;
-
-    background-color: #ff7a00;
-
+    background-color: #ff7200;
     color: #fff;
-
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 16px;
     font-weight: 600;
-
     cursor: pointer;
-
     transition: 0.3s ease;
 }
 
-
-/* Button hover */
-
 form button:hover {
     background-color: #111;
-
     color: #fff;
-
     transform: translateY(-2px);
 }
-
-
-/* =========================================
-   ERROR MESSAGES
-   ========================================= */
 
 body > div {
     width: 500px;
     max-width: 100%;
-
     margin-bottom: 20px;
-
     padding: 15px 20px;
-
     background-color: #fff0f0;
-
     border-left: 4px solid #b00020;
 }
 
 body > div p {
     margin: 0 0 5px;
-
     color: #b00020;
-
     font-size: 14px;
     line-height: 1.5;
 }
 
 
-/* =========================================
-   SUCCESS MESSAGE
-   ========================================= */
-
 body > div p a {
     color: #ff7a00;
-
     font-weight: 600;
-
     text-decoration: none;
 }
 
 body > div p a:hover {
     color: #111;
-
     text-decoration: underline;
 }
-
-
-/* =========================================
-   LOGIN LINK
-   ========================================= */
 
 body > p {
     width: 500px;
     max-width: 100%;
-
     margin-top: 25px;
-
     color: #555;
-
     font-size: 14px;
-
     text-align: center;
 }
 
-
-/* Login link */
-
 body > p a {
-    color: #ff7a00;
-
+    color: #ff7200;
     font-weight: 600;
-
     text-decoration: none;
-
     transition: 0.3s ease;
 }
 
 body > p a:hover {
     color: #111;
-
     text-decoration: underline;
 }
-
-
-/* =========================================
-   REMOVE BR SPACING
-   ========================================= */
 
 form br {
     display: none;
 }
 
-
-/* =========================================
-   FIELD SPACING
-   ========================================= */
-
 form label:not(:first-of-type) {
     margin-top: 20px;
 }
-
-
-/* =========================================
-   MOBILE
-   ========================================= */
 
 @media (max-width: 600px) {
 

@@ -13,9 +13,6 @@ if (!isLoggedIn() || !isAdmin()) {
 
 }
 
-
-// ---- STATUS FILTER (tabs) ----
-
 $allowedStatuses = [
     "all", "draft", "artwork_submission",
     "ready_to_publish", "published", "completed", "cancelled"
@@ -26,9 +23,6 @@ $statusFilter = $_GET["status"] ?? "all";
 if (!in_array($statusFilter, $allowedStatuses, true)) {
     $statusFilter = "all";
 }
-
-
-// ---- FETCH EXHIBITIONS ----
 
 if ($statusFilter === "all") {
 
@@ -56,8 +50,6 @@ if ($statusFilter === "all") {
 
 $exhibitions = $stmt->fetchAll();
 
-
-// ---- COUNTS FOR TABS ----
 
 $countStmt = $pdo->query(
     "SELECT status, COUNT(*) AS total FROM exhibitions GROUP BY status"

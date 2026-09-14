@@ -6,20 +6,10 @@ $basePath = "";
 require_once "database/config.php";
 require_once "security/shield.php";
 
-
-// =========================================================
-// ONLY ALLOW POST
-// =========================================================
-
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: contact.php");
     exit;
 }
-
-
-// =========================================================
-// CSRF CHECK
-// =========================================================
 
 if (!verify_csrf_token()) {
     header("Location: contact.php?error=csrf");
@@ -27,19 +17,11 @@ if (!verify_csrf_token()) {
 }
 
 
-// =========================================================
-// GET + TRIM FORM VALUES
-// =========================================================
-
 $name    = trim($_POST["name"] ?? "");
 $email   = trim($_POST["email"] ?? "");
 $subject = trim($_POST["subject"] ?? "");
 $message = trim($_POST["message"] ?? "");
 
-
-// =========================================================
-// VALIDATION
-// =========================================================
 
 $errors = [];
 
@@ -65,13 +47,6 @@ if (!empty($errors)) {
 }
 
 
-// =========================================================
-// SAVE THE MESSAGE
-//
-// If a contact_messages table exists, insert into it.
-// Otherwise, write to a log file so the message isn't lost.
-// =========================================================
-
 try {
 
     $insertStmt = $pdo->prepare("
@@ -89,9 +64,6 @@ try {
     $insertStmt->execute();
 
 } catch (PDOException $e) {
-
-    // Table doesn't exist yet — fall back to a log file so
-    // we don't lose the message.
 
     $logDirectory = __DIR__ . "/logs";
 
@@ -120,11 +92,6 @@ try {
     }
 
 }
-
-
-// =========================================================
-// REDIRECT BACK WITH SUCCESS
-// =========================================================
 
 header("Location: contact.php?success=1");
 exit;

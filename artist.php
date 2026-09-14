@@ -4,8 +4,6 @@ require_once "includes/function.php";
 require_once "database/config.php";
 require_once "security/authorize.php";
 
-
-// Get artists from database
 $sql = "SELECT *
         FROM artists
         ORDER BY name ASC";
@@ -36,6 +34,7 @@ $artists = $stmt->fetchAll();
 <?php require_once "includes/header.php"; ?>
 
 <section class="art-page-layout">
+
     <div class="artpage-text">
 
         <h1>
@@ -47,15 +46,15 @@ $artists = $stmt->fetchAll();
             behind the art.
         </p>
     </div>
+
 </section>
+
 
 <section class="artist-section">
 
     <div class="artist-container">
 
-
         <?php if (empty($artists)): ?>
-
 
             <div class="no-artists">
 
@@ -69,69 +68,41 @@ $artists = $stmt->fetchAll();
 
             </div>
 
-
         <?php else: ?>
-
 
             <?php foreach ($artists as $artist): ?>
 
-
                 <article class="artist-card">
-
 
                     <?php if (!empty($artist["image"])): ?>
 
-                        <img
-                            src="<?php echo htmlspecialchars(
-                                edlImagePath($artist["image"]),
-                                ENT_QUOTES,
-                                "UTF-8"
-                            ); ?>"
-                            alt="<?php echo htmlspecialchars(
-                                $artist["name"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            ); ?>"
+                        <img src="<?php echo htmlspecialchars(edlImagePath($artist["image"]),ENT_QUOTES,"UTF-8"); ?>"
+                                alt="<?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8"); ?>"
                         >
 
                     <?php endif; ?>
 
-
                     <div class="artist-info">
 
                         <h2>
-                            <?php echo htmlspecialchars(
-                                $artist["name"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            ); ?>
+                            <?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8"); ?>
                         </h2>
 
-
                         <p>
-                            <?php echo htmlspecialchars(
-                                $artist["biography"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            ); ?>
+                            <?php echo htmlspecialchars($artist["biography"],ENT_QUOTES,"UTF-8"); ?>
                         </p>
 
                     </div>
 
-
                 </article>
-
 
             <?php endforeach; ?>
 
-
         <?php endif; ?>
-
 
     </div>
 
 </section>
-
 
 
 <?php require_once "includes/footer.php"; ?>

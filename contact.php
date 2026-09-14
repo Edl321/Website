@@ -40,9 +40,11 @@ require_once "security/shield.php";
         <div class="contact-hero-image">
 
             <img src="Images/contact.png" alt="EDL Gallery">
+            
         </div>
 
     </section>
+
 
     <section class="contact-info">
 
@@ -57,11 +59,7 @@ require_once "security/shield.php";
 
         </div>
 
-
         <div class="contact-container">
-
-
-            <!-- LOCATION -->
 
             <div class="contact-card">
 
@@ -91,9 +89,6 @@ require_once "security/shield.php";
                 </p>
 
             </div>
-
-
-            <!-- EMAIL -->
 
             <div class="contact-card">
 
@@ -141,9 +136,6 @@ require_once "security/shield.php";
 
             <?php echo csrf_field(); ?>
 
-
-            <!-- SUCCESS MESSAGE -->
-
             <?php if (isset($_GET["success"])): ?>
 
                 <div class="contact-success">
@@ -154,9 +146,6 @@ require_once "security/shield.php";
                 </div>
 
             <?php endif; ?>
-
-
-            <!-- ERROR MESSAGES -->
 
             <?php if (isset($_GET["error"])): ?>
 
@@ -187,7 +176,6 @@ require_once "security/shield.php";
 
             <?php endif; ?>
 
-
             <div class="form-row">
 
                 <div class="form-group">
@@ -207,7 +195,6 @@ require_once "security/shield.php";
 
                 </div>
 
-
                 <div class="form-group">
 
                     <label for="email">
@@ -226,7 +213,6 @@ require_once "security/shield.php";
                 </div>
 
             </div>
-
 
             <div class="form-group">
 
@@ -273,6 +259,7 @@ require_once "security/shield.php";
 
     </section>
 
+
     <section class="find-section">
 
         <div class="find-text">
@@ -298,13 +285,12 @@ require_once "security/shield.php";
 
         <div class="map-container">
 
-            <img
-                src="Images/gallery-map.png"
-                alt="EDL Gallery Location">
+            <img src="Images/gallery-map.png" alt="EDL Gallery Location">
 
         </div>
 
     </section>
+
 
     <section class="contact-cta">
 

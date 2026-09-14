@@ -19,8 +19,6 @@ if (!isLoggedIn() || !isAdmin()) {
 }
 
 
-// ---- GET THE ARTIST ID FROM THE URL ----
-
 $artistId = $_GET["id"] ?? "";
 
 if (!ctype_digit((string)$artistId)) {
@@ -35,8 +33,6 @@ $errors   = [];
 $feedback = "";
 
 
-// ---- HANDLE DELETE FROM THIS PAGE ----
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -47,14 +43,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         try {
 
-            // Fetch the artist first so we know the current image path.
             $artistToDelete = getArtistById($pdo, $artistId);
 
             $deleteStmt = $pdo->prepare("DELETE FROM artists WHERE id = :id");
             $deleteStmt->bindValue(":id", $artistId, PDO::PARAM_INT);
             $deleteStmt->execute();
 
-            // Clean up the photo on disk now that the row is gone.
+
             if ($artistToDelete) {
                 deleteManagedImage((string)$artistToDelete["image"], "artists/artist_");
             }
@@ -72,9 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 }
 
-
-// ---- FETCH THE ARTIST FOR DISPLAY ----
-
 $artist = getArtistById($pdo, $artistId);
 
 if (!$artist) {
@@ -83,28 +75,23 @@ if (!$artist) {
 }
 
 
-// ---- EXHIBITIONS THIS ARTIST IS ATTACHED TO ----
-
 $exhibitionStmt = $pdo->prepare(
     "SELECT e.id, e.title, e.status
-     FROM exhibition_artists ea
-     JOIN exhibitions e ON e.id = ea.exhibition_id
-     WHERE ea.artist_id = :artist_id
-     ORDER BY e.start_date DESC"
+    FROM exhibition_artists ea
+    JOIN exhibitions e ON e.id = ea.exhibition_id
+    WHERE ea.artist_id = :artist_id
+    ORDER BY e.start_date DESC"
 );
 $exhibitionStmt->bindValue(":artist_id", $artistId, PDO::PARAM_INT);
 $exhibitionStmt->execute();
 $exhibitions = $exhibitionStmt->fetchAll();
 
-
-// ---- ARTWORKS BY THIS ARTIST ----
-
 $artworkStmt = $pdo->prepare(
     "SELECT aw.id, aw.title, aw.status, e.title AS exhibition_title
-     FROM artworks aw
-     JOIN exhibitions e ON e.id = aw.exhibition_id
-     WHERE aw.artist_id = :artist_id
-     ORDER BY aw.created_at DESC"
+    FROM artworks aw
+    JOIN exhibitions e ON e.id = aw.exhibition_id
+    WHERE aw.artist_id = :artist_id
+    ORDER BY aw.created_at DESC"
 );
 $artworkStmt->bindValue(":artist_id", $artistId, PDO::PARAM_INT);
 $artworkStmt->execute();
@@ -181,9 +168,6 @@ require_once "admin-head.php";
         <p><?php echo nl2br(htmlspecialchars($artist["biography"])); ?></p>
     </div>
 
-
-    <!-- EXHIBITIONS LIST -->
-
     <div class="admin-text-block">
 
         <h4>EXHIBITIONS</h4>
@@ -207,9 +191,6 @@ require_once "admin-head.php";
         <?php endif; ?>
 
     </div>
-
-
-    <!-- ARTWORKS LIST -->
 
     <div class="admin-text-block">
 
@@ -236,8 +217,6 @@ require_once "admin-head.php";
 
     </div>
 
-
-    <!-- ACTIONS -->
 
     <div class="admin-action-box" style="margin-top: 30px;">
 

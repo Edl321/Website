@@ -17,9 +17,6 @@ if (!isLoggedIn() || !isAdmin()) {
 
 }
 
-
-// ---- QUICK STATS ----
-
 $pendingInquiries = $pdo->query(
     "SELECT COUNT(*) FROM exhibition_inquiries WHERE status = 'pending'"
 )->fetchColumn();
@@ -99,9 +96,6 @@ require_once "admin-head.php";
         </a>
 
     </div>
-
-
-    <!-- QUICK ACTIONS -->
 
     <div class="admin-header">
         <p class="admin-label">MANAGE</p>

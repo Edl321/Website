@@ -49,8 +49,6 @@
 
         </div>
 
-
-        <!-- ACCOUNT -->
         <div class="foot-column">
 
             <h3>ACCOUNT</h3>

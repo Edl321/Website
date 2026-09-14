@@ -11,11 +11,6 @@ if (!defined('EDL_ADMIN')) {
     exit;
 }
 
-
-// =========================================================
-// formatStatusLabel()
-// =========================================================
-
 function formatStatusLabel(string $status): string
 {
     $labels = [
@@ -30,11 +25,6 @@ function formatStatusLabel(string $status): string
     return $labels[$status] ?? strtoupper($status);
 }
 
-
-// =========================================================
-// getArtistById()
-// =========================================================
-
 function getArtistById(PDO $pdo, int $id): ?array
 {
     $stmt = $pdo->prepare("SELECT * FROM artists WHERE id = :id");
@@ -45,11 +35,6 @@ function getArtistById(PDO $pdo, int $id): ?array
 
     return $row ?: null;
 }
-
-
-// =========================================================
-// deleteManagedImage()
-// =========================================================
 
 function deleteManagedImage(string $storedPath, string $expectedPrefix): void
 {
@@ -71,11 +56,6 @@ function deleteManagedImage(string $storedPath, string $expectedPrefix): void
         @unlink($fullPath);
     }
 }
-
-
-// =========================================================
-// handleImageUpload()
-// =========================================================
 
 function handleImageUpload(
     array $file,

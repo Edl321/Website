@@ -167,147 +167,81 @@ if ($exhibition) {
 
 <?php if (!$exhibition): ?>
 
+<section class="exhibition-not-found">
 
-    <!-- =========================================================
-         EXHIBITION NOT FOUND
-    ========================================================= -->
+    <div class="exhibition-not-found-content">
 
-    <section class="exhibition-not-found">
+        <p class="exhibition-details-label"> EDL GALLERY </p>
 
-        <div class="exhibition-not-found-content">
+        <h1> EXHIBITION NOT FOUND </h1>
 
-            <p class="exhibition-details-label">
-                EDL GALLERY
-            </p>
+        <p>
+            The exhibition you are looking for is no longer
+            available or has not been published.
+        </p>
 
-            <h1>
-                EXHIBITION NOT FOUND
-            </h1>
+        <a href="exhibition.php" class="exhibition-back-link">
+            &larr; BACK TO EXHIBITIONS
+        </a>
 
-            <p>
-                The exhibition you are looking for is no longer
-                available or has not been published.
-            </p>
+    </div>
 
-            <a
-                href="exhibition.php"
-                class="exhibition-back-link"
-            >
-                &larr; BACK TO EXHIBITIONS
-            </a>
-
-        </div>
-
-    </section>
+</section>
 
 
 <?php else: ?>
 
 
-    <!-- =========================================================
-         HERO
-    ========================================================= -->
+<section class="exhibition-details-hero">
 
-    <section class="exhibition-details-hero">
+    <?php if (!empty($exhibition["image"])): ?>
 
-        <?php if (!empty($exhibition["image"])): ?>
+        <div class="exhibition-details-hero-image">
 
-            <div class="exhibition-details-hero-image">
-
-                <img
-                    src="<?php echo htmlspecialchars(
-                        edlImagePath($exhibition["image"]),
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?>"
-                    alt="<?php echo htmlspecialchars(
-                        $exhibition["title"],
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?>"
-                >
-
-            </div>
-
-        <?php endif; ?>
-
-
-        <div class="exhibition-details-hero-content">
-
-            <p class="exhibition-details-label">
-                EDL GALLERY
-            </p>
-
-            <h1>
-                <?php echo htmlspecialchars(
-                    $exhibition["title"],
-                    ENT_QUOTES,
-                    "UTF-8"
-                ); ?>
-            </h1>
-
-            <div class="exhibition-details-date">
-
-                <?php
-                echo date(
-                    "F j, Y",
-                    strtotime($exhibition["start_date"])
-                );
-
-                echo " &ndash; ";
-
-                echo date(
-                    "F j, Y",
-                    strtotime($exhibition["end_date"])
-                );
-                ?>
-
-            </div>
+            <img src="<?php echo htmlspecialchars(edlImagePath($exhibition["image"]),ENT_QUOTES,"UTF-8"); ?>"
+                alt="<?php echo htmlspecialchars($exhibition["title"],ENT_QUOTES,"UTF-8"); ?>"
+            >
 
         </div>
 
-    </section>
+        <?php endif; ?>
+
+        <div class="exhibition-details-hero-content">
+
+            <p class="exhibition-details-label"> EDL GALLERY </p>
+
+            <h1><?php echo htmlspecialchars($exhibition["title"],ENT_QUOTES,"UTF-8"); ?></h1>
+        
+        </div>
+
+        <div class="exhibition-details-date">
+
+            <?php echo date("F j, Y",strtotime($exhibition["start_date"]));
+                echo " &ndash; ";
+                echo date("F j, Y",strtotime($exhibition["end_date"]));
+            ?>
+
+        </div>
+
+</section>
 
 
-    <!-- =========================================================
-         DESCRIPTION
-    ========================================================= -->
+<section class="exhibition-details-section">
 
-    <section class="exhibition-details-section">
+    <div class="exhibition-details-container">
 
-        <div class="exhibition-details-container">
+        <a href="exhibition.php" class="exhibition-back-link"> &larr; BACK TO EXHIBITIONS </a>
 
-            <a
-                href="exhibition.php"
-                class="exhibition-back-link"
-            >
-                &larr; BACK TO EXHIBITIONS
-            </a>
+    <div class="exhibition-description-block">
 
-            <div class="exhibition-description-block">
+        <p class="exhibition-section-label"> ABOUT THE EXHIBITION </p>
 
-                <p class="exhibition-section-label">
-                    ABOUT THE EXHIBITION
-                </p>
-
-                <h2>
-                    <?php echo htmlspecialchars(
-                        $exhibition["title"],
-                        ENT_QUOTES,
-                        "UTF-8"
-                    ); ?>
-                </h2>
+            <h2><?php echo htmlspecialchars($exhibition["title"],ENT_QUOTES,"UTF-8"); ?></h2>
 
                 <?php if (!empty($exhibition["description"])): ?>
 
-                    <p class="exhibition-full-description">
-                        <?php echo nl2br(
-                            htmlspecialchars(
-                                $exhibition["description"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            )
-                        ); ?>
+                <p class="exhibition-full-description">
+                    <?php echo nl2br(htmlspecialchars($exhibition["description"],ENT_QUOTES,"UTF-8")); ?>
                     </p>
 
                 <?php else: ?>
@@ -323,111 +257,80 @@ if ($exhibition) {
 
         </div>
 
-    </section>
+</section>
 
 
-    <!-- =========================================================
-         FEATURED ARTISTS
-    ========================================================= -->
+<section class="exhibition-artists-section">
 
-    <section class="exhibition-artists-section">
+    <div class="exhibition-details-container">
 
-        <div class="exhibition-details-container">
+        <div class="exhibition-section-heading">
 
-            <div class="exhibition-section-heading">
+            <p class="exhibition-section-label"> THE ARTISTS </p>
 
-                <p class="exhibition-section-label">
-                    THE ARTISTS
-                </p>
+                <h2> Featured Artists</h2>
 
-                <h2>
-                    Featured Artists
-                </h2>
+    </div>
 
-            </div>
+        <?php if (empty($artists)): ?>
 
-            <?php if (empty($artists)): ?>
+    <div class="exhibition-empty-section">
 
-                <div class="exhibition-empty-section">
+        <p> Artist information will be available soon. </p>
 
-                    <p>
-                        Artist information will be available soon.
-                    </p>
+    </div>
 
-                </div>
+        <?php else: ?>
 
-            <?php else: ?>
-
-                <div class="exhibition-artists-grid">
+            <div class="exhibition-artists-grid">
 
                     <?php foreach ($artists as $artist): ?>
 
-                        <article class="exhibition-artist-card">
+                    <article class="exhibition-artist-card">
 
                             <?php if (!empty($artist["image"])): ?>
 
-                                <div class="exhibition-artist-image">
+                        <div class="exhibition-artist-image">
 
-                                    <img
-                                        src="<?php echo htmlspecialchars(
-                                            edlImagePath($artist["image"]),
-                                            ENT_QUOTES,
-                                            "UTF-8"
-                                        ); ?>"
-                                        alt="<?php echo htmlspecialchars(
-                                            $artist["name"],
-                                            ENT_QUOTES,
-                                            "UTF-8"
-                                        ); ?>"
-                                    >
+                            <img src="<?php echo htmlspecialchars(edlImagePath($artist["image"]),ENT_QUOTES,"UTF-8"); ?>"
+                                alt="<?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8"); ?>"
+                            >
 
-                                </div>
+                        </div>
 
                             <?php endif; ?>
 
-                            <div class="exhibition-artist-info">
+                        <div class="exhibition-artist-info">
 
                                 <h3>
-                                    <?php echo htmlspecialchars(
-                                        $artist["name"],
-                                        ENT_QUOTES,
-                                        "UTF-8"
-                                    ); ?>
+                                    <?php echo htmlspecialchars($artist["name"],ENT_QUOTES,"UTF-8"); ?>
                                 </h3>
 
                                 <?php if (!empty($artist["biography"])): ?>
 
-                                    <p>
-                                        <?php echo nl2br(
-                                            htmlspecialchars(
-                                                $artist["biography"],
-                                                ENT_QUOTES,
-                                                "UTF-8"
-                                            )
-                                        ); ?>
-                                    </p>
+                                <p>
+                                    <?php echo nl2br(htmlspecialchars($artist["biography"],ENT_QUOTES,"UTF-8")); ?>
+                                </p>
 
-                                <?php else: ?>
+                            <?php else: ?>
 
-                                    <p>
-                                        Artist biography coming soon.
-                                    </p>
+                                <p> Artist biography coming soon. </p>
 
-                                <?php endif; ?>
+                            <?php endif; ?>
 
-                            </div>
+                        </div>
 
-                        </article>
+                    </article>
 
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
 
-                </div>
+            </div>
 
-            <?php endif; ?>
+        <?php endif; ?>
 
-        </div>
+    </div>
 
-    </section>
+</section>
 
 
     <!-- =========================================================

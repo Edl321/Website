@@ -9,18 +9,12 @@ require_once "security/shield.php";
 require_once "security/authorize.php";
 
 
-/* Only users can access notifications */
-
 if (!isUser()) {
     header("Location: login.php");
     exit;
 }
 
-
 $userId = $_SESSION["user_id"];
-
-
-/* Get all notifications for this user */
 
 $stmt = $pdo->prepare("
     SELECT id, title, message, is_read, created_at
@@ -34,9 +28,6 @@ $stmt->execute([
 ]);
 
 $notifications = $stmt->fetchAll();
-
-
-/* Count unread notifications */
 
 $unreadStmt = $pdo->prepare("
     SELECT COUNT(*)
@@ -59,212 +50,120 @@ $unreadCount = $unreadStmt->fetchColumn();
 <link rel="stylesheet" href="style.css">
 <main class="notification-page">
 
-    <section class="notification-hero">
+<section class="notification-hero">
 
-        <div class="notification-heading">
+    <div class="notification-heading">
 
-            <p class="notification-label">
-                UPDATES
-            </p>
+        <p class="notification-label">
+            UPDATES
+        </p>
 
-            <h1>
-                Notifications
-            </h1>
+        <h1>
+            Notifications
+        </h1>
 
-            <div class="notification-heading-meta">
+        <div class="notification-heading-meta">
 
-                <a href="dashboard.php" class="back-dashboard">
-                    ← BACK TO DASHBOARD
-                </a>
+            <a href="dashboard.php" class="back-dashboard"> ← BACK TO DASHBOARD </a>
 
-                <?php if ($unreadCount > 0): ?>
+                    <?php if ($unreadCount > 0): ?>
 
-                    <span class="notification-count">
-                        <?php echo (int)$unreadCount; ?> UNREAD
-                    </span>
+            <span class="notification-count">
 
-                <?php else: ?>
+                    <?php echo (int)$unreadCount; ?> UNREAD </span>
 
-                    <span class="notification-count no-unread">
-                        ALL READ
-                    </span>
+                    <?php else: ?>
 
-                <?php endif; ?>
+            <span class="notification-count no-unread"> ALL READ </span>
 
-            </div>
+                    <?php endif; ?>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
 
-    <!-- =====================================
-         NOTIFICATION LIST
-    ====================================== -->
-
-    <section class="notification-list-section">
-
+<section class="notification-list-section">
 
         <?php if (empty($notifications)): ?>
 
+    <div class="no-notifications">
 
-            <!-- NO NOTIFICATIONS -->
+        <p class="notification-label">UPDATES</p>
 
-            <div class="no-notifications">
+            <h2>No Notifications</h2>
 
-                <p class="notification-label">
-                    UPDATES
-                </p>
+        <p>You currently have no notifications.</p>
 
-
-                <h2>
-                    No Notifications
-                </h2>
-
-
-                <p>
-                    You currently have no notifications.
-                </p>
-
-            </div>
-
+    </div>
 
         <?php else: ?>
 
 
-            <!-- NOTIFICATION CARDS -->
-
-            <div class="notification-list">
-
+    <div class="notification-list">
 
                 <?php foreach ($notifications as $notification): ?>
 
+            <article class="notification-card<?php echo $notification["is_read"] ? "read" : "unread"; ?>">
 
-                    <article
-                        class="notification-card
-                        <?php echo $notification["is_read"] ? "read" : "unread"; ?>"
-                    >
+        <div class="notification-card-content">
 
+            <div class="notification-card-top">
 
-                        <div class="notification-card-content">
+                <h2>
+                <?php echo htmlspecialchars($notification["title"]);?>
+                </h2>
 
-
-                            <!-- TITLE + NEW -->
-
-                            <div class="notification-card-top">
-
-
-                                <h2>
-
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $notification["title"]
-                                    );
-                                    ?>
-
-                                </h2>
-
-
-                                <?php if (!$notification["is_read"]): ?>
-
-                                    <span class="notification-status">
-                                        NEW
-                                    </span>
-
-                                <?php endif; ?>
-
-
-                            </div>
-
-
-
-                            <!-- MESSAGE -->
-
-                            <p class="notification-message">
-
-                                <?php
-
-                                echo nl2br(
-                                    htmlspecialchars(
-                                        $notification["message"]
-                                    )
-                                );
-
-                                ?>
-
-                            </p>
-
-
-
-                            <!-- DATE -->
-
-                            <p class="notification-date">
-
-                                <?php
-
-                                echo date(
-                                    "F j, Y • g:i A",
-                                    strtotime(
-                                        $notification["created_at"]
-                                    )
-                                );
-
-                                ?>
-
-                            </p>
-
-
-
-                            <!-- MARK AS READ -->
-
-                            <?php if (!$notification["is_read"]): ?>
-
-
-                                <form
-                                    action="notification-read.php"
-                                    method="POST"
-                                    class="notification-read-form"
-                                >
-
-
-                                    <?php echo csrf_field(); ?>
-
-
-                                    <input
-                                        type="hidden"
-                                        name="notification_id"
-                                        value="<?php echo (int)$notification["id"]; ?>"
-                                    >
-
-
-                                    <button type="submit">
-                                        MARK AS READ
-                                    </button>
-
-
-                                </form>
-
-
-                            <?php endif; ?>
-
-
-                        </div>
-
-
-                    </article>
-
-
-                <?php endforeach; ?>
-
+                    <?php if (!$notification["is_read"]): ?>
+                        <span class="notification-status">NEW</span>
+                    <?php endif; ?>
 
             </div>
 
+                <p class="notification-message">
+                <?php echo nl2br(htmlspecialchars($notification["message"]));?>
+                </p>
+
+                <p class="notification-date">
+                <?php echo date("F j, Y • g:i A",strtotime($notification["created_at"]));?>
+                </p>
+
+            <?php if (!$notification["is_read"]): ?>
+
+                <form
+                    action="notification-read.php"
+                    method="POST"
+                    class="notification-read-form"
+                >
+
+        <?php echo csrf_field(); ?>
+
+                <input
+                    type="hidden"
+                    name="notification_id"
+                    value="<?php echo (int)$notification["id"]; ?>"
+                >
+
+                <button type="submit">MARK AS READ</button>
+
+                </form>
 
         <?php endif; ?>
 
+        </div>
 
-    </section>
+            </article>
+
+        <?php endforeach; ?>
+
+</div>
+
+        <?php endif; ?>
+
+</section>
 
 
 </main>

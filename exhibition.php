@@ -6,15 +6,11 @@ require_once "database/config.php";
 $basePath = "";
 
 
-// =========================================================
-// GET ALL UPCOMING EXHIBITIONS
-// =========================================================
-
 $sql = "
     SELECT *
     FROM exhibitions
     WHERE end_date >= CURDATE()
-      AND status = 'published'
+    AND status = 'published'
     ORDER BY start_date ASC
 ";
 
@@ -22,12 +18,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 
 $exhibitions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-// =========================================================
-// GET THE FIRST UPCOMING EXHIBITION
-// =========================================================
-
 $featuredExhibition = $exhibitions[0] ?? null;
 
 ?>
@@ -38,16 +28,11 @@ $featuredExhibition = $exhibitions[0] ?? null;
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exhibitions | EDL Gallery</title>
-
     <link rel="icon" type="image/x-icon" href="Images/logo.png">
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -149,15 +134,7 @@ $featuredExhibition = $exhibitions[0] ?? null;
 </section>
 
 
-
-<!-- =========================================
-     UPCOMING EXHIBITIONS
-========================================= -->
-
-<section
-    class="upcoming-exhibition-layout"
-    id="upcoming-exhibitions"
->
+<section class="upcoming-exhibition-layout" id="upcoming-exhibitions">
 
     <div class="upcoming-content">
 
@@ -176,18 +153,11 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
             </div>
 
-
         <?php else: ?>
-
 
             <?php foreach ($exhibitions as $exhibition): ?>
 
-                <!-- =========================================
-                     EXHIBITION CARD
-                ========================================= -->
-
                 <article class="upcoming-card">
-
 
                     <?php if (!empty($exhibition["image"])): ?>
 
@@ -210,7 +180,6 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
                     <?php endif; ?>
 
-
                     <div class="upcoming-info">
 
                         <h3>
@@ -227,46 +196,18 @@ $featuredExhibition = $exhibitions[0] ?? null;
 
 
                         <p>
-
-                            <?php
-                            echo date(
-                                "F j",
-                                strtotime($exhibition["start_date"])
-                            );
-                            ?>
-
-                            -
-
-                            <?php
-                            echo date(
-                                "F j, Y",
-                                strtotime($exhibition["end_date"])
-                            );
-                            ?>
-
+                            <?php echo date("F j",strtotime($exhibition["start_date"]));?>
+                                -
+                            <?php echo date("F j, Y", strtotime($exhibition["end_date"]));?>
                         </p>
 
+                            <?php if (!empty($exhibition["description"])): ?>
 
-                        <?php if (
-                            !empty($exhibition["description"])
-                        ): ?>
-
-                            <p class="upcoming-description">
-
-                                <?php
-                                echo htmlspecialchars(
-                                    $exhibition["description"],
-                                    ENT_QUOTES,
-                                    "UTF-8"
-                                );
-                                ?>
-
-                            </p>
+                        <p class="upcoming-description">
+                            <?php echo htmlspecialchars($exhibition["description"],ENT_QUOTES,"UTF-8");?>
+                        </p>
 
                         <?php endif; ?>
-
-
-                        <!-- VIEW DETAILS BUTTON -->
 
                         <a
                             href="exhibition-details.php?id=<?php echo (int)$exhibition["id"]; ?>"
