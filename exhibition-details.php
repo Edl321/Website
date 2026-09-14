@@ -16,11 +16,6 @@ $exhibitionId = filter_input(
     FILTER_VALIDATE_INT
 );
 
-
-// =========================================================
-// FETCH EXHIBITION
-// =========================================================
-
 $exhibition = null;
 
 if ($exhibitionId) {
@@ -29,8 +24,8 @@ if ($exhibitionId) {
         SELECT *
         FROM exhibitions
         WHERE id = :exhibition_id
-          AND status = 'published'
-          AND end_date >= CURDATE()
+        AND status = 'published'
+        AND end_date >= CURDATE()
         LIMIT 1
     ";
 
@@ -126,8 +121,7 @@ if ($exhibition) {
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
+    <meta name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
@@ -211,8 +205,6 @@ if ($exhibition) {
             <p class="exhibition-details-label"> EDL GALLERY </p>
 
             <h1><?php echo htmlspecialchars($exhibition["title"],ENT_QUOTES,"UTF-8"); ?></h1>
-        
-        </div>
 
         <div class="exhibition-details-date">
 
@@ -223,6 +215,7 @@ if ($exhibition) {
 
         </div>
 
+        </div>
 </section>
 
 
