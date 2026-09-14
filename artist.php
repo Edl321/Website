@@ -4,9 +4,36 @@ require_once "includes/function.php";
 require_once "database/config.php";
 require_once "security/authorize.php";
 
-$sql = "SELECT *
-        FROM artists
-        ORDER BY name ASC";
+/*
+|--------------------------------------------------------------------------
+| GET ARTISTS CURRENTLY SHOWING
+|--------------------------------------------------------------------------
+|
+| Only artists attached to a published, currently-running
+| (or upcoming) exhibition are shown here. Artists whose
+| exhibitions have ended or been cancelled will not appear.
+|
+*/
+
+$sql = "
+    SELECT DISTINCT
+        a.id,
+        a.name,
+        a.biography,
+        a.image
+    FROM artists a
+
+    INNER JOIN exhibition_artists ea
+        ON ea.artist_id = a.id
+
+    INNER JOIN exhibitions e
+        ON e.id = ea.exhibition_id
+
+    WHERE e.status = 'published'
+        AND e.end_date >= CURDATE()
+
+    ORDER BY a.name ASC
+";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -19,7 +46,7 @@ $artists = $stmt->fetchAll();
 <html lang="en">
 
 <head>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists | EDL Gallery</title>
