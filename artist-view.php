@@ -6,12 +6,6 @@ require_once "database/config.php";
 require_once "security/authorize.php";
 
 
-/*
-|--------------------------------------------------------------------------
-| GET ARTIST ID
-|--------------------------------------------------------------------------
-*/
-
 $artistId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 $artist = null;
@@ -30,22 +24,10 @@ if ($artistId) {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| IF ARTIST FOUND, PULL RELATED DATA
-|--------------------------------------------------------------------------
-*/
-
 $exhibitions = [];
 $artworks    = [];
 
 if ($artist) {
-
-    /*
-    |--------------------------------------------------------------------------
-    | CURRENT + UPCOMING EXHIBITIONS FEATURING THIS ARTIST
-    |--------------------------------------------------------------------------
-    */
 
     $exStmt = $pdo->prepare("
         SELECT
@@ -58,20 +40,13 @@ if ($artist) {
         INNER JOIN exhibitions e
             ON e.id = ea.exhibition_id
         WHERE ea.artist_id = :artist_id
-          AND e.status = 'published'
-          AND e.end_date >= CURDATE()
+        AND e.status = 'published'
+        AND e.end_date >= CURDATE()
         ORDER BY e.start_date ASC
     ");
 
     $exStmt->execute([":artist_id" => $artistId]);
     $exhibitions = $exStmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | APPROVED ARTWORKS BY THIS ARTIST (in currently-visible exhibitions)
-    |--------------------------------------------------------------------------
-    */
 
     $awStmt = $pdo->prepare("
         SELECT
@@ -85,9 +60,9 @@ if ($artist) {
         INNER JOIN exhibitions e
             ON e.id = aw.exhibition_id
         WHERE aw.artist_id = :artist_id
-          AND aw.status = 'approved'
-          AND e.status = 'published'
-          AND e.end_date >= CURDATE()
+        AND aw.status = 'approved'
+        AND e.status = 'published'
+        AND e.end_date >= CURDATE()
         ORDER BY aw.created_at DESC
     ");
 
@@ -126,10 +101,6 @@ if ($artist) {
 
 <?php if (!$artist): ?>
 
-    <!-- =========================================================
-         ARTIST NOT FOUND
-    ========================================================= -->
-
     <section class="exhibition-not-found">
 
         <div class="exhibition-not-found-content">
@@ -157,10 +128,6 @@ if ($artist) {
 
 <?php else: ?>
 
-
-    <!-- =========================================================
-         ARTIST HERO
-    ========================================================= -->
 
     <section class="artist-view-hero">
 
@@ -218,10 +185,6 @@ if ($artist) {
     </section>
 
 
-    <!-- =========================================================
-         FULL BIOGRAPHY
-    ========================================================= -->
-
     <?php if (!empty($artist["biography"])): ?>
 
         <section class="artist-view-bio-section">
@@ -244,10 +207,6 @@ if ($artist) {
 
     <?php endif; ?>
 
-
-    <!-- =========================================================
-         CURRENT / UPCOMING EXHIBITIONS
-    ========================================================= -->
 
     <section class="artist-view-exhibitions">
 
@@ -320,10 +279,6 @@ if ($artist) {
 
     </section>
 
-
-    <!-- =========================================================
-         FEATURED ARTWORKS
-    ========================================================= -->
 
     <section class="artist-view-artworks">
 

@@ -441,9 +441,10 @@ body {
 
 .artist-layout {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 300px));
     gap: 40px;
     align-items: start;
+    justify-content: center;
 }
 
 .artist-info {

@@ -4,17 +4,6 @@ require_once "includes/function.php";
 require_once "database/config.php";
 require_once "security/authorize.php";
 
-/*
-|--------------------------------------------------------------------------
-| GET ARTISTS CURRENTLY SHOWING
-|--------------------------------------------------------------------------
-|
-| Only artists attached to a published, currently-running
-| (or upcoming) exhibition are shown here. Artists whose
-| exhibitions have ended or been cancelled will not appear.
-|
-*/
-
 $sql = "
     SELECT DISTINCT
         a.id,
@@ -30,7 +19,7 @@ $sql = "
         ON e.id = ea.exhibition_id
 
     WHERE e.status = 'published'
-      AND e.end_date >= CURDATE()
+    AND e.end_date >= CURDATE()
 
     ORDER BY a.name ASC
 ";
@@ -100,10 +89,6 @@ $artists = $stmt->fetchAll();
             <?php foreach ($artists as $artist): ?>
 
                 <?php
-                /*
-                 * Build a short preview of the biography.
-                 * Cut at ~200 characters and trim to the last whole word.
-                 */
                 $bio = trim((string)$artist["biography"]);
                 $bioPreview = $bio;
 
