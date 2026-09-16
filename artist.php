@@ -1,4 +1,4 @@
-<?php
+\<?php
 $basePath = "";
 require_once "includes/function.php";
 require_once "database/config.php";
@@ -30,7 +30,7 @@ $sql = "
         ON e.id = ea.exhibition_id
 
     WHERE e.status = 'published'
-        AND e.end_date >= CURDATE()
+      AND e.end_date >= CURDATE()
 
     ORDER BY a.name ASC
 ";
@@ -99,6 +99,24 @@ $artists = $stmt->fetchAll();
 
             <?php foreach ($artists as $artist): ?>
 
+                <?php
+                /*
+                 * Build a short preview of the biography.
+                 * Cut at ~200 characters and trim to the last whole word.
+                 */
+                $bio = trim((string)$artist["biography"]);
+                $bioPreview = $bio;
+
+                if (mb_strlen($bio) > 200) {
+                    $bioPreview = mb_substr($bio, 0, 200);
+                    $lastSpace  = mb_strrpos($bioPreview, " ");
+                    if ($lastSpace !== false) {
+                        $bioPreview = mb_substr($bioPreview, 0, $lastSpace);
+                    }
+                    $bioPreview .= "…";
+                }
+                ?>
+
                 <article class="artist-card">
 
                     <?php if (!empty($artist["image"])): ?>
@@ -116,8 +134,15 @@ $artists = $stmt->fetchAll();
                         </h2>
 
                         <p>
-                            <?php echo htmlspecialchars($artist["biography"],ENT_QUOTES,"UTF-8"); ?>
+                            <?php echo htmlspecialchars($bioPreview,ENT_QUOTES,"UTF-8"); ?>
                         </p>
+
+                        <a
+                            href="artist-view.php?id=<?php echo (int)$artist["id"]; ?>"
+                            class="artist-view-link"
+                        >
+                            View Full Bio →
+                        </a>
 
                     </div>
 

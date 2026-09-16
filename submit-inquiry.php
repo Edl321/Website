@@ -15,7 +15,6 @@ if (!isUser()) {
 
 }
 
-
 $userId = $_SESSION["user_id"];
 
 

@@ -29,8 +29,14 @@ if (!ctype_digit((string)$exhibitionId)) {
 $exhibitionId = (int)$exhibitionId;
 
 
-$sql = "SELECT * FROM exhibitions
-        WHERE id = :id AND organizer_id = :organizer_id";
+$sql = "SELECT
+            e.*,
+            ei.exhibition_type AS planned_exhibition_type
+        FROM exhibitions e
+        LEFT JOIN exhibition_inquiries ei
+            ON ei.id = e.inquiry_id
+        WHERE e.id = :id
+          AND e.organizer_id = :organizer_id";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(":id", $exhibitionId, PDO::PARAM_INT);
@@ -48,6 +54,8 @@ if (!$exhibition) {
 
 $isEditable = in_array($exhibition["status"], ["draft", "artwork_submission"], true);
 
+$canChangeType = $isEditable && !empty($exhibition["inquiry_id"]);
+
 
 $errors   = [];
 $feedback = "";
@@ -56,6 +64,15 @@ $title       = $exhibition["title"];
 $description = $exhibition["description"];
 $start_date  = $exhibition["start_date"];
 $end_date    = $exhibition["end_date"];
+$exhibitionType = $exhibition["planned_exhibition_type"] ?? "";
+
+$typeOptions = [
+    "Solo Exhibition",
+    "Group Exhibition",
+    "Community Exhibition",
+    "Corporate / Brand Exhibition",
+    "Other"
+];
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
@@ -68,6 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     $description = trim($_POST["description"] ?? "");
     $start_date  = trim($_POST["start_date"] ?? "");
     $end_date    = trim($_POST["end_date"] ?? "");
+
+    $newExhibitionType = trim($_POST["exhibition_type"] ?? $exhibitionType);
 
     if (empty($title)) {
         $errors[] = "Exhibition title is required.";
@@ -94,6 +113,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | EXHIBITION TYPE CHANGE VALIDATION
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+        $canChangeType &&
+        $newExhibitionType !== $exhibitionType &&
+        in_array($newExhibitionType, $typeOptions, true)
+    ) {
+
+        if ($newExhibitionType === "Solo Exhibition") {
+
+            $artistCountStmt = $pdo->prepare("
+                SELECT COUNT(*)
+                FROM exhibition_artists
+                WHERE exhibition_id = :exhibition_id
+            ");
+            $artistCountStmt->bindValue(":exhibition_id", $exhibitionId, PDO::PARAM_INT);
+            $artistCountStmt->execute();
+
+            $attachedArtists = (int)$artistCountStmt->fetchColumn();
+
+            if ($attachedArtists > 1) {
+
+                $errors[] = "You currently have " . $attachedArtists .
+                    " artists attached. Remove extras before switching to a Solo Exhibition.";
+
+            }
+
+        }
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | OPTIONAL IMAGE UPLOAD
+    |--------------------------------------------------------------------------
+    */
 
     $imagePath = $exhibition["image"];
     $newImageUploaded = false;
@@ -101,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
     if (!empty($_FILES["image"]["name"])) {
 
         $allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-        $maxSizeBytes = 5 * 1024 * 1024; // 5 MB
+        $maxSizeBytes = 5 * 1024 * 1024;
 
         $fileTmpPath = $_FILES["image"]["tmp_name"];
         $fileType    = mime_content_type($fileTmpPath);
@@ -132,13 +192,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 
                 $imagePath = "Images/exhibitions/" . $newFileName;
                 $newImageUploaded = true;
+
             } else {
+
                 $errors[] = "There was a problem uploading your image. Please try again.";
+
             }
 
         }
 
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SAVE
+    |--------------------------------------------------------------------------
+    */
 
     if (empty($errors)) {
 
@@ -165,6 +235,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
         $updateStmt->bindValue(":id", $exhibitionId, PDO::PARAM_INT);
         $updateStmt->bindValue(":organizer_id", $userId, PDO::PARAM_INT);
         $updateStmt->execute();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ALSO UPDATE THE INQUIRY TYPE (if linked and changed)
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            $canChangeType &&
+            $newExhibitionType !== $exhibitionType &&
+            in_array($newExhibitionType, $typeOptions, true)
+        ) {
+
+            $updateType = $pdo->prepare("
+                UPDATE exhibition_inquiries
+                SET exhibition_type = :exhibition_type
+                WHERE id = :inquiry_id
+            ");
+
+            $updateType->bindValue(":exhibition_type", $newExhibitionType);
+            $updateType->bindValue(":inquiry_id", (int)$exhibition["inquiry_id"], PDO::PARAM_INT);
+            $updateType->execute();
+
+            $exhibitionType = $newExhibitionType;
+
+        }
+
 
         if ($newImageUploaded) {
 
@@ -283,6 +381,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
             >
         </div>
 
+
+        <?php if ($canChangeType): ?>
+
+            <div class="form-group">
+
+                <label for="exhibition_type">EXHIBITION TYPE</label>
+
+                <select
+                    id="exhibition_type"
+                    name="exhibition_type"
+                    <?php echo $isEditable ? "" : "disabled"; ?>
+                >
+                    <?php foreach ($typeOptions as $typeOpt): ?>
+
+                        <option
+                            value="<?php echo htmlspecialchars($typeOpt); ?>"
+                            <?php echo ($exhibitionType === $typeOpt) ? "selected" : ""; ?>
+                        >
+                            <?php echo htmlspecialchars($typeOpt); ?>
+                        </option>
+
+                    <?php endforeach; ?>
+                </select>
+
+                <small class="field-help">
+                    Changing to <strong>Solo Exhibition</strong> requires
+                    having at most one artist attached.
+                </small>
+
+            </div>
+
+        <?php endif; ?>
+
+
         <div class="form-row">
 
             <div class="form-group">
@@ -315,9 +447,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
                 id="description"
                 name="description"
                 rows="6"
-                <?php echo $isEditable ? "required" : "disabled"; ?>>
-                <?php echo htmlspecialchars($description); ?>
-            </textarea>
+                <?php echo $isEditable ? "required" : "disabled"; ?>
+            ><?php echo htmlspecialchars($description); ?></textarea>
         </div>
 
         <div class="form-group">
@@ -347,7 +478,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isEditable) {
 </section>
 
 
-        <?php require_once "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>
 
-    </body>
+</body>
 </html>

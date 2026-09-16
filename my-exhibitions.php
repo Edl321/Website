@@ -33,6 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         FILTER_VALIDATE_INT
     );
 
+    /*
+    |--------------------------------------------------------------------------
+    | READY TO PUBLISH
+    |--------------------------------------------------------------------------
+    */
+
     if ($action === "ready_to_publish" && $exhibitionId) {
 
         $ownershipSql = "
@@ -137,7 +143,119 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         }
 
-    } else {
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | CHANGE EXHIBITION TYPE (Solo <-> Group)
+    |--------------------------------------------------------------------------
+    */
+
+    elseif ($action === "change_exhibition_type" && $exhibitionId) {
+
+        $newType = trim($_POST["new_exhibition_type"] ?? "");
+
+        $allowedTypes = [
+            "Solo Exhibition",
+            "Group Exhibition",
+            "Community Exhibition",
+            "Corporate / Brand Exhibition",
+            "Other"
+        ];
+
+        if (!in_array($newType, $allowedTypes, true)) {
+
+            $errorMessage = "Invalid exhibition type.";
+
+        } else {
+
+            $ownStmt = $pdo->prepare("
+                SELECT
+                    e.id,
+                    e.status,
+                    e.inquiry_id
+                FROM exhibitions e
+                WHERE e.id = :exhibition_id
+                  AND e.organizer_id = :organizer_id
+                LIMIT 1
+            ");
+
+            $ownStmt->bindValue(":exhibition_id", $exhibitionId, PDO::PARAM_INT);
+            $ownStmt->bindValue(":organizer_id", $userId, PDO::PARAM_INT);
+            $ownStmt->execute();
+
+            $own = $ownStmt->fetch();
+
+            if (!$own) {
+
+                $errorMessage = "You are not authorized to manage this exhibition.";
+
+            } elseif (!in_array($own["status"], ["draft", "artwork_submission"], true)) {
+
+                $errorMessage = "This exhibition can no longer be changed.";
+
+            } elseif (empty($own["inquiry_id"])) {
+
+                $errorMessage = "This exhibition is not linked to an inquiry, so its type cannot be changed here.";
+
+            } else {
+
+                if ($newType === "Solo Exhibition") {
+
+                    $artistCountStmt = $pdo->prepare("
+                        SELECT COUNT(*)
+                        FROM exhibition_artists
+                        WHERE exhibition_id = :exhibition_id
+                    ");
+                    $artistCountStmt->bindValue(":exhibition_id", $exhibitionId, PDO::PARAM_INT);
+                    $artistCountStmt->execute();
+
+                    $attachedArtists = (int)$artistCountStmt->fetchColumn();
+
+                    if ($attachedArtists > 1) {
+
+                        $errorMessage = "You currently have " . $attachedArtists .
+                            " artists attached. Remove extras before switching to a Solo Exhibition.";
+
+                    } else {
+
+                        $updateType = $pdo->prepare("
+                            UPDATE exhibition_inquiries
+                            SET exhibition_type = :exhibition_type
+                            WHERE id = :inquiry_id
+                        ");
+
+                        $updateType->bindValue(":exhibition_type", $newType);
+                        $updateType->bindValue(":inquiry_id", (int)$own["inquiry_id"], PDO::PARAM_INT);
+                        $updateType->execute();
+
+                        $successMessage = "Exhibition type updated to " . htmlspecialchars($newType) . ".";
+
+                    }
+
+                } else {
+
+                    $updateType = $pdo->prepare("
+                        UPDATE exhibition_inquiries
+                        SET exhibition_type = :exhibition_type
+                        WHERE id = :inquiry_id
+                    ");
+
+                    $updateType->bindValue(":exhibition_type", $newType);
+                    $updateType->bindValue(":inquiry_id", (int)$own["inquiry_id"], PDO::PARAM_INT);
+                    $updateType->execute();
+
+                    $successMessage = "Exhibition type updated to " . htmlspecialchars($newType) . ".";
+
+                }
+
+            }
+
+        }
+
+    }
+
+    else {
 
         $errorMessage =
             "Invalid exhibition action.";
@@ -168,6 +286,8 @@ $baseSql = "
     SELECT
         e.*,
 
+        ei.exhibition_type AS planned_exhibition_type,
+
         COUNT(a.id) AS total_artworks,
 
         SUM(CASE WHEN a.status = 'approved' THEN 1 ELSE 0 END) AS approved_artworks,
@@ -175,6 +295,9 @@ $baseSql = "
         SUM(CASE WHEN a.status = 'rejected' THEN 1 ELSE 0 END) AS rejected_artworks
 
     FROM exhibitions e
+
+    LEFT JOIN exhibition_inquiries ei
+        ON ei.id = e.inquiry_id
 
     LEFT JOIN artworks a
         ON a.exhibition_id = e.id
@@ -435,6 +558,16 @@ function formatStatusLabel($status)
                 $rejectedArtworks === 0 &&
                 $approvedArtworks === $totalArtworks;
 
+            $currentType = $exhibition["planned_exhibition_type"] ?? "Other";
+
+            $typeOptions = [
+                "Solo Exhibition",
+                "Group Exhibition",
+                "Community Exhibition",
+                "Corporate / Brand Exhibition",
+                "Other"
+            ];
+
             ?>
 
 
@@ -550,6 +683,44 @@ function formatStatusLabel($status)
 
                             </div>
 
+                            <?php if (!empty($exhibition["inquiry_id"])): ?>
+
+                                <form method="POST" class="type-switch-form">
+
+                                    <?php echo csrf_field(); ?>
+
+                                    <input type="hidden" name="action" value="change_exhibition_type">
+
+                                    <input type="hidden" name="exhibition_id" value="<?php echo (int)$exhibition["id"]; ?>">
+
+                                    <label for="type-<?php echo (int)$exhibition["id"]; ?>" class="type-switch-label">
+                                        EXHIBITION TYPE
+                                    </label>
+
+                                    <select
+                                        id="type-<?php echo (int)$exhibition["id"]; ?>"
+                                        name="new_exhibition_type"
+                                        class="type-switch-select"
+                                        onchange="this.form.submit()"
+                                    >
+
+                                        <?php foreach ($typeOptions as $typeOpt): ?>
+
+                                            <option
+                                                value="<?php echo htmlspecialchars($typeOpt); ?>"
+                                                <?php echo ($currentType === $typeOpt) ? "selected" : ""; ?>
+                                            >
+                                                <?php echo htmlspecialchars($typeOpt); ?>
+                                            </option>
+
+                                        <?php endforeach; ?>
+
+                                    </select>
+
+                                </form>
+
+                            <?php endif; ?>
+
                         <?php elseif ($exhibition["status"] === "artwork_submission"): ?>
 
                             <div class="exhibition-actions">
@@ -608,6 +779,44 @@ function formatStatusLabel($status)
                                 <?php endif; ?>
 
                             </div>
+
+                            <?php if (!empty($exhibition["inquiry_id"])): ?>
+
+                                <form method="POST" class="type-switch-form">
+
+                                    <?php echo csrf_field(); ?>
+
+                                    <input type="hidden" name="action" value="change_exhibition_type">
+
+                                    <input type="hidden" name="exhibition_id" value="<?php echo (int)$exhibition["id"]; ?>">
+
+                                    <label for="type-<?php echo (int)$exhibition["id"]; ?>" class="type-switch-label">
+                                        EXHIBITION TYPE
+                                    </label>
+
+                                    <select
+                                        id="type-<?php echo (int)$exhibition["id"]; ?>"
+                                        name="new_exhibition_type"
+                                        class="type-switch-select"
+                                        onchange="this.form.submit()"
+                                    >
+
+                                        <?php foreach ($typeOptions as $typeOpt): ?>
+
+                                            <option
+                                                value="<?php echo htmlspecialchars($typeOpt); ?>"
+                                                <?php echo ($currentType === $typeOpt) ? "selected" : ""; ?>
+                                            >
+                                                <?php echo htmlspecialchars($typeOpt); ?>
+                                            </option>
+
+                                        <?php endforeach; ?>
+
+                                    </select>
+
+                                </form>
+
+                            <?php endif; ?>
 
                         <?php endif; ?>
 

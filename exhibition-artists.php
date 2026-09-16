@@ -44,27 +44,38 @@ if (!$exhibitionId) {
 | GET EXHIBITION
 |--------------------------------------------------------------------------
 | Make sure the exhibition belongs to the logged-in user.
+| Also pull the linked inquiry (if any) so we know the proposed
+| exhibition type and the expected artist count.
 |--------------------------------------------------------------------------
 */
 
 $stmt = $pdo->prepare("
     SELECT
-        id,
-        title,
-        start_date,
-        end_date,
-        description,
-        image,
-        status
-    FROM exhibitions
-    WHERE id = :exhibition_id
-    AND organizer_id = :user_id
+        e.id,
+        e.title,
+        e.start_date,
+        e.end_date,
+        e.description,
+        e.image,
+        e.status,
+        e.inquiry_id,
+
+        ei.exhibition_type AS planned_exhibition_type,
+        ei.artist_count    AS planned_artist_count
+
+    FROM exhibitions e
+
+    LEFT JOIN exhibition_inquiries ei
+        ON ei.id = e.inquiry_id
+
+    WHERE e.id = :exhibition_id
+      AND e.organizer_id = :user_id
     LIMIT 1
 ");
 
 $stmt->execute([
     ":exhibition_id" => $exhibitionId,
-    ":user_id" => $userId
+    ":user_id"       => $userId
 ]);
 
 $exhibition = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -76,17 +87,29 @@ if (!$exhibition) {
 
 /*
 |--------------------------------------------------------------------------
+| DERIVED LIMITS
+|--------------------------------------------------------------------------
+| A "Solo Exhibition" is capped at exactly 1 artist.
+| Other exhibition types are not capped, but we surface a soft
+| note when the user has added more than they originally planned.
+|--------------------------------------------------------------------------
+*/
+
+$plannedType   = trim((string)($exhibition["planned_exhibition_type"] ?? ""));
+$plannedCount  = (int)($exhibition["planned_artist_count"] ?? 0);
+$isSoloShow    = ($plannedType === "Solo Exhibition");
+$soloLimit     = $isSoloShow ? 1 : null;
+
+$errors   = [];
+$feedback = "";
+
+/*
+|--------------------------------------------------------------------------
 | HANDLE FORM ACTIONS
 |--------------------------------------------------------------------------
 */
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    /*
-    |--------------------------------------------------------------------------
-    | CSRF PROTECTION
-    |--------------------------------------------------------------------------
-    */
 
     if (!verify_csrf_token()) {
         die("Invalid CSRF token.");
@@ -108,16 +131,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             FILTER_VALIDATE_INT
         );
 
-        if ($artistId) {
+        if (!$artistId) {
+
+            $feedback = "Please select an artist.";
+
+        } else {
 
             /*
             |--------------------------------------------------------------------------
-            | VERIFY ARTIST EXISTS
+            | VERIFY ARTIST EXISTS AND IS VISIBLE TO THIS USER
             |--------------------------------------------------------------------------
             */
 
             $artistCheck = $pdo->prepare("
-                SELECT id
+                SELECT id, name
                 FROM artists
                 WHERE id = :artist_id
                 AND (
@@ -129,77 +156,96 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $artistCheck->execute([
                 ":artist_id" => $artistId,
-                ":user_id" => $userId
+                ":user_id"   => $userId
             ]);
 
-            $artistExists = $artistCheck->fetchColumn();
+            $artistExists = $artistCheck->fetch(PDO::FETCH_ASSOC);
 
-            /*
-            |--------------------------------------------------------------------------
-            | ADD ARTIST IF VALID
-            |--------------------------------------------------------------------------
-            */
+            if (!$artistExists) {
 
-            if ($artistExists) {
+                $feedback = "That artist is not available to add.";
+
+            } else {
 
                 /*
                 |--------------------------------------------------------------------------
-                | CHECK IF ARTIST IS ALREADY ADDED
+                | SOLO EXHIBITION CAP
                 |--------------------------------------------------------------------------
                 */
 
-                $duplicateCheck = $pdo->prepare("
+                $countStmt = $pdo->prepare("
                     SELECT COUNT(*)
                     FROM exhibition_artists
                     WHERE exhibition_id = :exhibition_id
-                    AND artist_id = :artist_id
                 ");
 
-                $duplicateCheck->execute([
-                    ":exhibition_id" => $exhibitionId,
-                    ":artist_id" => $artistId
+                $countStmt->execute([
+                    ":exhibition_id" => $exhibitionId
                 ]);
 
-                $alreadyAdded = (int) $duplicateCheck->fetchColumn();
+                $currentArtistCount = (int)$countStmt->fetchColumn();
 
-                /*
-                |--------------------------------------------------------------------------
-                | INSERT INTO EXHIBITION_ARTISTS
-                |--------------------------------------------------------------------------
-                */
+                if ($soloLimit !== null && $currentArtistCount >= $soloLimit) {
 
-                if ($alreadyAdded === 0) {
+                    $feedback = "This is a Solo Exhibition. Only one artist can be added.";
 
-                    $insert = $pdo->prepare("
-                        INSERT INTO exhibition_artists
-                        (
-                            exhibition_id,
-                            artist_id
-                        )
-                        VALUES
-                        (
-                            :exhibition_id,
-                            :artist_id
-                        )
+                } else {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | CHECK IF ARTIST IS ALREADY ADDED
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $duplicateCheck = $pdo->prepare("
+                        SELECT COUNT(*)
+                        FROM exhibition_artists
+                        WHERE exhibition_id = :exhibition_id
+                        AND artist_id = :artist_id
                     ");
 
-                    $insert->execute([
+                    $duplicateCheck->execute([
                         ":exhibition_id" => $exhibitionId,
-                        ":artist_id" => $artistId
+                        ":artist_id"     => $artistId
                     ]);
+
+                    $alreadyAdded = (int)$duplicateCheck->fetchColumn();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | INSERT INTO EXHIBITION_ARTISTS
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if ($alreadyAdded === 0) {
+
+                        $insert = $pdo->prepare("
+                            INSERT INTO exhibition_artists
+                            (exhibition_id, artist_id)
+                            VALUES
+                            (:exhibition_id, :artist_id)
+                        ");
+
+                        $insert->execute([
+                            ":exhibition_id" => $exhibitionId,
+                            ":artist_id"     => $artistId
+                        ]);
+
+                        $feedback = "Artist added to the exhibition.";
+
+                    } else {
+
+                        $feedback = "That artist is already part of this exhibition.";
+
+                    }
+
                 }
+
             }
+
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | RETURN TO PAGE
-        |--------------------------------------------------------------------------
-        */
-
-        header(
-            "Location: exhibition-artists.php?id=" . $exhibitionId
-        );
+        header("Location: exhibition-artists.php?id=" . $exhibitionId);
         exit;
     }
 
@@ -227,19 +273,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $delete->execute([
                 ":exhibition_id" => $exhibitionId,
-                ":artist_id" => $artistId
+                ":artist_id"     => $artistId
             ]);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | RETURN TO PAGE
-        |--------------------------------------------------------------------------
-        */
-
-        header(
-            "Location: exhibition-artists.php?id=" . $exhibitionId
-        );
+        header("Location: exhibition-artists.php?id=" . $exhibitionId);
         exit;
     }
 }
@@ -303,7 +341,52 @@ $availableArtists = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
 $assignedIds = [];
 
 foreach ($assignedArtists as $artist) {
-    $assignedIds[] = (int) $artist["id"];
+    $assignedIds[] = (int)$artist["id"];
+}
+
+/*
+|--------------------------------------------------------------------------
+| DERIVED UI STATE
+|--------------------------------------------------------------------------
+*/
+
+$currentArtistCount = count($assignedArtists);
+
+$soloLimitReached = (
+    $soloLimit !== null &&
+    $currentArtistCount >= $soloLimit
+);
+
+$plannedOverLimit = (
+    !$isSoloShow &&
+    $plannedCount > 0 &&
+    $currentArtistCount > $plannedCount
+);
+
+$plannedUnderLimit = (
+    !$isSoloShow &&
+    $plannedCount > 0 &&
+    $currentArtistCount < $plannedCount
+);
+
+/*
+|--------------------------------------------------------------------------
+| COUNTER LABEL (for the "Current Artists" header)
+|--------------------------------------------------------------------------
+*/
+
+if ($isSoloShow) {
+
+    $counterLabel = "Artists: " . $currentArtistCount . " / 1 (Solo)";
+
+} elseif ($plannedCount > 0) {
+
+    $counterLabel = "Artists: " . $currentArtistCount . " / " . $plannedCount . " planned";
+
+} else {
+
+    $counterLabel = "Artists: " . $currentArtistCount;
+
 }
 
 ?>
@@ -343,6 +426,15 @@ foreach ($assignedArtists as $artist) {
                 Add and manage the artists participating in this exhibition.
             </p>
 
+            <?php if ($isSoloShow): ?>
+
+                <p class="exhibition-artists-notice">
+                    <strong>Solo Exhibition</strong> —
+                    only one artist can be added to this exhibition.
+                </p>
+
+            <?php endif; ?>
+
         </div>
 
     </section>
@@ -363,76 +455,116 @@ foreach ($assignedArtists as $artist) {
         </div>
 
 
-                <?php if (!empty($availableArtists)): ?>
+        <?php if (!empty($availableArtists)): ?>
 
-            <form
-                method="POST"
-                class="add-artist-form"
-            >
+            <?php if ($soloLimitReached): ?>
 
-                <?php echo csrf_field(); ?>
+                <div class="no-artists-message">
 
-                <input
-                    type="hidden"
-                    name="action"
-                    value="add_artist"
+                    <h3>
+                        Solo Exhibition — Artist Limit Reached
+                    </h3>
+
+                    <p>
+                        This is a Solo Exhibition and it already has
+                        one artist. To add a different artist, remove
+                        the current one first.
+                    </p>
+
+                </div>
+
+            <?php else: ?>
+
+                <form
+                    method="POST"
+                    class="add-artist-form"
                 >
 
-                <label for="artist_id">
-                    SELECT ARTIST
-                </label>
+                    <?php echo csrf_field(); ?>
 
-                <select
-                    name="artist_id"
-                    id="artist_id"
-                    required
-                >
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="add_artist"
+                    >
 
-                    <option value="">
-                        Select an artist
-                    </option>
+                    <label for="artist_id">
+                        SELECT ARTIST
+                    </label>
 
-                    <?php foreach ($availableArtists as $artist): ?>
+                    <select
+                        name="artist_id"
+                        id="artist_id"
+                        required
+                    >
 
-                        <?php
-                        $currentArtistId = (int) $artist["id"];
-
-                        if (
-                            in_array(
-                                $currentArtistId,
-                                $assignedIds,
-                                true
-                            )
-                        ) {
-                            continue;
-                        }
-                        ?>
-
-                        <option
-                            value="<?php echo $currentArtistId; ?>"
-                        >
-                            <?php
-                            echo htmlspecialchars(
-                                $artist["name"],
-                                ENT_QUOTES,
-                                "UTF-8"
-                            );
-                            ?>
+                        <option value="">
+                            Select an artist
                         </option>
 
-                    <?php endforeach; ?>
+                        <?php foreach ($availableArtists as $artist): ?>
 
-                </select>
+                            <?php
+                            $currentArtistId = (int) $artist["id"];
+
+                            if (
+                                in_array(
+                                    $currentArtistId,
+                                    $assignedIds,
+                                    true
+                                )
+                            ) {
+                                continue;
+                            }
+                            ?>
+
+                            <option
+                                value="<?php echo $currentArtistId; ?>"
+                            >
+                                <?php
+                                echo htmlspecialchars(
+                                    $artist["name"],
+                                    ENT_QUOTES,
+                                    "UTF-8"
+                                );
+                                ?>
+                            </option>
+
+                        <?php endforeach; ?>
+
+                    </select>
 
 
-                <button
-                    type="submit"
-                    class="orange-button"
-                >
-                    ADD ARTIST
-                </button>
+                    <button
+                        type="submit"
+                        class="orange-button"
+                    >
+                        ADD ARTIST
+                    </button>
 
-            </form>
+                </form>
+
+                <?php if ($plannedOverLimit): ?>
+
+                    <p class="field-help field-help-spaced">
+                        You planned for <strong><?php echo $plannedCount; ?></strong>
+                        artist<?php echo $plannedCount === 1 ? "" : "s"; ?> in your inquiry,
+                        but <strong><?php echo $currentArtistCount; ?></strong>
+                        are currently assigned. You can still continue —
+                        this is just a note.
+                    </p>
+
+                <?php elseif ($plannedUnderLimit): ?>
+
+                    <p class="field-help field-help-spaced">
+                        You planned for <strong><?php echo $plannedCount; ?></strong>
+                        artist<?php echo $plannedCount === 1 ? "" : "s"; ?>.
+                        So far you have assigned <strong><?php echo $currentArtistCount; ?></strong>.
+                    </p>
+
+                <?php endif; ?>
+
+            <?php endif; ?>
 
             <p class="field-help field-help-spaced">
                 Don't see the artist you're looking for?
@@ -478,6 +610,10 @@ foreach ($assignedArtists as $artist) {
             <h2>
                 Current Artists
             </h2>
+
+            <p class="artist-counter">
+                <?php echo htmlspecialchars($counterLabel, ENT_QUOTES, "UTF-8"); ?>
+            </p>
 
         </div>
 

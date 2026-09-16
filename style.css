@@ -260,6 +260,26 @@ body {
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
+.exhibition-artists-notice {
+    margin: 18px 0 0;
+    padding: 14px 18px;
+    border-left: 4px solid #ff7200;
+    background: #fff5e6;
+    color: #7a3a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.artist-counter {
+    margin: 10px 0 0;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
 .exhibition-details-button span {
     font-size: 16px;
     line-height: 1;
@@ -271,6 +291,58 @@ body {
     color: #ffffff;
 }
 
+/* =========================================================
+   EXHIBITION TYPE SWITCH (my-exhibitions.php)
+========================================================= */
+
+.type-switch-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.type-switch-label {
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.type-switch-select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.type-switch-select:hover,
+.type-switch-select:focus {
+    border-color: #ff7200;
+}
+
+@media (max-width: 600px) {
+
+    .type-switch-form {
+        justify-content: flex-start;
+    }
+
+    .type-switch-select {
+        width: 100%;
+    }
+
+}
 
 .rent {
     padding: 32px 45px 50px;
@@ -6348,6 +6420,333 @@ body {
 
     .admin-list-row-actions {
         width: 100%;
+    }
+
+}
+
+
+.artist-view-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.artist-view-link:hover {
+    color: #111111;
+    transform: translateX(4px);
+}
+
+.artist-view-hero {
+    background: #111111;
+    color: #ffffff;
+    padding: 80px 8% 70px;
+}
+
+.artist-view-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.artist-view-hero .exhibition-back-link {
+    color: #ffffff;
+    margin-bottom: 40px;
+}
+
+.artist-view-hero .exhibition-back-link:hover {
+    color: #ff7200;
+}
+
+.artist-view-hero-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.artist-view-hero-image {
+    width: 280px;
+    height: 280px;
+    overflow: hidden;
+    background: #222;
+}
+
+.artist-view-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.artist-view-label {
+    margin: 0 0 12px;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.artist-view-hero-info h1 {
+    margin: 0 0 20px;
+    font-family: 'Lora', serif;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.artist-view-intro {
+    max-width: 700px;
+    margin: 0;
+    color: #dddddd;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.artist-view-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.artist-view-section-label {
+    margin: 0 0 12px;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.artist-view-bio-section {
+    padding: 80px 8%;
+    background: #ffffff;
+    color: #111111;
+}
+
+.artist-view-bio {
+    max-width: 900px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 2;
+    color: #444444;
+}
+
+.artist-view-exhibitions {
+    padding: 80px 8%;
+    background: #ffffff;
+    color: #111111;
+    border-top: 1px solid #dddddd;
+}
+
+.artist-view-exhibitions h2,
+.artist-view-artworks h2 {
+    margin: 0 0 40px;
+    font-family: 'Lora', serif;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.artist-view-exhibition-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
+}
+
+.artist-view-exhibition-card {
+    border: 1px solid #111111;
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artist-view-exhibition-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+.artist-view-exhibition-card a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.artist-view-exhibition-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #111111;
+}
+
+.artist-view-exhibition-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.artist-view-exhibition-card:hover .artist-view-exhibition-image img {
+    transform: scale(1.04);
+}
+
+.artist-view-exhibition-info {
+    padding: 22px;
+}
+
+.artist-view-exhibition-info h3 {
+    margin: 0 0 8px;
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.artist-view-exhibition-info p {
+    margin: 0;
+    color: #666666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+}
+
+.artist-view-artworks {
+    padding: 80px 8%;
+    background: #f7f7f7;
+    color: #111111;
+}
+
+.artist-view-artwork-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
+}
+
+.artist-view-artwork-card {
+    border: 1px solid #111111;
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artist-view-artwork-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+.artist-view-artwork-card a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.artist-view-artwork-image {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    background: #111111;
+}
+
+.artist-view-artwork-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.artist-view-artwork-card:hover .artist-view-artwork-image img {
+    transform: scale(1.04);
+}
+
+.artist-view-artwork-info {
+    padding: 22px;
+}
+
+.artist-view-artwork-info h3 {
+    margin: 0 0 12px;
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.artist-view-artwork-info p {
+    margin: 4px 0;
+    color: #555555;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.artist-view-artwork-info strong {
+    color: #111111;
+    font-weight: 600;
+}
+
+.artist-view-artwork-exhibition {
+    margin-top: 12px !important;
+    padding-top: 12px;
+    border-top: 1px solid #eeeeee;
+    color: #ff7200 !important;
+    font-size: 11px !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+
+    .artist-view-hero-layout {
+        grid-template-columns: 220px 1fr;
+        gap: 30px;
+    }
+
+    .artist-view-hero-image {
+        width: 220px;
+        height: 220px;
+    }
+
+    .artist-view-hero-info h1 {
+        font-size: 42px;
+    }
+
+    .artist-view-exhibition-grid,
+    .artist-view-artwork-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .artist-view-hero {
+        padding: 50px 6% 50px;
+    }
+
+    .artist-view-hero-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .artist-view-hero-image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .artist-view-hero-info h1 {
+        font-size: 34px;
+    }
+
+    .artist-view-exhibition-grid,
+    .artist-view-artwork-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .artist-view-exhibitions h2,
+    .artist-view-artworks h2 {
+        font-size: 30px;
     }
 
 }
