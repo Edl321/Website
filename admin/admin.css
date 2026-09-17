@@ -355,19 +355,28 @@
 .admin-action-box {
     background: #fff;
     border: 1px solid #ddd;
-    padding: 35px 40px;
-    margin-bottom: 50px;
+    border-left: 4px solid #ff7a00;
+    padding: 30px 35px;
+    margin-bottom: 40px;
 }
 
 .admin-action-box h4 {
-    margin: 0 0 25px;
-    padding-bottom: 15px;
+    margin: 0 0 12px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #eee;
     color: #ff7200;
     font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
+}
+
+.admin-action-box p {
+    margin: 0 0 20px;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .admin-action-box .form-group {
@@ -456,7 +465,6 @@
     color: #fff;
 }
 
-
 .artist-directory-item {
     display: flex;
     gap: 20px;
@@ -522,49 +530,6 @@
     flex-shrink: 0;
 }
 
-@media (max-width: 600px) {
-
-    .artist-directory-item {
-        flex-wrap: wrap;
-    }
-
-    .artist-directory-actions {
-        width: 100%;
-        padding-top: 10px;
-    }
-
-}
-
-@media (max-width: 900px) {
-    .admin-stats-grid,
-    .admin-quick-actions {
-        grid-template-columns: 1fr 1fr;
-    }
-
-}
-
-@media (max-width: 500px) {
-    .admin-stats-grid,
-    .admin-quick-actions {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-list-row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .inquiry-card-row {
-        flex-direction: column;
-    }
-
-    .inquiry-status {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-}
-
 .admin-back-link {
     display: inline-block;
     margin-bottom: 25px;
@@ -581,7 +546,6 @@
 .admin-back-link:hover {
     color: #111;
 }
-
 
 .account-information {
     background: #fff;
@@ -658,44 +622,11 @@
     letter-spacing: 0.5px;
 }
 
-.admin-action-box {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-left: 4px solid #ff7a00;
-    padding: 30px 35px;
-    margin-bottom: 40px;
-}
-
-.admin-action-box h4 {
-    margin: 0 0 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #eee;
-    color: #ff7200;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
-
-.admin-action-box p {
-    margin: 0 0 20px;
-    color: #666;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
 .admin-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin-bottom: 40px;
-}
-
-@media (max-width: 800px) {
-    .admin-actions {
-        grid-template-columns: 1fr;
-    }
 }
 
 .inquiry-success-note {
@@ -726,230 +657,6 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     line-height: 1.6;
-}
-
-.rental-application-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-left: 4px solid #ff7200;
-    padding: 35px;
-    margin-bottom: 20px;
-    transition: 0.3s ease;
-}
-
-.rental-application-card:hover {
-    border-color: #ff7200;
-}
-
-
-.rental-application-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-}
-
-.rental-application-title h2 {
-    margin: 0 0 8px;
-    color: #111;
-    font-family: 'Lora', serif;
-    font-size: 26px;
-    font-weight: 500;
-    line-height: 1.2;
-}
-
-.rental-application-title p {
-    margin: 0;
-    color: #666;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-}
-
-
-.rental-status {
-    display: inline-block;
-    padding: 8px 15px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    white-space: nowrap;
-    border-radius: 2px;
-}
-
-.rental-status.pending {
-    background: #fff1df;
-    color: #c45b00;
-}
-
-.rental-status.approved {
-    background: #e5f6e9;
-    color: #287a3e;
-}
-
-.rental-status.rejected {
-    background: #ffe5e5;
-    color: #a52a2a;
-}
-
-.rental-status.cancelled {
-    background: #e9e9e9;
-    color: #555;
-}
-
-.rental-application-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    margin-bottom: 30px;
-    padding: 25px 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-}
-
-.rental-info-item strong {
-    display: block;
-    margin-bottom: 7px;
-    color: #888;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-
-.rental-info-item span {
-    color: #222;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.rental-description {
-    margin-bottom: 30px;
-}
-
-.rental-description h3,
-.rental-admin-message h3 {
-    margin: 0 0 10px;
-    color: #111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-
-.rental-description p,
-.rental-admin-message p {
-    margin: 0;
-    color: #444;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-    white-space: pre-line;
-}
-
-.rental-admin-message {
-    margin-bottom: 30px;
-    padding: 20px 25px;
-    background: #f7f7f7;
-    border-left: 3px solid #111;
-}
-
-.rental-update-form {
-    padding-top: 25px;
-    border-top: 1px solid #eee;
-}
-
-.rental-update-form label {
-    display: block;
-    margin-bottom: 8px;
-    color: #111;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-
-.rental-update-form select,
-.rental-update-form textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px 15px;
-    margin-bottom: 18px;
-    border: 1px solid #ccc;
-    background: #fff;
-    color: #222;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: 0.3s ease;
-}
-
-.rental-update-form select:focus,
-.rental-update-form textarea:focus {
-    border-color: #ff7200;
-}
-
-.rental-update-form textarea {
-    min-height: 100px;
-    resize: vertical;
-    line-height: 1.6;
-}
-
-.rental-update-button {
-    display: inline-block;
-    padding: 13px 28px;
-    border: none;
-    background: #ff7200;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.rental-update-button:hover {
-    background: #111;
-}
-
-
-
-@media (max-width: 800px) {
-
-    .rental-application-card {
-        padding: 25px;
-    }
-
-    .rental-application-info {
-        grid-template-columns: 1fr 1fr;
-    }
-
-}
-
-@media (max-width: 500px) {
-
-    .rental-application-card {
-        padding: 20px;
-    }
-
-    .rental-application-info {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .rental-application-title h2 {
-        font-size: 20px;
-    }
-
 }
 
 /* =========================================================
@@ -985,4 +692,53 @@
 .admin-list-row-actions .approve-button {
     padding: 8px 16px;
     font-size: 11px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .admin-stats-grid,
+    .admin-quick-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 800px) {
+    .admin-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .artist-directory-item {
+        flex-wrap: wrap;
+    }
+
+    .artist-directory-actions {
+        width: 100%;
+        padding-top: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .admin-stats-grid,
+    .admin-quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-list-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .inquiry-card-row {
+        flex-direction: column;
+    }
+
+    .inquiry-status {
+        width: 100%;
+        justify-content: flex-start;
+    }
 }
