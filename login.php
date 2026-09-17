@@ -58,10 +58,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (!$user || !password_verify($password, $user["password"])) {
 
-            $errors[] = "Invalid email or password.";
-            securityLog('login.failed', ['email' => $email]);
+    $errors[] = "Invalid email or password.";
+    securityLog('login.failed', ['email' => $email]);
 
-        } else {
+    } elseif (!empty($user["deleted_at"])) {
+
+    $errors[] = "This account has been deactivated. Please contact the gallery.";
+    securityLog('login.deactivated', ['email' => $email]);
+
+    } else {
 
             // ---- Success ----
             rateLimitReset('login');

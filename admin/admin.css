@@ -951,3 +951,38 @@
     }
 
 }
+
+/* =========================================================
+   DEACTIVATED USERS
+   ========================================================= */
+
+.admin-list-row--deactivated {
+    opacity: 0.65;
+    background: #fafafa;
+}
+
+.admin-list-row--deactivated h3 {
+    color: #777;
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+    text-decoration-color: #bbb;
+}
+
+.user-deactivated-tag {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 8px;
+    background: #ffe5e5;
+    color: #a52a2a;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    vertical-align: middle;
+}
+
+.admin-list-row-actions .reject-button,
+.admin-list-row-actions .approve-button {
+    padding: 8px 16px;
+    font-size: 11px;
+}
