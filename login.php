@@ -28,6 +28,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     }
 
+    if (isset($_SESSION["login_attempts"]) && $_SESSION["login_attempts"] >= 5) {
+
+    if (time() - $_SESSION["last_attempt"] < 300) {
+
+        $errors[] = "Too many failed attempts. Please wait 5 minutes.";
+
+    } else {
+        $_SESSION["login_attempts"] = 0;
+    }
+
+    }
+
     if (empty($password)) {
 
         $errors[] = "Password is required.";
@@ -62,7 +74,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["email"] = $user["email"];
 
             $_SESSION["role"] = $user["role"];
+            
+            $_SESSION["login_attempts"] = ($_SESSION["login_attempts"] ?? 0) + 1;
 
+            $_SESSION["last_attempt"]   = time();
+
+            unset($_SESSION["login_attempts"], $_SESSION["last_attempt"]);
+
+            session_regenerate_id(true);
+            
             // Extend the session cookie so it survives browser restarts
             $cookieLifetime = 60 * 60 * 24 * 30; // 30 days
 
