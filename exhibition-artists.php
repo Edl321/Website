@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 $basePath = "";
 
 require_once "includes/function.php";
@@ -9,11 +7,6 @@ require_once "database/config.php";
 require_once "security/shield.php";
 require_once "security/authorize.php";
 
-/*
-|--------------------------------------------------------------------------
-| USER ACCESS
-|--------------------------------------------------------------------------
-*/
 
 if (!isUser()) {
     header("Location: login.php");
@@ -21,12 +14,6 @@ if (!isUser()) {
 }
 
 $userId = $_SESSION["user_id"];
-
-/*
-|--------------------------------------------------------------------------
-| GET EXHIBITION ID
-|--------------------------------------------------------------------------
-*/
 
 $exhibitionId = filter_input(
     INPUT_GET,
@@ -38,16 +25,6 @@ if (!$exhibitionId) {
     header("Location: my-exhibitions.php");
     exit;
 }
-
-/*
-|--------------------------------------------------------------------------
-| GET EXHIBITION
-|--------------------------------------------------------------------------
-| Make sure the exhibition belongs to the logged-in user.
-| Also pull the linked inquiry (if any) so we know the proposed
-| exhibition type and the expected artist count.
-|--------------------------------------------------------------------------
-*/
 
 $stmt = $pdo->prepare("
     SELECT
@@ -69,7 +46,7 @@ $stmt = $pdo->prepare("
         ON ei.id = e.inquiry_id
 
     WHERE e.id = :exhibition_id
-      AND e.organizer_id = :user_id
+    AND e.organizer_id = :user_id
     LIMIT 1
 ");
 
@@ -85,15 +62,6 @@ if (!$exhibition) {
     exit;
 }
 
-/*
-|--------------------------------------------------------------------------
-| DERIVED LIMITS
-|--------------------------------------------------------------------------
-| A "Solo Exhibition" is capped at exactly 1 artist.
-| Other exhibition types are not capped, but we surface a soft
-| note when the user has added more than they originally planned.
-|--------------------------------------------------------------------------
-*/
 
 $plannedType   = trim((string)($exhibition["planned_exhibition_type"] ?? ""));
 $plannedCount  = (int)($exhibition["planned_artist_count"] ?? 0);
@@ -103,12 +71,6 @@ $soloLimit     = $isSoloShow ? 1 : null;
 $errors   = [];
 $feedback = "";
 
-/*
-|--------------------------------------------------------------------------
-| HANDLE FORM ACTIONS
-|--------------------------------------------------------------------------
-*/
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!verify_csrf_token()) {
@@ -116,12 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $action = $_POST["action"] ?? "";
-
-    /*
-    |--------------------------------------------------------------------------
-    | ADD ARTIST
-    |--------------------------------------------------------------------------
-    */
 
     if ($action === "add_artist") {
 
@@ -136,12 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $feedback = "Please select an artist.";
 
         } else {
-
-            /*
-            |--------------------------------------------------------------------------
-            | VERIFY ARTIST EXISTS AND IS VISIBLE TO THIS USER
-            |--------------------------------------------------------------------------
-            */
 
             $artistCheck = $pdo->prepare("
                 SELECT id, name
@@ -167,11 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             } else {
 
-                /*
-                |--------------------------------------------------------------------------
-                | SOLO EXHIBITION CAP
-                |--------------------------------------------------------------------------
-                */
 
                 $countStmt = $pdo->prepare("
                     SELECT COUNT(*)
@@ -191,12 +136,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 } else {
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | CHECK IF ARTIST IS ALREADY ADDED
-                    |--------------------------------------------------------------------------
-                    */
-
                     $duplicateCheck = $pdo->prepare("
                         SELECT COUNT(*)
                         FROM exhibition_artists
@@ -210,12 +149,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     ]);
 
                     $alreadyAdded = (int)$duplicateCheck->fetchColumn();
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | INSERT INTO EXHIBITION_ARTISTS
-                    |--------------------------------------------------------------------------
-                    */
 
                     if ($alreadyAdded === 0) {
 
@@ -249,11 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | REMOVE ARTIST
-    |--------------------------------------------------------------------------
-    */
+
 
     if ($action === "remove_artist") {
 
@@ -282,11 +211,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-/*
-|--------------------------------------------------------------------------
-| GET CURRENTLY ASSIGNED ARTISTS
-|--------------------------------------------------------------------------
-*/
 
 $assignedStmt = $pdo->prepare("
     SELECT
@@ -310,11 +234,6 @@ $assignedStmt->execute([
 
 $assignedArtists = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
 
-/*
-|--------------------------------------------------------------------------
-| GET AVAILABLE ARTISTS
-|--------------------------------------------------------------------------
-*/
 
 $availableStmt = $pdo->prepare("
     SELECT
@@ -322,7 +241,7 @@ $availableStmt = $pdo->prepare("
         name
     FROM artists
     WHERE user_id = :user_id
-       OR user_id IS NULL
+    OR user_id IS NULL
     ORDER BY name ASC
 ");
 
@@ -332,23 +251,11 @@ $availableStmt->execute([
 
 $availableArtists = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
 
-/*
-|--------------------------------------------------------------------------
-| GET ASSIGNED ARTIST IDS
-|--------------------------------------------------------------------------
-*/
-
 $assignedIds = [];
 
 foreach ($assignedArtists as $artist) {
     $assignedIds[] = (int)$artist["id"];
 }
-
-/*
-|--------------------------------------------------------------------------
-| DERIVED UI STATE
-|--------------------------------------------------------------------------
-*/
 
 $currentArtistCount = count($assignedArtists);
 
@@ -368,12 +275,6 @@ $plannedUnderLimit = (
     $plannedCount > 0 &&
     $currentArtistCount < $plannedCount
 );
-
-/*
-|--------------------------------------------------------------------------
-| COUNTER LABEL (for the "Current Artists" header)
-|--------------------------------------------------------------------------
-*/
 
 if ($isSoloShow) {
 

@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 require_once "includes/function.php";
 require_once "database/config.php";
 

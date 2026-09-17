@@ -1,5 +1,7 @@
-\<?php
+<?php
+
 $basePath = "";
+
 require_once "includes/function.php";
 require_once "database/config.php";
 require_once "security/authorize.php";

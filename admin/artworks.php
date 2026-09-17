@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 $basePath = "../";
 
 define('EDL_ADMIN', true);
@@ -167,4 +166,3 @@ require_once "admin-head.php";
 
 </section>
 
-<?php require_once "admin-foot.php"; ?>

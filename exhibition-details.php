@@ -5,11 +5,6 @@ require_once "database/config.php";
 
 $basePath = "";
 
-
-// =========================================================
-// GET EXHIBITION ID
-// =========================================================
-
 $exhibitionId = filter_input(
     INPUT_GET,
     "id",
@@ -36,24 +31,11 @@ if ($exhibitionId) {
     $exhibition = $stmt->fetch();
 }
 
-
-// =========================================================
-// DEFAULT ARRAYS
-// =========================================================
-
 $artists  = [];
 $artworks = [];
 
 
-// =========================================================
-// FETCH ARTISTS + ARTWORKS
-// =========================================================
-
 if ($exhibition) {
-
-    // -------------------------
-    // ASSIGNED ARTISTS
-    // -------------------------
 
     $artistSql = "
         SELECT
@@ -78,11 +60,6 @@ if ($exhibition) {
 
     $artists = $artistStmt->fetchAll();
 
-
-    // -------------------------
-    // APPROVED ARTWORKS ONLY
-    // -------------------------
-
     $artworkSql = "
         SELECT
             aw.id,
@@ -101,7 +78,7 @@ if ($exhibition) {
             ON ar.id = aw.artist_id
 
         WHERE aw.exhibition_id = :exhibition_id
-          AND aw.status = 'approved'
+        AND aw.status = 'approved'
 
         ORDER BY aw.created_at ASC, aw.id ASC
     ";
@@ -325,10 +302,6 @@ if ($exhibition) {
 
 </section>
 
-
-    <!-- =========================================================
-         FEATURED ARTWORKS
-    ========================================================= -->
 
     <section class="exhibition-artworks-section">
 

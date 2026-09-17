@@ -4,16 +4,6 @@
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
-// Shared <head> + shell opener for every /admin/ page.
-//
-// Pages using this should set, before requiring this file:
-//   $pageTitle   (string)   e.g. "Artists" or an artist's name
-//   $activePage  (string)   one of the admin-sidebar.php nav keys
-//   $extraStyles (string[]) optional, extra page-specific stylesheets
-//
-// This file intentionally does NOT touch the public
-// includes/header.php or includes/footer.php - the admin portal
-// is a fully separate layout.
 
 $pageTitle   = $pageTitle ?? "Admin";
 $activePage  = $activePage ?? "";

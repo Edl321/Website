@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 $basePath = "../";
 
 define('EDL_ADMIN', true);

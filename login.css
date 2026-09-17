@@ -1,156 +1,153 @@
-.login-page {
-    min-height: 100vh;
+/* =========================================================
+   AUTH PAGES (login.php, register.php)
+   ========================================================= */
+
+.auth-page {
+    min-height: calc(100vh - 120px);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px;
-    background-color: #f5f5f5;
+    padding: 60px 25px;
+    background: #f5f5f5;
     box-sizing: border-box;
+    font-family: 'Montserrat', Arial, sans-serif;
 }
 
-.login-container {
+.auth-card {
     width: 100%;
-    max-width: 450px;
-    padding: 50px;
-    background-color: white;
+    max-width: 440px;
+    padding: 50px 45px 40px;
+    background: #ffffff;
     border-top: 5px solid #ff7200;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
     box-sizing: border-box;
 }
 
-.login-header {
+.auth-eyebrow {
+    margin: 0 0 12px;
+    color: #ff7200;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
     text-align: center;
-    margin-bottom: 35px;
+    text-transform: uppercase;
 }
 
-
-.login-header img {
-    width: 130px;
-    height: auto;
-    margin-bottom: 20px;
-    object-fit: contain;
-}
-
-
-.login-header h1 {
-    margin: 0 0 10px;
+.auth-card h1 {
+    margin: 0 0 32px;
     color: #111111;
-    font-family: 'Lora', serif;
-    font-size: 40px;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 38px;
     font-weight: 500;
+    text-align: center;
 }
 
+/* ---- FORM ---- */
 
-.login-header p {
-    margin: 0;
-    color: #666666;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+.auth-card .form-group {
+    margin-bottom: 22px;
 }
 
-.login-errors {
-    margin-bottom: 25px;
-    padding: 12px 15px;
-    background-color: #fff2f2;
-    border-left: 4px solid #d9534f;
-    box-sizing: border-box;
-}
-
-
-.login-errors p {
-    margin: 5px 0;
-    color: #b52b27;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.login-form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.login-form-group label {
+.auth-card .form-group label {
+    display: block;
     margin-bottom: 8px;
     color: #222222;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
     font-weight: 600;
+    letter-spacing: 1px;
 }
 
-.login-form-group input {
+.auth-card .form-group input {
     width: 100%;
     padding: 14px 15px;
     border: 1px solid #cccccc;
-    background-color: white;
+    background: #ffffff;
     color: #222222;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 15px;
     outline: none;
     box-sizing: border-box;
-    transition: 0.3s ease;
+    transition: 0.25s ease;
 }
 
-.login-form-group input:focus {
+.auth-card .form-group input:focus {
     border-color: #ff7200;
     box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.12);
 }
 
+/* ---- BUTTON ---- */
 
-.login-button {
+.auth-button {
+    display: block;
     width: 100%;
+    margin-top: 10px;
     padding: 15px;
-    margin-top: 5px;
     border: none;
-    background-color: #ff7200;
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
+    background: #ff7200;
+    color: #ffffff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
     transition: 0.3s ease;
 }
 
-.login-button:hover {
-    background-color: #111111;
+.auth-button:hover {
+    background: #111111;
 }
 
-.login-register {
-    margin-top: 30px;
-    text-align: center;
+/* ---- ERRORS ---- */
+
+.auth-card .form-errors {
+    margin-bottom: 25px;
+    padding: 14px 16px;
+    border-left: 4px solid #c0392b;
+    background: #fdecea;
+}
+
+.auth-card .form-errors p {
+    margin: 4px 0;
+    color: #a93226;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ---- FOOTER TEXT ---- */
+
+.auth-footer {
+    margin: 28px 0 0;
     color: #555555;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 14px;
+    text-align: center;
 }
 
-.login-register a {
-    color: #ff7a00;
+.auth-footer a {
+    color: #ff7200;
     font-weight: 600;
     text-decoration: none;
-    transition: 0.3s ease;
+    transition: 0.2s ease;
 }
 
-.login-register a:hover {
+.auth-footer a:hover {
     color: #111111;
     text-decoration: underline;
 }
 
-.back-home {
-    display: block;
-    margin-top: 20px;
-    text-align: center;
-    color: #777777;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
+/* ---- RESPONSIVE ---- */
 
-.back-home:hover {
-    color: #ff7200;
+@media (max-width: 500px) {
+
+    .auth-card {
+        padding: 40px 25px 30px;
+    }
+
+    .auth-card h1 {
+        font-size: 30px;
+    }
+
 }

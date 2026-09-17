@@ -1,9 +1,7 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
+// NOTE: session has already been started by harden.php via config.php.
+// This file only manages CSRF tokens.
 
 if (empty($_SESSION["csrf_token"])) {
 
@@ -13,14 +11,12 @@ if (empty($_SESSION["csrf_token"])) {
 
 }
 
-
 function csrf_field()
 {
     return '<input type="hidden" name="csrf_token" value="' .
         htmlspecialchars($_SESSION["csrf_token"]) .
         '">';
 }
-
 
 function verify_csrf_token()
 {
@@ -37,5 +33,3 @@ function verify_csrf_token()
 
     return true;
 }
-
-?>

@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 $basePath = "../";
 require_once "../database/config.php";
 require_once "../security/authorize.php";
@@ -213,5 +212,3 @@ require_once "admin-head.php";
     <?php endif; ?>
 
 </section>
-
-<?php require_once "admin-foot.php"; ?>

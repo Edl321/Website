@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 $basePath = "";
 require_once "database/config.php";
 require_once "security/authorize.php";
@@ -36,7 +35,7 @@ $sql = "SELECT
         LEFT JOIN exhibition_inquiries ei
             ON ei.id = e.inquiry_id
         WHERE e.id = :id
-          AND e.organizer_id = :organizer_id";
+        AND e.organizer_id = :organizer_id";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(":id", $exhibitionId, PDO::PARAM_INT);

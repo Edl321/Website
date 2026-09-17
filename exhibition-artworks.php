@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 $basePath = "";
 
 require_once "database/config.php";

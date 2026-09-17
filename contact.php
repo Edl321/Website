@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 $basePath = "";
 
 require_once "security/shield.php";

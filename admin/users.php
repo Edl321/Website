@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 $basePath = "../";
 
 require_once "../database/config.php";
@@ -83,5 +82,3 @@ require_once "admin-head.php";
     <?php endforeach; ?>
 
 </section>
-
-<?php require_once "admin-foot.php"; ?>

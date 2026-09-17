@@ -1,4 +1,9 @@
 <?php
+
+// NOTE: session has already been started by harden.php via config.php.
+// This file only reads $_SESSION and defines helper functions.
+
+// Extend session cookie lifetime to 30 days for logged-in users.
 if (isset($_SESSION["user_id"])) {
 
     $cookieLifetime = 60 * 60 * 24 * 30; // 30 days
@@ -15,10 +20,6 @@ if (isset($_SESSION["user_id"])) {
             'samesite' => 'Lax',
         ]
     );
-
-}
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
 
 function isLoggedIn()
