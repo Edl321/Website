@@ -381,6 +381,17 @@ $upcomingExhibition = $upcomingStmt->fetch();
 
                 <div class="user-actions">
 
+                    <a href="my-rentals.php" class="user-action">
+
+                        <div class="user-action-icon">▤</div>
+                        <div class="user-action-content">
+                        <h3>My Rental Applications</h3>
+                        <p>Track your space rental bookings.</p>
+                        </div>
+                        
+                        <span class="user-action-arrow">→</span>
+                    </a>
+
                     <a href="rent-space.php" class="user-action">
 
                         <div class="user-action-icon">+</div>

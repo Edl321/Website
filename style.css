@@ -3627,6 +3627,347 @@ body {
     background: #f5f5f5;
 }
 
+.package-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 20px 0 0;
+    padding-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+.package-price-currency {
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.package-price-amount {
+    color: #111111;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.package-price-unit {
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.package-price-label {
+    display: block;
+    width: 100%;
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.featured-package .package-price-amount {
+    color: #ff7200;
+}
+
+.featured-package .package-price-currency {
+    color: #111111;
+}
+
+.package-button {
+    display: block;
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: 0.3s ease;
+    box-sizing: border-box;
+}
+
+.package-button--filled {
+    background: #ff7200;
+    color: #ffffff;
+    border: 1px solid #ff7200;
+}
+
+.package-button--filled:hover {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+}
+
+.package-button--outline {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #111111;
+}
+
+.package-button--outline:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+.featured-package .package-button--filled {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+}
+
+.featured-package .package-button--filled:hover {
+    background: #ff7200;
+    border-color: #ff7200;
+    color: #ffffff;
+}
+
+.package-compare {
+    padding: 90px 100px;
+    background: #ffffff;
+}
+
+.package-compare-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 55px;
+}
+
+.package-compare-heading h4 {
+    margin: 0 0 15px;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.package-compare-heading h2 {
+    margin: 0 0 15px;
+    color: #111111;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 46px;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.package-compare-heading h2 span {
+    color: #ff7200;
+}
+
+.package-compare-heading p {
+    margin: 0;
+    color: #555555;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.compare-table-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eee;
+}
+
+.compare-table th {
+    padding: 22px 20px;
+    background: #111111;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    border-right: 1px solid #222;
+}
+
+.compare-table th:last-child {
+    border-right: none;
+}
+
+.compare-table th.compare-feature-col {
+    text-align: left;
+    width: 38%;
+}
+
+.compare-table th.compare-featured-col {
+    background: #ff7200;
+}
+
+.compare-table td {
+    padding: 18px 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+.compare-table td.compare-feature-col {
+    text-align: left;
+    font-weight: 500;
+    color: #111111;
+}
+
+.compare-table td.compare-featured-col {
+    background: #fff8f0;
+    border-left: 1px solid #ffd9b3;
+    border-right: 1px solid #ffd9b3;
+}
+
+.compare-table tr:last-child td {
+    border-bottom: none;
+}
+
+.compare-table .check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #111111;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+.compare-table .dash {
+    color: #cccccc;
+    font-size: 16px;
+}
+
+.compare-price-row td {
+    padding-top: 26px;
+    padding-bottom: 26px;
+    border-top: 2px solid #111111;
+    background: #fafafa;
+}
+
+.compare-price-row td strong {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 22px;
+    color: #111111;
+    font-weight: 500;
+}
+
+.compare-price-row td.compare-featured-col {
+    background: #fff0e0;
+}
+
+.compare-price-row td.compare-featured-col strong {
+    color: #ff7200;
+}
+
+.compare-cta-row td {
+    padding-top: 18px;
+    padding-bottom: 24px;
+    border-bottom: none;
+}
+
+.compare-cta {
+    display: inline-block;
+    padding: 11px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.compare-cta--outline {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #111111;
+}
+
+.compare-cta--outline:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+.compare-cta--filled {
+    background: #111111;
+    color: #ffffff;
+    border: 1px solid #111111;
+}
+
+.compare-cta--filled:hover {
+    background: #ff7200;
+    border-color: #ff7200;
+    color: #ffffff;
+}
+
+@media (max-width: 900px) {
+
+    .package-compare {
+        padding: 70px 50px;
+    }
+
+    .package-compare-heading h2 {
+        font-size: 38px;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .package-price-amount {
+        font-size: 34px;
+    }
+
+    .package-button {
+        padding: 13px 16px;
+        font-size: 11px;
+    }
+
+    .package-compare {
+        padding: 60px 20px;
+    }
+
+    .package-compare-heading h2 {
+        font-size: 32px;
+    }
+
+    .compare-table th,
+    .compare-table td {
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .compare-table th.compare-feature-col {
+        width: 40%;
+    }
+
+    .compare-cta {
+        padding: 8px 14px;
+        font-size: 10px;
+    }
+
+}
+
 .rental-application-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -6752,3 +7093,271 @@ body {
 
 }
 
+/* =========================================================
+   RENTAL DETAILS PAGE
+   ========================================================= */
+
+.rental-details-page {
+    padding-top: 60px;
+}
+
+/* Empty state text */
+.muted-empty {
+    color: #888;
+    font-style: italic;
+}
+
+/* =========================================================
+   RENTAL PAYMENT CARD
+   ========================================================= */
+
+.rental-payment-card {
+    margin-bottom: 40px;
+    padding: 35px 40px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-left: 5px solid #ff7200;
+}
+
+.rental-payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #eee;
+}
+
+.rental-payment-label {
+    margin: 0;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.rental-payment-status {
+    display: inline-block;
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: #fff1df;
+    color: #c45b00;
+}
+
+.rental-payment-status.status-approved {
+    background: #e5f6e9;
+    color: #287a3e;
+}
+
+.rental-payment-status.status-rejected {
+    background: #ffe5e5;
+    color: #a52a2a;
+}
+
+.rental-payment-status.status-pending {
+    background: #fff1df;
+    color: #c45b00;
+}
+
+.rental-payment-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 0;
+    margin-bottom: 22px;
+    border-bottom: 1px solid #eee;
+}
+
+.rental-payment-amount-label {
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.rental-payment-amount-value {
+    color: #111;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.rental-payment-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 22px 40px;
+    margin-bottom: 22px;
+}
+
+.rental-payment-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rental-payment-meta-item span {
+    color: #888;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.rental-payment-meta-item strong {
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.rental-payment-note {
+    margin-top: 10px;
+    padding: 20px 22px;
+    background: #fff8f0;
+    border-left: 3px solid #ff7200;
+}
+
+.rental-payment-note p {
+    margin: 0;
+    color: #7a3a00;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.rental-payment-note--paid {
+    background: #eafaf1;
+    border-left-color: #2e8b57;
+}
+
+.rental-payment-note--paid p {
+    color: #1e7e42;
+}
+
+/* =========================================================
+   TEXT BLOCK — user-facing (my-rental-view.php, my-inquiry-view.php)
+   ========================================================= */
+
+.admin-text-block {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 30px 35px;
+    margin-bottom: 20px;
+}
+
+.admin-text-block h4 {
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    color: #ff7200;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.admin-text-block p {
+    margin: 0 0 12px;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.admin-text-block p:last-child {
+    margin-bottom: 0;
+}
+
+.admin-text-block strong {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 700px) {
+
+    .rental-payment-card {
+        padding: 25px 22px;
+    }
+
+    .rental-payment-amount-value {
+        font-size: 28px;
+    }
+
+    .rental-payment-meta {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+}
+
+/* =========================================================
+   HOVER — SCALE (matching exhibition cards)
+   ========================================================= */
+
+.package-card,
+.host-card,
+.artist-card,
+.upcoming-card,
+.artist-view-artwork-card,
+.artist-view-exhibition-card,
+.exhibition-artwork-card,
+.exhibition-artist-card,
+.contact-card,
+.visit-info-card,
+.belief-card,
+.preview-image,
+.user-panel,
+.user-stat-card,
+.admin-stat-card,
+.admin-quick-action,
+.inquiry-card {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.package-card:hover,
+.host-card:hover,
+.artist-card:hover,
+.upcoming-card:hover,
+.artist-view-artwork-card:hover,
+.artist-view-exhibition-card:hover,
+.exhibition-artwork-card:hover,
+.exhibition-artist-card:hover,
+.contact-card:hover,
+.visit-info-card:hover,
+.belief-card:hover,
+.preview-image:hover,
+.user-panel:hover,
+.user-stat-card:hover,
+.admin-stat-card:hover,
+.admin-quick-action:hover,
+.inquiry-card:hover {
+    transform: scale(1.04);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border-color: #ff7200;
+}
+
+/* Featured package scales a touch more + gets a glow */
+.featured-package:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.18),
+        0 0 0 2px #ff7200;
+}

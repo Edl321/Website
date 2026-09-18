@@ -1,11 +1,9 @@
 <?php
 
-
 $basePath = "";
 
 require_once "database/config.php";
 require_once "security/authorize.php";
-
 
 
 $exhibitionCountStmt = $pdo->query("
@@ -162,28 +160,35 @@ $artistCount = (int)$artistCountStmt->fetchColumn();
 
 <section class="package-section">
 
-        <div class="section-heading dark-heading">
+    <div class="section-heading dark-heading">
 
-            <h4>WHAT'S INCLUDED</h4>
+        <h4>RENTAL PACKAGES</h4>
 
-            <h2>
-                Everything You Need<br>
-                <span>to Exhibit.</span>
-            </h2>
+        <h2>
+            Everything You Need<br>
+            <span>to Exhibit.</span>
+        </h2>
 
-            <p>
-                Every rental includes the essentials for a
-                successful exhibition — so you can focus on
-                the work, not the logistics.
-            </p>
+        <p>
+            Every package includes the essentials for a
+            successful exhibition — so you can focus on
+            the work, not the logistics.
+        </p>
 
-        </div>
+    </div>
 
     <div class="package-container">
 
+        <!-- THE SPACE -->
         <div class="package-card">
 
-                <h3>The Space</h3>
+            <h3>The Space</h3>
+
+            <div class="package-price">
+                <span class="package-price-currency">₱</span>
+                <span class="package-price-amount">15,000</span>
+                <span class="package-price-unit">/ week</span>
+            </div>
 
             <div class="package-line"></div>
 
@@ -199,14 +204,25 @@ $artistCount = (int)$artistCountStmt->fetchColumn();
                 <li>Climate-controlled interior</li>
             </ul>
 
+            <a href="apply-for-rental.php" class="package-button package-button--outline">
+                APPLY FOR RENTAL
+            </a>
+
         </div>
 
 
+        <!-- FULL SUPPORT -->
         <div class="package-card featured-package">
 
             <span class="popular">MOST POPULAR</span>
 
             <h3>Full Support</h3>
+
+            <div class="package-price">
+                <span class="package-price-currency">₱</span>
+                <span class="package-price-amount">25,000</span>
+                <span class="package-price-unit">/ week</span>
+            </div>
 
             <div class="package-line"></div>
 
@@ -223,12 +239,22 @@ $artistCount = (int)$artistCountStmt->fetchColumn();
                 <li>On-site coordinator for the opening</li>
             </ul>
 
+            <a href="apply-for-rental.php" class="package-button package-button--filled">
+                APPLY FOR RENTAL
+            </a>
+
         </div>
 
 
+        <!-- CUSTOM -->
         <div class="package-card">
 
             <h3>Custom</h3>
+
+            <div class="package-price">
+                <span class="package-price-label">Starting at</span>
+                <span class="package-price-amount">₱10,000</span>
+            </div>
 
             <div class="package-line"></div>
 
@@ -244,8 +270,144 @@ $artistCount = (int)$artistCountStmt->fetchColumn();
                 <li>Workshops and artist talks</li>
             </ul>
 
+            <a href="apply-for-rental.php" class="package-button package-button--outline">
+                REQUEST A QUOTE
+            </a>
+
         </div>
 
+    </div>
+
+</section>
+
+
+<section class="package-compare">
+
+    <div class="package-compare-heading">
+        <h4>COMPARE</h4>
+        <h2>Which Package <span>Fits Your Show?</span></h2>
+        <p>
+            A side-by-side look at what's included in each rental option.
+        </p>
+    </div>
+
+    <div class="compare-table-wrapper">
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th class="compare-feature-col">Feature</th>
+                    <th>The Space</th>
+                    <th class="compare-featured-col">Full Support</th>
+                    <th>Custom</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td class="compare-feature-col">Gallery floor access</td>
+                    <td><span class="check">✓</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Lighting &amp; wall hardware</td>
+                    <td><span class="check">✓</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Pedestals for 3D work</td>
+                    <td><span class="check">✓</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Opening reception</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Marketing promotion</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Exhibition photography</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">On-site coordinator</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="check">✓</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Extended durations</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="dash">—</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Group &amp; collective pricing</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="dash">—</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Multi-room setups</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="dash">—</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr>
+                    <td class="compare-feature-col">Workshops &amp; artist talks</td>
+                    <td><span class="dash">—</span></td>
+                    <td class="compare-featured-col"><span class="dash">—</span></td>
+                    <td><span class="check">✓</span></td>
+                </tr>
+
+                <tr class="compare-price-row">
+                    <td class="compare-feature-col"><strong>Starting price</strong></td>
+                    <td><strong>₱15,000</strong></td>
+                    <td class="compare-featured-col"><strong>₱25,000</strong></td>
+                    <td><strong>₱10,000</strong></td>
+                </tr>
+
+                <tr class="compare-cta-row">
+                    <td class="compare-feature-col"></td>
+                    <td>
+                        <a href="apply-for-rental.php" class="compare-cta compare-cta--outline">
+                            APPLY
+                        </a>
+                    </td>
+                    <td class="compare-featured-col">
+                        <a href="apply-for-rental.php" class="compare-cta compare-cta--filled">
+                            APPLY
+                        </a>
+                    </td>
+                    <td>
+                        <a href="apply-for-rental.php" class="compare-cta compare-cta--outline">
+                            APPLY
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 
 </section>
@@ -358,22 +520,22 @@ $artistCount = (int)$artistCountStmt->fetchColumn();
         </h2>
 
         <p>
-            Start by submitting an exhibition inquiry.
+            Start by submitting a rental application.
             It only takes a few minutes and gives the gallery
-            everything it needs to review your proposal.
+            everything it needs to review your request.
         </p>
 
     <div class="rent-cta-buttons">
 
         <?php if (isUser()): ?>
 
-                <a href="submit-inquiry.php" class="cta-button">SUBMIT AN INQUIRY</a>
+                <a href="apply-for-rental.php" class="cta-button">APPLY FOR RENTAL</a>
 
-                <a href="my-inquiries.php" class="cta-button-outline">MY INQUIRIES</a>
+                <a href="my-rentals.php" class="cta-button-outline">MY RENTALS</a>
 
         <?php else: ?>
 
-                <a href="login.php" class="cta-button">LOG IN TO SUBMIT</a>
+                <a href="login.php" class="cta-button">LOG IN TO APPLY</a>
 
                 <a href="register.php" class="cta-button-outline">CREATE AN ACCOUNT</a>
 
