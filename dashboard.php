@@ -539,7 +539,7 @@ $upcomingExhibition = $upcomingStmt->fetch();
                     </div>
 
                 </div>
-
+                        <a href="profile.php" class="profile-edit-link">EDIT PROFILE</a>
             </section>
 
 

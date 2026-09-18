@@ -742,3 +742,264 @@
     padding: 9px 0;
 }
 
+/* =========================================================
+   PROFILE PAGE
+   ========================================================= */
+
+.profile-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    padding: 35px 40px;
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.profile-card:hover {
+    border-color: #ff7a00;
+}
+
+.profile-card-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-card-header p {
+    margin: 0 0 8px;
+    color: #ff7a00;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.profile-card-header h2 {
+    margin: 0;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: #111;
+}
+
+.profile-card .form-group {
+    margin-bottom: 22px;
+}
+
+.profile-card .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #111;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.profile-card .form-group input {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #111;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    transition: 0.25s ease;
+}
+
+.profile-card .form-group input:focus {
+    border-color: #ff7200;
+    box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.12);
+}
+
+.profile-card .field-help {
+    display: block;
+    margin-top: 6px;
+    color: #888;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
+}
+
+.profile-card .submit-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+
+    .profile-sections {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        padding: 28px 25px;
+    }
+
+}
+
+/* =========================================================
+   PROFILE PAGE — FLAT (no cards)
+   ========================================================= */
+
+.profile-form {
+    margin-top: 10px;
+}
+
+.profile-form .form-group {
+    margin-bottom: 22px;
+}
+
+.profile-form .form-group label {
+    display: block;
+    margin-bottom: 9px;
+    color: #111;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.profile-form .form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #111;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    transition: 0.25s ease;
+}
+
+.profile-form .form-group input::placeholder {
+    color: #aaa;
+}
+
+.profile-form .form-group input:focus {
+    border-color: #ff7200;
+    box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.12);
+}
+
+.profile-form .required-mark {
+    color: #ff7200;
+    font-size: 13px;
+    margin-left: 2px;
+}
+
+.profile-form .field-help {
+    display: block;
+    margin-top: 8px;
+    color: #888;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0;
+}
+
+.profile-form .submit-button {
+    width: auto;
+    min-width: 200px;
+    margin-top: 10px;
+    padding: 14px 30px;
+    border: none;
+    background: #ff7200;
+    color: #ffffff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.profile-form .submit-button:hover {
+    background: #111111;
+}
+
+.profile-block-note {
+    margin: 0 0 22px;
+    color: #666;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Back link spacing on this page */
+.user-dashboard .back-dashboard-link {
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+/* Responsive — profile form on small screens */
+@media (max-width: 700px) {
+
+    .profile-form .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .profile-form .form-row .form-group {
+        width: 100%;
+    }
+
+    .profile-form .submit-button {
+        width: 100%;
+    }
+
+}
+
+/* =========================================================
+   EDIT PROFILE BUTTON (dashboard account panel)
+   ========================================================= */
+
+.profile-edit-link {
+    display: block;
+    width: 100%;
+    margin-top: 22px;
+    padding: 14px 20px;
+    background: #ffffff;
+    color: #ff7200;
+    border: 2px solid #ff7200;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.profile-edit-link::after {
+    content: " →";
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.profile-edit-link:hover {
+    background: #ff7200;
+    color: #ffffff;
+    border-color: #ff7200;
+    box-shadow: 0 10px 25px rgba(255, 122, 0, 0.25);
+}
+
+.profile-edit-link:hover::after {
+    transform: translateX(5px);
+}
+
+.profile-edit-link:active {
+    transform: scale(0.98);
+}
